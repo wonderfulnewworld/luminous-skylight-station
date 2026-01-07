@@ -1,3 +1,5 @@
+// Reworked and moved to Moffstation Namespace
+/*
 using Content.Server.Antag.Components;
 using Content.Server.Objectives;
 using Content.Shared.Mind;
@@ -50,3 +52,4 @@ public sealed partial class AntagRandomObjectivesSystem : EntitySystem
         }
     }
 }
+*/

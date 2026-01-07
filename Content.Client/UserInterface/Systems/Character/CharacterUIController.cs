@@ -1,10 +1,12 @@
 using System.Linq;
+using Content.Client._Moffstation.ObjectivePicker; // Moffstation
 using Content.Client.CharacterInfo;
 using Content.Client.Gameplay;
 using Content.Client.Stylesheets;
 using Content.Client.UserInterface.Systems.Character.Controls;
 using Content.Client.UserInterface.Systems.Character.Windows;
 using Content.Client.UserInterface.Systems.Objectives.Controls;
+using Content.Shared._Moffstation.Objectives; // Moffstation
 using Content.Shared.Input;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
@@ -20,7 +22,7 @@ using Robust.Shared.Input.Binding;
 using Robust.Shared.Utility;
 using static Content.Client.CharacterInfo.CharacterInfoSystem;
 using static Robust.Client.UserInterface.Controls.BaseButton;
-using Content.Client._Starlight.CustomObjectiveSummary; // Starlight
+using Content.Client._Starlight.CustomObjectiveSummary;
 
 namespace Content.Client.UserInterface.Systems.Character;
 
@@ -31,6 +33,7 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
     [Dependency] private IPlayerManager _player = default!;
     [Dependency] private IPrototypeManager _prototypeManager = default!;
     [Dependency] private CustomObjectiveSummaryUIController _objective = default!; // Starlight
+    [Dependency] private readonly ObjectivePickerUIController _objectivePicker = default!; // Moffstation
 
     [UISystemDependency] private readonly CharacterInfoSystem _characterInfo = default!;
     [UISystemDependency] private readonly SpriteSystem _sprite = default!;
@@ -185,14 +188,63 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
         // Starlight Start: Custom objective summary
         if (objectives.Count > 0)
         {
-            var button = new Button
+            case > 0:
             {
-                Text = Loc.GetString("custom-objective-button-text"),
-                Margin = new Thickness(0, 10, 0, 10)
-            };
-            button.OnPressed += _ => _objective.OpenWindow();
+                var button = new Button
+                {
+                    Text = Loc.GetString("custom-objective-button-text"),
+                    Margin = new Thickness(0, 10, 0, 10)
+                };
+                button.OnPressed += _ => _objective.OpenWindow();
 
-            _window.CharacterInfo.Objectives.AddChild(button);
+                _window.Objectives.AddChild(button);
+                break;
+            }
+        // Starlight End
+        // Moffstation - Start - Objective Picker
+            case 0:
+            {
+                if (!_ent.TryGetComponent<MindContainerComponent>(_player.LocalEntity, out var container)
+                    || container.Mind is null)
+                    break;
+
+                if (!_ent.HasComponent<PotentialObjectivesComponent>(container.Mind))
+                    break;
+
+                var objectivePickerButton = new Button
+                {
+                    Text = Loc.GetString("objective-picker-button"),
+                    Margin = new Thickness(0, 10, 0, 10)
+                };
+                objectivePickerButton.OnPressed += _ => UIManager.GetUIController<ObjectivePickerUIController>().EnsureWindow();
+                objectivePickerButton.OnPressed += _ => _window.Close();
+
+                _window.Objectives.AddChild(objectivePickerButton);
+                break;
+            }
+        }
+        // Moffstation - End
+
+        // Starlight - Start - Collective Mind
+        if (minds != null && minds.Count > 0)
+        {
+            var mindsControl = new CharacterMindsControl
+            {
+                Orientation = BoxContainer.LayoutOrientation.Vertical,
+            };
+            var mindDescriptionMessage = new FormattedMessage();
+            mindDescriptionMessage.AddText("Available collective minds:");
+            foreach (var mindPrototype in minds)
+            {
+                mindDescriptionMessage.AddText("\n");
+                mindDescriptionMessage.PushColor(mindPrototype.Key.Color);
+                mindDescriptionMessage.AddText($"{mindPrototype.Key.LocalizedName}: +{mindPrototype.Key.KeyCode}");
+                mindDescriptionMessage.AddText($" (Number {mindPrototype.Value.MindId})");
+                mindDescriptionMessage.Pop();
+
+            }
+            mindsControl.Description.SetMessage(mindDescriptionMessage);
+            _window.Objectives.AddChild(mindsControl);
         }
         // Starlight End
 
