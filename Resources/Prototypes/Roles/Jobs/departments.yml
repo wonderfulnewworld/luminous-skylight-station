@@ -108,6 +108,7 @@
   - Psychologist
   - Paramedic
   - Surgeon # Starlight-edit
+  - Coroner # Starlight
 
 - type: department
   id: Security

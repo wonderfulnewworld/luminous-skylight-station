@@ -1,5 +1,6 @@
 job-description-blueshield = Your primary job is to protect the heads. Remember, you are not a security officer.
 job-description-boxer = Fight your way to the top! Challenge the head of personnel and get brigged when you win.
+job-description-coroner = Maintain the morgue, write reports on the deceased, document organ requisitions, and oversee cloning.
 job-description-decimus = You are a Decimus Operative. Enact Code Epsilon. Recovery of NanoTrasen Personnel may or may not be an objective, seek directives from your superiors.
 job-description-iaa = You are a servant of the people, defend, condemn the citizens of your station!
 job-description-magistrate = You are the very justice of the station, your job is to try all major troublemakers.

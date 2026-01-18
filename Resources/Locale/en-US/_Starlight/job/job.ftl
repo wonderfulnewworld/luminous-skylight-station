@@ -12,6 +12,8 @@ job-name-nanotrasen-special-forces = NTSF Operative
 job-name-decimus = Decimus Operative
 
 job-name-salvagelead = Salvage Lead
+
+job-name-coroner = Coroner
 job-name-abductor = Abductor
 job-title-borgi = Borgi
 

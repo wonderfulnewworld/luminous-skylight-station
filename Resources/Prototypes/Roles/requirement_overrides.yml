@@ -122,6 +122,12 @@
     - !type:RoleTimeRequirement
       role: JobMedicalDoctor
       time: 1h
+    Coroner:
+    - !type:OverallPlaytimeRequirement
+      time: 0
+    - !type:RoleTimeRequirement
+      role: JobMedicalIntern
+      time: 1h
     StationEngineer:
     - !type:OverallPlaytimeRequirement
       time: 0

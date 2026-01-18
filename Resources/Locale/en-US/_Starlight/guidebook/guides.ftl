@@ -105,6 +105,7 @@ guide-entry-sl-medical-sop-medicalintern = Medical Intern
 guide-entry-sl-medical-sop-paramedic = Paramedic
 guide-entry-sl-medical-sop-psychologist = Psychologist
 guide-entry-sl-medical-sop-chemist = Chemist
+guide-entry-sl-medical-sop-coroner = Coroner
 
 guide-entry-sl-cargo-sop-intro = Cargo
 guide-entry-sl-cargo-sop-genproc-intro = General Procedures
