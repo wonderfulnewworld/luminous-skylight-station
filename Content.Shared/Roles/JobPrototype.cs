@@ -90,7 +90,27 @@ namespace Content.Shared.Roles
         /// </summary>
         [DataField]
         public bool? OverrideConsoleVisibility { get; private set; } = null;
+        //Starlight start
+        
+        /// <summary>
+        ///     Should additional job slots be added for this job based on player count?
+        /// </summary>
+        [DataField]
+        public bool ScalingAdditional { get; private set; } = false;
 
+        /// <summary>
+        ///     Add an extra slot for this job for every X players in the game, including ghosts. (And non-readied up players prior to the round.)
+        ///     At 0, does not attempt to scale.
+        /// </summary>
+        [DataField]
+        public bool ScalingRatio { get; private set; } = 0;
+        
+        /// <summary>
+        ///     Maximum number of slots that can be added by scaling. Disabled at 0.
+        /// </summary>
+        [DataField]
+        public bool MaxScalingSlots { get; private set; } = 0;
+        //Starlight end
         [DataField]
         public bool CanBeAntag { get; private set; } = true;
 
