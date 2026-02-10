@@ -288,7 +288,27 @@ public sealed partial class StationJobsSystem
                 Name(station), jobs.ExtendedAccess);
         }
     }
+    //Starlight start
+    /// <summary>
+    /// Determines if jobs need to scale based on pop size
+    /// </summary>
+    /// <param name="jobsCount"></param>
+        public void CalcJobScaling(Dictionary<EntityUid, int> jobsCount)
+    {
+        // Calculate whether stations need to be on extended access or not.
+        foreach (var (station, count) in jobsCount)
+        {
+            var jobs = Comp<StationJobsComponent>(station);
 
+            var thresh = jobs.ExtendedAccessThreshold;
+
+            jobs.ExtendedAccess = count <= thresh;
+
+            Log.Debug("Station {Station} on extended access: {ExtendedAccess}",
+                Name(station), jobs.ExtendedAccess);
+        }
+    }
+    //Starlight end
     /// <summary>
     /// Gets all jobs that the input players have that match the given weight and priority.
     /// </summary>

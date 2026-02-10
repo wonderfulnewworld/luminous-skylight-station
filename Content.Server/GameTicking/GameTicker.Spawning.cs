@@ -119,6 +119,7 @@ namespace Content.Server.GameTicking
             }
 
             _stationJobs.CalcExtendedAccess(stationJobCounts);
+            _stationJobs.CalcJobScaling(stationJobCounts); // Starlight
 
             // Spawn everybody in!
             foreach (var (player, (job, station)) in assignedJobs)

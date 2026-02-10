@@ -103,13 +103,13 @@ namespace Content.Shared.Roles
         ///     At 0, does not attempt to scale.
         /// </summary>
         [DataField]
-        public bool ScalingRatio { get; private set; } = 0;
+        public int ScalingRatio { get; private set; } = 0;
         
         /// <summary>
         ///     Maximum number of slots that can be added by scaling. Disabled at 0.
         /// </summary>
         [DataField]
-        public bool MaxScalingSlots { get; private set; } = 0;
+        public int MaxScalingSlots { get; private set; } = 0;
         //Starlight end
         [DataField]
         public bool CanBeAntag { get; private set; } = true;
