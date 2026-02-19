@@ -661,6 +661,7 @@
   - LoadoutSiliconPositronicBrain
   - LoadoutSiliconSpeciesBrain
 
+# Medical
 # Chemist
 - type: loadoutGroup
   id: ChemistHead
@@ -728,6 +729,15 @@
   loadouts:
     - ChemistHandLabeler
     - GoldenHandLabeler
+
+# Coroner
+- type: loadoutGroup
+  id: MedicalDoctorJumpsuit
+  name: loadout-group-medical-doctor-jumpsuit
+  loadouts:
+  - CoronerJumpsuit
+  - CoronerJumpskirt
+  - CoronerJumpsuitAlt
 
 # Brigmedic
 - type: loadoutGroup

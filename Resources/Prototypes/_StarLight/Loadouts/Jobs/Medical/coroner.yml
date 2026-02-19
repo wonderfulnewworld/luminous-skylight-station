@@ -1,0 +1,15 @@
+# Coroner clothes from Afterlight
+- type: loadout
+  id: CoronerJumpsuit
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitCoroner
+
+- type: loadout
+  id: CoronerJumpskirt
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtCoroner
+
+- type: loadout
+  id: CoronerJumpsuitAlt
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitCoronerAlt
