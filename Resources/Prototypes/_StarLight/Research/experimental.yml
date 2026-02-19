@@ -1,3 +1,19 @@
+# Tier 1
+#TODO: uncomment once xenobio is properly balanced and sprited
+# - type: technology
+#   id: BasicXenobiologyResearch
+#   name: research-technology-basic-xenobiology
+#   icon:
+#     sprite: _Starlight/Mobs/XenoSlimes/test_sprite.rsi
+#     state: test_slime
+#   discipline: Experimental
+#   tier: 1
+#   cost: 1000
+#   recipeUnlocks:
+#   - HandheldSlimeScanner
+#   - SlimeProcessorMachineCircuitboard
+#   - XenobiologyConsoleCircuitboard
+
 # Tier 2
 - type: technology
   id: Lawboards
@@ -9,23 +25,23 @@
   tier: 2
   cost: 7000
   recipeUnlocks:
-  - NTDefaultCircuitBoard
-  - AsimovCircuitBoard
-  - CorporateCircuitBoard
-  - CommandmentCircuitBoard
-  - PaladinCircuitBoard
-  - PanicmovCircuitBoard
-  - GenieCircuitBoard
-  - ReporterCircuitBoard
-  - LiveLetLiveCircuitBoard
-  - StationEfficiencyCircuitBoard
-  - RobocopCircuitBoard
-  - GameMasterCircuitBoard
-  - ArtistCircuitBoard
-  - NutimovCircuitBoard
-  - JermovCircuitBoard
+    - NTDefaultCircuitBoard
+    - AsimovCircuitBoard
+    - CorporateCircuitBoard
+    - CommandmentCircuitBoard
+    - PaladinCircuitBoard
+    - PanicmovCircuitBoard
+    - GenieCircuitBoard
+    - ReporterCircuitBoard
+    - LiveLetLiveCircuitBoard
+    - StationEfficiencyCircuitBoard
+    - RobocopCircuitBoard
+    - GameMasterCircuitBoard
+    - ArtistCircuitBoard
+    - NutimovCircuitBoard
+    - JermovCircuitBoard
   radioChannels:
-  - Binary
+    - Binary
 
 - type: technology
   id: BluespaceManipulation
@@ -37,8 +53,10 @@
   tier: 2
   cost: 10000
   recipeUnlocks:
-  - ArtificialBluespaceCrystal
-  - NullspaceAnchorMachineCircuitboard
+    - ArtificialBluespaceCrystal
+    - NullspaceAnchorMachineCircuitboard
+    - DarkBreacherMachineCircuitboard
+
 - type: technology
   id: ScienceCyberLimbsTech
   name: research-technology-science-cyberlimbs
@@ -51,8 +69,9 @@
   recipeUnlocks:
     - LeftArmCyberGorilla
     - RightArmCyberGorilla
+    - LeftArmCyberInvestigator
+    - RightArmCyberInvestigator
   technologyPrerequisites:
     - CyberLimbsTech
     - AdvancedAnomalyResearch
-
 # Tier 3

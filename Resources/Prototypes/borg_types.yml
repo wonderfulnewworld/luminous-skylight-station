@@ -53,6 +53,14 @@
   - Engineering
   - Science
 
+  # Starlight start: Engiborg hud
+  addComponents:
+  - type: ShowHealthBars
+    damageContainers:
+    - Inorganic
+    - Silicon
+  # Starlight end
+
   # Visual
   inventoryTemplateId: borgShort
   spritePath: Mobs/Silicon/Chassis/engineer.rsi
@@ -82,6 +90,7 @@
     tags:
     - BorgModuleGeneric
     - BorgModuleCargo
+    - BorgModuleMining #STARLIGHT
 
   defaultModules:
   - BorgModuleTool

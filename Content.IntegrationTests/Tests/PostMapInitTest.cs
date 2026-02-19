@@ -76,6 +76,7 @@ namespace Content.IntegrationTests.Tests
             {"/Maps/_Starlight/Shuttles/Signaleer.yml", ["RubberStampSyndicate"]},
             {"/Maps/_Starlight/Nonstations/nukieplanet.yml", ["RubberStampSyndicate"]},
             {"/Maps/_Starlight/Nonstations/nukiewestern.yml", ["RubberStampSyndicate"]},
+            {"/Maps/_Starlight/Nonstations/geigerComplex.yml", ["RubberStampSyndicate"]},
             {"/Maps/_Starlight/Dungeon/syndie.yml", ["RubberStampSyndicate"]},
             {"/Maps/_Starlight/Shuttles/scarletSHCdefenderFinal.yml", ["RubberStampSyndicate", "TraitorCodePaper"]},
             {"/Maps/_Starlight/Centcomms/CC_Outpost_SC17.yml", ["BoxFolderCentCom", "RubberStampCentcom"]},
@@ -95,7 +96,6 @@ namespace Content.IntegrationTests.Tests
             "/Maps/Shuttles/AdminSpawn/**", // admin gaming
            #region starlight
             "/Maps/_Starlight/Shuttles/Radiotower.yml", // Command stamps - listening post.
-            "/Maps/_Starlight/Stations/Remix.yml", // Admeme map
             #endregion
         };
 
@@ -129,10 +129,8 @@ namespace Content.IntegrationTests.Tests
             "StarlightManor",
             "StarlightLeth",
             "StarlightMing",
-            "StarlightOrigin",
             "StarlightOrwell",
             "StarlightPrism",
-            "StarlightRemix",
             "StarlightStarboard",
             "StarlightBagel",
             "StarlightBox",
@@ -143,8 +141,6 @@ namespace Content.IntegrationTests.Tests
             "StarlightElkridge",
             "StarlightFland",
             "StarlightHotel",
-            "StarlightOasis",
-            "StarlightOmega",
             "StarlightPacked",
             "StarlightReach",
             "StarlightSaltern",
@@ -152,7 +148,8 @@ namespace Content.IntegrationTests.Tests
             "StarlightCluster",
             "StarlightStationBuilding",
             "StarlightPlasma",
-			"StarlightSpaceMall"
+			"StarlightSpaceMall",
+            "StarlightSepultum"
             #endregion
         };
 

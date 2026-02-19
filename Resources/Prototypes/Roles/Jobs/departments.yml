@@ -53,7 +53,7 @@
   - ERTEngineer
   - DeathSquad
   - CentralCommandOperator # Starlight Addition
-  - NTNCBlueshield ## Starlight Addition
+  - NTNCBlueShield ## Starlight Addition
   editorHidden: true
   weight: 120
 
@@ -123,6 +123,7 @@
   - Brigmedic
   - Detective
   - Warden
+  - DutyOfficer # Starlight
 
 - type: department
   id: Science

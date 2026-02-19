@@ -46,8 +46,9 @@
   - BorgModuleAdvancedCleaning
   - BorgModuleAdvancedTool
   - BorgModuleAdvancedClowning
-  - BorgModuleAdvancedChemical
+  - BorgModuleAdvancedTopical
   - BorgModuleAdvancedMining
+  - BorgModuleAdvancedLoading # Starlight
   - BorgModuleSurgical # Starlight
 
 - type: latheRecipePack

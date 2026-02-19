@@ -7,6 +7,7 @@
   id: ScienceBlueSpace
   recipes:
   - ArtificialBluespaceCrystal
+  - DarkBreacherMachineCircuitboard
 
 - type: latheRecipePack
   id: SecurityScienceBlueSpace
@@ -17,3 +18,11 @@
   id: NullSpaceDrainer
   recipes:
   - NullSpaceDrainer
+
+- type: latheRecipe
+  parent: BaseToolRecipe
+  id: HandheldSlimeScanner
+  result: HandheldSlimeScanner
+  materials:
+    Plastic: 200
+    Glass: 150
