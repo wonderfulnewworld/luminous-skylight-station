@@ -732,12 +732,13 @@
 
 # Coroner
 - type: loadoutGroup
-  id: MedicalDoctorJumpsuit
-  name: loadout-group-medical-doctor-jumpsuit
+  id: CoronerJumpsuit
+  name: loadout-group-coroner-jumpsuit
   loadouts:
   - CoronerJumpsuit
   - CoronerJumpskirt
   - CoronerJumpsuitAlt
+  - CoronerJumpskirtAlt
 
 # Brigmedic
 - type: loadoutGroup

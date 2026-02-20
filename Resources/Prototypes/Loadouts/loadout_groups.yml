@@ -1912,13 +1912,6 @@
   - GreenSurgeryCap
   - PurpleSurgeryCap
   - NurseHat
-  - MaidHeadbandTactical # Starlight start
-  - Hairflower
-  - LilyFlower
-  - RoadCone
-  - CatEars
-  - DogEars
-  - BunnyEars # Starlight end
 
 - type: loadoutGroup
   id: MedicalDoctorJumpsuit
@@ -1931,9 +1924,7 @@
   - MedicalBlueScrubs
   - MedicalGreenScrubs
   - MedicalPurpleScrubs
-  - NurseJumpskirt # afterlight start
-  - MaidOutfit # starlight
-  - MaidOutfitTactical # starlight
+  - NurseJumpskirt # afterlight
 
 - type: loadoutGroup
   id: MedicalDoctorOuterClothing
@@ -1962,10 +1953,7 @@
   - MedicalWinterBoots
   - Heels # Starlight start
   - LaceupShoes
-  - LeatherShoes
-  - RollerSkates
-  - CoderSocks # Starlight end
-  - ClothWrapShoe # Starlight
+  - LeatherShoes # Starlight end
 
 - type: loadoutGroup
   id: MedicalDoctorPDA
@@ -1981,10 +1969,6 @@
   loadouts:
   - LatexGloves
   - NitrileGloves
-  - PawsWhite # starlight start
-  - PawsBrown
-  - PawsBlack
-  - PawsBlackWhite # starlight end
 
 - type: loadoutGroup
   id: MedicalMask
@@ -2006,8 +1990,6 @@
   loadouts:
   - WhiteJumpsuit
   - WhiteJumpskirt
-  - MaidOutfit # starlight
-  - MaidOutfitTactical # starlight
 
 - type: loadoutGroup
   id: MedicalInternJobTrinkets
@@ -2022,8 +2004,8 @@
   loadouts:
   - ChemistJumpsuit
   - ChemistJumpskirt
-  - SeniorChemistJumpsuit # Starlight start
-  - SeniorChemistJumpskirt
+  - SeniorChemistJumpsuit # Starlight
+  - SeniorChemistJumpskirt # Starlight
   - MaidOutfit
   - MaidOutfitTactical # starlight end
 

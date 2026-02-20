@@ -86,6 +86,9 @@ loadout-group-chemist-bag = Chemist bag
 loadout-group-chemist-labeler = Chemist labeler
 loadout-group-chemist-shoes = Chemist shoes
 
+loadout-group-coroner-head = Coroner head
+loadout-group-coroner-jumpsuit = Coroner jumpsuit
+
 # Janitor
 loadout-group-janitor-neck = Janitor neck
 

@@ -323,6 +323,17 @@
     sprite: _Starlight/Clothing/Uniforms/Jumpskirt/coroner.rsi
 
 - type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpskirtCoronerAlt
+  name: surgical dress
+  description: Guaranteed to protect your wardrobe from bloody details, but we can't make any promises. Ideal for medical professionals who need both protection and a touch of uncertainty.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Clothing/Uniforms/Jumpskirt/coroneralt.rsi
+  - type: Clothing
+    sprite: _Starlight/Clothing/Uniforms/Jumpskirt/coroneralt.rsi
+
+- type: entity
   parent: ClothingUniformSkirtBase
   id: ClothingUniformJumpskirtCentcomOfficial
   name: CentComm officer's suitskirt

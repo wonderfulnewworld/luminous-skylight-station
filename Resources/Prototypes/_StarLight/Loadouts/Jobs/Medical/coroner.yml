@@ -13,3 +13,8 @@
   id: CoronerJumpsuitAlt
   equipment:
     jumpsuit: ClothingUniformJumpsuitCoronerAlt
+
+- type: loadout
+  id: CoronerJumpskirtAlt
+  equipment:
+    jumpsuit: ClothingUniformJumpkirtCoronerAlt
