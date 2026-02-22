@@ -45,5 +45,6 @@
   components:
   - type: Sprite
     sprite: Objects/Specific/Hydroponics/lily.rsi
+    state: produce
   - type: Clothing
     sprite: Objects/Specific/Hydroponics/lily.rsi

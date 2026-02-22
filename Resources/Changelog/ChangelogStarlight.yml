@@ -31191,5 +31191,393 @@ Entries:
   id: 332901
   time: '2026-02-18T15:54:06.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/3329
+- author: Awriko
+  changes:
+  - message: (cork) Reworked EVERY department's existing playable area and added relevant
+      missing sub-departments (yes, including the Morgue and Sauna)
+    type: Tweak
+  - message: (cork) Engineering now has a TEG and RTG engine, complete with a burn
+      chamber and secure storage.
+    type: Add
+  - message: (cork) Added spawns and support for all playable roles as of current.
+    type: Add
+  - message: '(cork) Added the following subdepartment areas: Maintsbar and Dorms,
+      AI core, Robotics, Xenobiology, Conference Room, NTR/NTCT Office, Cryopod, Virology,
+      Surgery, Brigmed, IAA/Magistrate office, an (outdoor) Shooting Range'
+    type: Add
+  - message: (cork) Law radio now is mapped and works
+    type: Fix
+  - message: (cork) Air and waste distributions entirely reworked to fit SL standards.
+    type: Fix
+  id: 336301
+  time: '2026-02-19T05:45:31.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3363
+- author: SiTW
+  changes:
+  - message: Guidebook entry for records.
+    type: Add
+  id: 337101
+  time: '2026-02-19T06:11:27.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3371
+- author: TeapotError
+  changes:
+  - message: Added NTSF Battlecruiser "Minos".
+    type: Add
+  - message: Gamerule for admins to spawn NTSF Battlecruiser "Minos".
+    type: Add
+  - message: Added Decimus Breaching Craft "Magnus".
+    type: Add
+  - message: Gamerule for admins to spawn Decimus Breaching Craft "Magnus".
+    type: Add
+  - message: Removes the original "Deathsquad" Ship Gamerule.
+    type: Remove
+  id: 244301
+  time: '2026-02-19T06:41:59.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/2443
+- author: CrazyPhantom779
+  changes:
+  - message: Increased the max Pinktext from 128 to 256.
+    type: Tweak
+  id: 337801
+  time: '2026-02-19T10:51:05.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3378
+- author: redmushie
+  changes:
+  - message: Paramedics are now mindshielded.
+    type: Tweak
+  id: 336801
+  time: '2026-02-19T10:56:24.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3368
+- author: Born Stellar
+  changes:
+  - message: Mothership Core now requires 2.5 Roboticist hours in addition to the
+      5 hours of AI.
+    type: Tweak
+  id: 337901
+  time: '2026-02-19T19:40:34.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3379
+- author: Citrea
+  changes:
+  - message: Double emergency tanks are small items again.
+    type: Fix
+  id: 338301
+  time: '2026-02-19T20:02:36.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3383
+- author: Citrea
+  changes:
+  - message: Company-approved outfit list has been adjusted to remove items well beyond
+      the acceptable dresscode. Employees are still free to bring such items.
+    type: Tweak
+  - message: Moved animal ears and paws, as well as road cones and maid outfits for
+      most jobs back into trinkets, where they belong. Service jobs and Janitors may
+      still bring maid outfits as part of their uniform. Assistants may still bring
+      all of these items as part of their 'Uniform'.
+    type: Tweak
+  - message: Added hair flowers and lilies to headgear for everyone.
+    type: Tweak
+  - message: Returned hair flowers to trinkets, so they are no longer exclusive with
+      hats, in case you want both.
+    type: Tweak
+  - message: Added cloth wraps to gloves where apropriate and returned them to trinkets
+      so everyone can still have them.
+    type: Tweak
+  - message: Moved roller skates and programmer socks back to trinkets, where they
+      belong. Exceptions are made for cargo techs and mail techs, as well as clowns.
+      Assistants may still bring all of these items as part of their 'Uniform'.
+    type: Tweak
+  - message: Company dresscode is now felionoid-friendly. Non-felionoid crew are still
+      advised to bring shoes.
+    type: Tweak
+  - message: Cat ears and elegant maid outfits are once again locked by overall playtime.
+    type: Tweak
+  - message: Lilyflower now has a sprite.
+    type: Fix
+  id: 326101
+  time: '2026-02-20T00:55:32.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3261
+- author: Citrea
+  changes:
+  - message: Cargo legs no longer store bodyparts.
+    type: Tweak
+  - message: Storing six extra legs in your cargo ~~pants~~ legs no longer quintuples
+      your movement speed.
+    type: Fix
+  id: 338201
+  time: '2026-02-20T05:39:17.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3382
+- author: walksanatora
+  changes:
+  - message: Terminators now randomly take a "heavy" footstep revealing their silicon
+      lies.
+    type: Add
+  id: 338701
+  time: '2026-02-20T05:36:38.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3387
+- author: Conflee, Ko4erga
+  changes:
+  - message: Added black stairs which fit in better with the dark steel floor tile
+      set, for mapping use.
+    type: Add
+  - message: Ported a resprite of the Alien Vault Walls by Ko4erga, and then made
+      Stone and Sandstone versions based on them- previous versions had no smoothing,
+      didn't link together, and looked like ass. Now they aren't hideous.
+    type: Tweak
+  id: 338901
+  time: '2026-02-20T07:14:21.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3389
+- author: Awriko
+  changes:
+  - message: (cork) Added dog beds to medical, bridge, and security (warden). No more
+      waltloose.
+    type: Add
+  - message: (cork) vault freezer item duplication patched.
+    type: Fix
+  - message: (cork) Fixed robotics, warden office, law office, and detective office
+      access issues.
+    type: Fix
+  - message: (cork) Rotated mining magnet to the proper orientation.
+    type: Fix
+  - message: (cork) added an exit turnstile to the security-side of genpop, complete
+      with new firelocks networked.
+    type: Tweak
+  id: 338401
+  time: '2026-02-20T07:23:40.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3384
+- author: redmushie
+  changes:
+  - message: Radio communications will no longer show labels after the person's name.
+    type: Fix
+  id: 339101
+  time: '2026-02-20T08:43:41.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3391
+- author: Xale
+  changes:
+  - message: Cows, Goats, and Pigs now consume 33% less food when giving birth.
+    type: Tweak
+  - message: Chickens and Ducks now consume 50% less food when laying eggs.
+    type: Tweak
+  - message: Chicken and Duck breeding limit increased to 12.
+    type: Tweak
+  id: 338601
+  time: '2026-02-20T14:50:08.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3386
+- author: Fractalflower
+  changes:
+  - message: Most if not all outer-clothing items (e.g. web vests, armoured overcoats,
+      corsets, etc) have had their internal size decreased to 2x2 instead of 2x3.
+    type: Tweak
+  id: 337301
+  time: '2026-02-20T15:42:53.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3373
+- author: Kirb
+  changes:
+  - message: Mind Control implant to traitor uplinks.
+    type: Add
+  id: 332401
+  time: '2026-02-20T16:11:10.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3324
+- author: Born Stellar
+  changes:
+  - message: SOP regarding sensitive documents for NTR, Magi, and IAA.
+    type: Add
+  id: 335801
+  time: '2026-02-20T16:48:27.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3358
+- author: wonderfulnewworld
+  changes:
+  - message: Fixed pre-defined labels not being given proper localization.
+    type: Fix
+  id: 339901
+  time: '2026-02-20T19:33:40.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3399
+- author: wonderfulnewworld
+  changes:
+  - message: All traitor/nukie uplink items now have a capital U in their IDs.
+    type: Fix
+  - message: Cybernetics uplink now has proper localization.
+    type: Fix
+  - message: Removes a duplicate space cleaner localization.
+    type: Fix
+  id: 340301
+  time: '2026-02-20T20:05:41.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3403
+- author: Conflee
+  changes:
+  - message: Changed max time you can be a Learner Role. Security Cadet 15h > 30h,
+      Technical Assistant, Medical Assistant, and Research Assistant 15h -> 25h.
+    type: Tweak
+  id: 340201
+  time: '2026-02-20T20:40:29.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3402
+- author: AegisShield
+  changes:
+  - message: The generic Advanced Plumbing Module.
+    type: Add
+  - message: RPLD from the engi borg's roundstart toolkit.
+    type: Remove
+  id: 339001
+  time: '2026-02-20T20:48:22.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3390
+- author: Conflee
+  changes:
+  - message: Added 5 new pieces of Lobby Art, all from a contest held a couple months
+      ago. Clown Choice by m0lem4n, Fateful Shift by rickery, HoP Desk Simulator by
+      swonki, Janitorial Hell by wintergem18, and Katie vs Syndie by ramblinger.
+    type: Add
+  id: 340701
+  time: '2026-02-21T06:37:03.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3407
+- author: AndrewTateOfficialSS14
+  changes:
+  - message: Upped Frezon's price per mole to 2.5 and Nitrous Oxide's price to 2.
+    type: Tweak
+  id: 339501
+  time: '2026-02-21T08:07:45.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3395
+- author: Scarlet Lightweaver
+  changes:
+  - message: Added more naval cannons for admeme / events.
+    type: Add
+  id: 340101
+  time: '2026-02-21T10:29:26.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3401
+- author: Vincolan
+  changes:
+  - message: Banana Anomaly now spawns Gorillas at the Critical and  Friendly monkeys
+      at pulse.
+    type: Tweak
+  - message: Fire anom pulses are now more dangerous.
+    type: Tweak
+  - message: Ice anom critical explosion is more powerful.
+    type: Tweak
+  - message: Clown and Plant Anomaly now spawns more Kudzu .
+    type: Tweak
+  - message: Now the Clown anomaly creates ClownSpiders on Critical.
+    type: Tweak
+  - message: Some other minor anomalies changes.
+    type: Tweak
+  id: 341501
+  time: '2026-02-21T22:07:52.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3415
+- author: redmushie
+  changes:
+  - message: Paramedics now get the AstroNav module pre-installed in their PDAs.
+    type: Add
+  id: 341101
+  time: '2026-02-21T22:49:23.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3411
+- author: XoanJackal
+  changes:
+  - message: Guidebook alert levels
+    type: Tweak
+  id: 336101
+  time: '2026-02-22T08:09:47.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3361
+- author: redmushie
+  changes:
+  - message: Players can no longer be labeled.
+    type: Remove
+  id: 341701
+  time: '2026-02-22T08:51:30.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3417
+- author: CawsForConcern
+  changes:
+  - message: (Starboard) More cameras in SEC to patch up holes in AI vision.
+    type: Add
+  - message: (Starboard) More cameras in north hallway (north of Kitchen) to patch
+      up holes in AI vision.
+    type: Add
+  - message: (Starboard) More cameras in Kitchen to patch up holes in AI vision.
+    type: Add
+  - message: (Starboard) Deep fryer to Kitchen.
+    type: Add
+  - message: (Starboard) Camera removed from washroom.
+    type: Remove
+  - message: (Starboard) Camera removed from maints west of Anchor.
+    type: Remove
+  - message: (Starboard) Salvage-access windoor that was blocking in the Mining Shuttle
+      computer.
+    type: Remove
+  - message: (Starboard) Salvage-access windoor in front of Salvage Expeditions Computer
+      and Salvage Shuttle computer.
+    type: Remove
+  - message: (Starboard) Chemistry locker from Brigmedic.
+    type: Remove
+  id: 342001
+  time: '2026-02-22T14:17:40.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3420
+- author: CawsForConcern
+  changes:
+  - message: (Silica) More kitchen shelving.
+    type: Add
+  - message: (Silica) Deep fryer for Kitchen.
+    type: Add
+  - message: (Silica) Disposals shouldn't no longer shatter the directional window
+      due to high-speed garbage.
+    type: Fix
+  - message: (Silica) Missing APC outside Bridge Hallway.
+    type: Fix
+  - message: (Silica) Chemistry Locker from Brigmedic.
+    type: Remove
+  id: 342101
+  time: '2026-02-22T14:37:43.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3421
+- author: CawsForConcern
+  changes:
+  - message: (Lobster) Deep fryers.
+    type: Add
+  - message: (Lobster) Chemistry locker from Brigmedic.
+    type: Remove
+  id: 342201
+  time: '2026-02-22T14:48:34.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3422
+- author: CawsForConcern
+  changes:
+  - message: (Hotel) Deep fryer to Kitchen.
+    type: Add
+  - message: (Hotel) Materials Silo to Science.
+    type: Add
+  - message: (Hotel) Water Vapor gas miner to Atmos.
+    type: Add
+  - message: (Hotel) Chemistry locker from Brigmedic.
+    type: Remove
+  id: 342301
+  time: '2026-02-22T15:01:34.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3423
+- author: redmushie
+  changes:
+  - message: Ducks, chickens and regular crabs now have 60 max health instead of 200.
+    type: Tweak
+  id: 342601
+  time: '2026-02-22T18:45:43.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3426
+- author: teapoterror & penguinwizzard
+  changes:
+  - message: New Soviet Dungeons.
+    type: Add
+  - message: Scrapped the old Soviet Dungeons.
+    type: Remove
+  id: 341901
+  time: '2026-02-22T18:51:06.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3419
+- author: Conflee
+  changes:
+  - message: Changed sprites of the Rat King, Rat Servant, Medium Rat Servant, Mice,
+      Admin Mice, Mentor Mice, Remy, etc. The new sprites fit our license and style
+      better.
+    type: Tweak
+  id: 342501
+  time: '2026-02-22T19:37:59.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3425
+- author: CawsForConcern
+  changes:
+  - message: Duty Officers have been reduced to 1 for most maps. Maps that can see
+      at least 150 players (Cog, Fland, Kiloton, Lagan, Lobster, Manor, Orwell, Sepultum,
+      Spacemall, Starboard) now have 1 round-start Duty Officer and 1 late-join Duty
+      Officer.
+    type: Tweak
+  id: 342401
+  time: '2026-02-22T20:19:09.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3424
 Order: -1
 
