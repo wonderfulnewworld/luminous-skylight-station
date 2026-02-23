@@ -31579,5 +31579,169 @@ Entries:
   id: 342401
   time: '2026-02-22T20:19:09.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/3424
+- author: Clone0401
+  changes:
+  - message: Game is now playable again (fixed minor spelling error in AI sop).
+    type: Fix
+  id: 343101
+  time: '2026-02-23T06:58:23.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3431
+- author: XoanJackal
+  changes:
+  - message: Clarified rule 11.
+    type: Tweak
+  id: 343401
+  time: '2026-02-23T09:21:05.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3434
+- author: redmushie
+  changes:
+  - message: Crew monitors now tell you if zero sensors match their built-in filter.
+    type: Add
+  - message: Crew monitors now always show your own location, even if the server is
+      offline.
+    type: Tweak
+  - message: Crew monitors now detect the server even when there are zero suit sensors
+      transmitting.
+    type: Fix
+  - message: Crew monitors no longer instantly forget what is being displayed the
+      instant the server goes offline and instead time-out after a while.
+    type: Tweak
+  - message: Crew monitors no longer briefly show old data when you open them.
+    type: Fix
+  id: 339601
+  time: '2026-02-23T09:27:00.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3396
+- author: Conflee
+  changes:
+  - message: Added the Toxic Gas Grenade to the Nukie Uplink. This grenade gas a scary
+      yellow smoke cloud and is full of Desoxyephedrine. Deals roughly 12 Blunt and
+      12 Poison if you do not flee the smoke. Intended use is breaking the stalemate
+      right after the Nukie's first attack where 80 crew all blocks one chokepoint
+      and attritions the Nukies down inevitably and boringly.
+    type: Add
+  - message: Added X-4 and X-4 Bundle to the Nukie Uplink. X-4 acts as a higher yield
+      C-4, punching a more clean hole through walls. A larger breach with no girders
+      left behind even against 3-thick walls, making it easier to enter and fight
+      around the hole you just made without getting caught on leftovers.
+    type: Add
+  id: 343201
+  time: '2026-02-23T09:25:14.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3432
+- author: Conflee
+  changes:
+  - message: Updated all 3 Nukie Outpost maps with the new Syndicate Delivery Console,
+      Target Station Map, and 1 canister of Pluoxium (O2+). This brings us up to parity
+      with Upstream's Outpost and preps us for any future additions to the Syndicate
+      Delivery Console.
+    type: Tweak
+  id: 343001
+  time: '2026-02-23T13:21:46.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3430
+- author: Xale
+  changes:
+  - message: Zombified animals such as chickens and ducks no longer produce eggs.
+    type: Remove
+  - message: Zombified animals such as cows and goats no longer produce milk.
+    type: Remove
+  - message: Zombified animals such as goats no longer produce wool.
+    type: Remove
+  id: 342801
+  time: '2026-02-23T13:43:18.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3428
+- author: Conflee
+  changes:
+  - message: Added water vapor canisters to cargo request computers, for potential
+      future plumbing use.
+    type: Add
+  - message: Swapped all canisters in the cargo request computer to use cropped versions
+      of the new sprites so they match the actual canisters and don't look scuff in
+      the UI.
+    type: Tweak
+  - message: Added BZ, Pluoxium, Halon, and Hydrogen to the Random Salvage Canister
+      spawn pool. They can be found on wrecks etc about 30-40% as often as basic canisters.
+    type: Tweak
+  id: 339801
+  time: '2026-02-23T13:52:57.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3398
+- author: wonderfulnewworld
+  changes:
+  - message: Added remaining duplicate loadout trinkets not addressed by [this PR](https://github.com/ss14Starlight/space-station-14/pull/3261)
+      to trinkets.
+    type: Add
+  - message: Added localization for the 3 types of insulated glove loadout options.
+    type: Add
+  - message: Added delicate tactical maid gloves to the Fashion-o-Mat. They are far
+      too delicate to be insulated.
+    type: Add
+  - message: 'Grouped similar trinkets together: pAIs, the cybernetics, the foot and
+      arm cloth wraps, the lizards, the balls, and the flowers.'
+    type: Add
+  - message: Mimes can now choose their shoes.
+    type: Add
+  - message: Removed numerous duplicate loadout entries.
+    type: Remove
+  - message: Removed insulated glove loadout for all of Engi minus CE.
+    type: Remove
+  - message: Removed the elegant maid outfit and tactical maid attire from loadouts.
+    type: Remove
+  - message: Only the Clown and Mime can show up to work wearing roller skates, everyone
+      else puts them in their bag instead.
+    type: Tweak
+  - message: The Clown and Mime only require 5 hours of Mail Tech time for their skates.
+      They're part time.
+    type: Tweak
+  - message: All jobs, by default, will be wearing shoes. You can show up without
+      shoes by deselecting footwear, but by default, you'll be wearing something.
+    type: Fix
+  - message: The left and right cargo legs are in trinkets again. They vanished at
+      some point.
+    type: Fix
+  - message: The cybernetic trinkets are now Capitalized in the files.
+    type: Fix
+  - message: Learner roles no longer spawn with 2 pairs of shoes.
+    type: Fix
+  id: 338801
+  time: '2026-02-23T13:58:20.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3388
+- author: Conflee, Davyei
+  changes:
+  - message: Added the 'Beetle' Mining Borg Chassis skin.
+    type: Add
+  - message: Added 3 new Purrfus Chassis skins- Pink, Orange, and Green.
+    type: Add
+  - message: Added the Derelict Purrfus. Purrfus loves you.
+    type: Add
+  - message: Added the Makeshift Knife Borg Module, which can be crafted at an anvil.
+      Maints borg army with knives taped to them.
+    type: Add
+  - message: Overrides for all Derelict Borg's comms so they get the sameish comms
+      as their functional counterparts.
+    type: Tweak
+  - message: Renamed the Tider's Anvil to the Makeshift Anvil. We intended to do this
+      ages ago and then nobody did.
+    type: Tweak
+  id: 342701
+  time: '2026-02-23T16:09:58.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3427
+- author: Xale
+  changes:
+  - message: Black pudding recipe is now visible in the guidebook.
+    type: Fix
+  - message: Charcuterie board recipe is now visible in the guidebook.
+    type: Fix
+  - message: Khlav kalash recipe is now visible in the guidebook.
+    type: Fix
+  - message: Haggis recipe is now visible in the guidebook.
+    type: Fix
+  id: 343801
+  time: '2026-02-23T20:02:18.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3438
+- author: gabbl0
+  changes:
+  - message: 49 new Thaven moods.
+    type: Add
+  id: 339701
+  time: '2026-02-23T20:06:43.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3397
 Order: -1
 

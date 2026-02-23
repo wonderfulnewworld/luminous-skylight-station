@@ -1,56 +1,36 @@
 - type: loadoutGroup
   id: Insuls
-  name: loadout-group-insuls
+  name: loadout-group-insuls-normal
   minLimit: 0
   defaultSelected: 1
   loadouts:
   - InsulsRegular
   - InsulsCombat
-  - InsulsMaid
   - InsulsMercenary
   - InsulsScrapper
 
 - type: loadoutGroup
   id: InsulsCombat
-  name: loadout-group-insuls
+  name: loadout-group-insuls-combat
   minLimit: 0
   defaultSelected: 1
   loadouts:
   - InsulsCombatNoLock
   - InsulsRegular
-  - InsulsMaid
   - InsulsMercenary
   - InsulsScrapper
 
 - type: loadoutGroup
   id: InsulsCaptain
-  name: loadout-group-insuls
+  name: loadout-group-insuls-captain
   minLimit: 0
   defaultSelected: 1
   loadouts:
   - InsulsCaptain
   - InsulsRegular
   - InsulsCombat
-  - InsulsMaid
   - InsulsMercenary
   - InsulsScrapper
-
-- type: loadoutGroup
-  id: GlovesGeneric
-  name: loadout-group-gloves-generic
-  minLimit: 0
-  loadouts:
-  - RedRegaliaGloves
-  - ClothWrapGlove
-
-- type: loadoutGroup
-  id: HeadGeneric
-  name: loadout-group-head-generic
-  minLimit: 0
-  loadouts:
-  - MaidHeadbandTactical
-  - Hairflower
-  - LilyFlower
 
 - type: loadoutGroup
   id: Scarves
@@ -199,9 +179,6 @@
   - GreytideBizarreAdventures
   - BrimHat
   - FeatheredHat
-  - Hairflower
-  - LilyFlower
-  - RoadCone # Starlight
 
 - type: loadoutGroup
   id: AssistantBackpack
@@ -235,9 +212,6 @@
   - RoboticistCap
   - SkullBandana
   - RoboticistBlackCapFlipped
-  - MaidHeadbandTactical
-  - Hairflower
-  - LilyFlower
 
 - type: loadoutGroup
   id: RoboticistGloves
@@ -317,8 +291,6 @@
   minLimit: 0
   loadouts:
   - MagistrateHeadPwig
-  - Hairflower
-  - LilyFlower
 
 - type: loadoutGroup
   id: MagistrateEyewear
@@ -366,7 +338,6 @@
   - BlueShieldShirt
   - BlueShieldSkirt
   - FormalBlueShieldJumpsuit
-  - MaidOutfitTactical
 
 - type: loadoutGroup
   id: BlueShieldOuterclothing
@@ -442,7 +413,6 @@
   - ScienceWinterBoots
   - Heels
   - LeatherShoes
-  - ClothWrapShoe
 
 - type: loadoutGroup
   id: CaptainShoes
@@ -457,7 +427,6 @@
   - CowboyBootsBlackFilled
   - CowboyBootsWhiteFilled
   - HighHeelBootsFilled
-  - ClothWrapShoe
 
 - type: loadoutGroup
   id: HoPShoes
@@ -469,7 +438,6 @@
   - Heels
   - LaceupShoes
   - LeatherShoes
-  - ClothWrapShoe
 
 - type: loadoutGroup
   id: MagistrateShoes
@@ -479,7 +447,6 @@
   loadouts:
   - LaceupShoes
   - Heels
-  - ClothWrapShoe
 
 - type: loadoutGroup
   id: NanotrasenRepresentativeShoes
@@ -490,7 +457,6 @@
   - LaceupShoes
   - Heels
   - LeatherShoes
-  - ClothWrapShoe
 
 - type: loadoutGroup
   id: DetectiveShoes
@@ -506,7 +472,6 @@
   - CowboyBootsWhiteFilled
   - Heels
   - HighHeelBootsFilled
-  - ClothWrapShoe
 
 - type: loadoutGroup
   id: CivilianShoes
@@ -520,7 +485,6 @@
   - LeatherShoes
   - Heels
   - LaceupShoes
-  - ClothWrapShoe
 
 - type: loadoutGroup
   id: LawyerShoes
@@ -532,7 +496,6 @@
   - LaceupShoes
   - Heels
   - LeatherShoes
-  - ClothWrapShoe
 
 - type: loadoutGroup
   id: BlueShieldShoes
@@ -542,7 +505,6 @@
   loadouts:
   - CombatBoots
   - HighHeelBootsFilled
-  - ClothWrapShoe
 
 # Salvage Lead
 - type: loadoutGroup
@@ -589,6 +551,17 @@
     - SalvagePDA
     - VeteranSalvagePDA
 
+# Mime
+- type: loadoutGroup
+  id: MimeShoes
+  name: loadout-group-mime-shoes
+  minLimit: 0 # Starlight
+  defaultSelected: 1 # Starlight
+  loadouts:
+  - WhiteShoes
+  - BlackShoes
+  - RollerSkatesLoadout # Starlight
+
 # Boxer
 - type: loadoutGroup
   id: BoxerJumpsuit
@@ -605,10 +578,6 @@
   - BlueBoxingGloves
   - GreenBoxingGloves
   - YellowBoxingGloves
-  - PawsWhite
-  - PawsBrown
-  - PawsBlack
-  - PawsBlackWhite
 
 - type: loadoutGroup
   id: BoxerJobTrinkets
@@ -646,9 +615,6 @@
     - ChemistNurseHat
     - ChemistTruckersHat
     - ChemistFisherCap
-    - MaidHeadbandTactical
-    - Hairflower
-    - LilyFlower
 
 - type: loadoutGroup
   id: ChemistBag
@@ -661,6 +627,7 @@
   id: ChemistShoes
   name: loadout-group-chemist-shoes
   minLimit: 0
+  defaultSelected: 1
   loadouts:
   - WhiteShoes
   - ChemistWinterBoots
@@ -668,7 +635,6 @@
   - Heels
   - LaceupShoes
   - LeatherShoes
-  - ClothWrapShoe
 
 - type: loadoutGroup
   id: ChemistPDA
@@ -760,9 +726,6 @@
   - DutyOfficerHead
   - DutyOfficerBeret
   - DutyOfficerHelmetRiot
-  - MaidHeadbandTactical
-  - Hairflower
-  - LilyFlower
 
 - type: loadoutGroup
   id: DutyOfficerJumpsuit
@@ -772,7 +735,6 @@
   - DutyOfficerJumpskirt
   - DutyOfficerJumpsuitBlue
   - DutyOfficerJumpskirtBlue
-  - MaidOutfitTactical
 
 - type: loadoutGroup
   id: DutyOfficerBelt
@@ -845,8 +807,6 @@
   - Drilltrainer
   - BeretNCTGreen
   - BeretNCTBlack
-  - Hairflower
-  - LilyFlower
 
 - type: loadoutGroup
   id: NanotrasenCareerTrainerShoes
@@ -858,7 +818,6 @@
   - LaceupShoes
   - Heels
   - LeatherShoes
-  - ClothWrapShoe
 
 - type: loadoutGroup
   id: NanotrasenCareerTrainerEyewear

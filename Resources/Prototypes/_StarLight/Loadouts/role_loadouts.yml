@@ -106,11 +106,9 @@
   id: JobMiningSpecialist
   groups:
   - GroupTankHarness
-  - HeadGeneric
   - SalvageSpecialistBackpack
   - MiningSpecialistJumpsuit
   - SalvageSpecialistOuterClothing
-  - GlovesGeneric
   - SalvageSpecialistShoes
   - MiningSpecialistPDA
   - Glasses
@@ -191,8 +189,6 @@
     - SalvageLeadJumpsuit
     - SalvageLeadNeck
     - SalvageSpecialistOuterClothing
-    - HeadGeneric
-    - GlovesGeneric
     - SalvageSpecialistShoes
     - SalvageLeadPDA
     - Glasses

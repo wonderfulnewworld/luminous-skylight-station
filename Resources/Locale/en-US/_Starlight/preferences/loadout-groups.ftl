@@ -63,6 +63,7 @@ loadout-group-magistrate-hands = Magistrate Gloves
 
 # Civilian
 loadout-group-civilian-shoes = Shoes
+loadout-group-mime-shoes = Mime shoes
 
 # Cargo
 loadout-group-salvage-specialist-jumpsuit = Salvage Specialist jumpsuit

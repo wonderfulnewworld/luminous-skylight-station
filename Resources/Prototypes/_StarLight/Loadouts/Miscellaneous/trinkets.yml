@@ -59,42 +59,6 @@
         time: 144000 # 40hr
   equipment:
     shoes: ClothingUnderSocksCoder
-  groupBy: "maid outfit"
-
-- type: loadout
-  id: MaidOutfit
-  effects:
-    - !type:JobRequirementLoadoutEffect
-      requirement:
-        !type:OverallPlaytimeRequirement
-        time: 144000 # 40hr
-  equipment:
-    jumpsuit: ClothingUniformJumpskirtElegantMaid
-  groupBy: "maid outfit"
-
-- type: loadout
-  id: MaidOutfitTactical
-  effects:
-    - !type:JobRequirementLoadoutEffect
-      requirement:
-        !type:DepartmentTimeRequirement
-        department: Security
-        time: 216000 # 60 hours of charging batong
-  equipment:
-    jumpsuit: ClothingUniformJumpskirtTacticalMaid
-  groupBy: "maid outfit"
-
-- type: loadout
-  id: MaidHeadbandTactical
-  effects:
-    - !type:JobRequirementLoadoutEffect
-      requirement:
-        !type:DepartmentTimeRequirement
-        department: Security
-        time: 216000 # 60 hours of charging batong
-  equipment:
-    head: ClothingHeadHatTacticalMaidHeadband
-  groupBy: "maid outfit"
 
 # Meow mrrp ## shut up ### no :3
 
@@ -207,11 +171,13 @@
   storage:
     back:
       - Basketball
+  groupBy: "balls"
 
 - type: loadout
   id: TBall
   equipment: # woof
     mask: TennisBall
+  groupBy: "balls"
 
 - type: loadout
   id: RubberQuack
@@ -419,6 +385,18 @@
       !type:RoleTimeRequirement
       role: JobMailTech
       time: 36000 # 10 hours of being ignored while carrying a parcelbomb
+  storage:
+    back:
+    - ClothingShoesSkates
+
+- type: loadout
+  id: RollerSkatesLoadout
+  effects:
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:RoleTimeRequirement
+      role: JobMailTech
+      time: 18000 # 5 hours of being ignored while carrying a parcelbomb. 
   equipment:
     shoes: ClothingShoesSkates
 
@@ -480,7 +458,7 @@
       - HappyHonk
 
 - type: loadout
-  id: leftripperarm
+  id: LeftRipperArm
   effects:
     - !type:JobRequirementLoadoutEffect
       requirement:
@@ -490,9 +468,10 @@
   storage:
     back:
       - LeftArmCyberRipper
+  groupBy: "cybernetic trinkets"
 
 - type: loadout
-  id: rightmechwrightarm
+  id: RightMechwrightArm
   effects:
     - !type:JobRequirementLoadoutEffect
       requirement:
@@ -502,9 +481,10 @@
   storage:
     back:
       - RightArmCyberMechwright
+  groupBy: "cybernetic trinkets"
 
 - type: loadout
-  id: leftcargoleg
+  id: LeftCargoLeg
   effects:
     - !type:JobRequirementLoadoutEffect
       requirement:
@@ -514,9 +494,10 @@
   storage:
     back:
       - LeftLegCyberCargo
+  groupBy: "cybernetic trinkets"
 
 - type: loadout
-  id: rightcargoleg
+  id: RightCargoLeg
   effects:
     - !type:JobRequirementLoadoutEffect
       requirement:
@@ -526,6 +507,7 @@
   storage:
     back:
       - RightLegCyberCargo
+  groupBy: "cybernetic trinkets"
 
 - type: loadout
   id: CigPackBub
@@ -565,6 +547,7 @@
   storage:
     id:
       - PersonalAI
+  groupBy: "pAI"
 
 - type: loadout
   id: GoldenPersonalAI
@@ -577,6 +560,7 @@
   storage:
     id:
       - GoldenPersonalAI
+  groupBy: "pAI"
 
 - type: loadout
   id: Boxblacklight
@@ -605,3 +589,16 @@
   id: LilyFlower
   equipment:
     head: ClothingHeadHatLilyFlower
+  groupBy: "flowers"
+
+- type: loadout
+  id: ClothWrapShoeTrinket
+  equipment:
+    shoes: ClothingClothWrap
+  groupBy: "cloth wraps"
+
+- type: loadout
+  id: ClothWrapGloveTrinket
+  equipment:
+    gloves: ClothingClothWrap
+  groupBy: "cloth wraps"
