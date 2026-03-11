@@ -2,8 +2,8 @@
   id: StarlightBarratry
   mapName: 'Barratry'
   mapPath: /Maps/_Starlight/Stations/Barratry.yml
-  minPlayers: 40
-  maxPlayers: 130
+  minPlayers: 60
+  maxPlayers: 150
   stations:
     StarlightBarratry:
       stationProto: StandardNanotrasenStation
@@ -41,9 +41,9 @@
             Surgeon: [ 2, 2 ]  
             #science
             ResearchDirector: [ 1, 1 ]
-            Scientist: [ 5, 5 ]
-            ResearchAssistant: [ 3, 3 ]
-            Roboticist: [ 1, 1 ]
+            Scientist: [ 5, 6 ]
+            ResearchAssistant: [ 3, 4 ]
+            Roboticist: [ 2, 2 ]
             #security
             HeadOfSecurity: [ 1, 1 ]
             Warden: [ 1, 1 ]
