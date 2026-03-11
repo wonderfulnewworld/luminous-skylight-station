@@ -66,7 +66,7 @@
             Boxer: [ 2, 2]
             #silicon
             StationAi: [ 1, 1 ]
-            Borg: [ 3, 3 ]
+            Borg: [ 4, 5 ]
             #law
             Magistrate: [ 1, 1 ]
             IAA: [ 2, 2 ]
