@@ -62,4 +62,6 @@ public sealed partial class ElectricityAnomalyComponent : Component
     /// <summary>
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     public TimeSpan EmpDisabledDuration = TimeSpan.FromSeconds(60);
+
+    [DataField] public int EmpStrength = 1; // Far Horizons - strength on crit
 }

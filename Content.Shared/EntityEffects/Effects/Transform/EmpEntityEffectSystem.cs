@@ -18,7 +18,10 @@ public sealed partial class EmpEntityEffectSystem : EntityEffectSystem<Transform
     {
         var range = MathF.Min(args.Effect.RangeModifier * args.Scale, args.Effect.MaxRange);
 
-        _emp.EmpPulse(_xform.GetMapCoordinates(entity, xform: entity.Comp), range, args.Effect.EnergyConsumption, args.Effect.Duration);
+        var strength = (int)Math.Ceiling(args.Effect.StrengthModifier * args.Scale); // Far Horizons
+        strength = Math.Clamp(strength, 1, args.Effect.MaxStrength); // Far Horizons
+
+        _emp.EmpPulse(_xform.GetMapCoordinates(entity, xform: entity.Comp), range, args.Effect.EnergyConsumption, args.Effect.Duration, strength: strength); // Far Horizons
     }
 }
 
@@ -48,6 +51,11 @@ public sealed partial class Emp : EntityEffectBase<Emp>
     /// </summary>
     [DataField]
     public TimeSpan Duration = TimeSpan.FromSeconds(15);
+
+    // Far Horizons start
+    [DataField] public float StrengthModifier = 0.5f;
+    [DataField] public int MaxStrength = 10;
+    // Far Horizons end
 
     public override string EntityEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys, ILocalizationManager loc) // Starlight
         => loc.GetString("entity-effect-guidebook-emp-reaction-effect", ("chance", Probability));

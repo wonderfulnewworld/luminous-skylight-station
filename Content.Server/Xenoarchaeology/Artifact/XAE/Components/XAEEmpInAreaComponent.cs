@@ -23,4 +23,6 @@ public sealed partial class XAEEmpInAreaComponent : Component
     /// </summary>
     [DataField]
     public TimeSpan DisableDuration = TimeSpan.FromSeconds(60);
+
+    [DataField] public int Strength = 1; // Far Horizons
 }

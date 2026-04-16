@@ -25,4 +25,6 @@ public sealed partial class EMPScreamEvent : InstantActionEvent
 
     [DataField]
     public SoundSpecifier? ScreamSound = new SoundPathSpecifier("/Audio/Effects/changeling_shriek.ogg");
+
+    [DataField] public int Strength = 1; // Far Horizons
 }

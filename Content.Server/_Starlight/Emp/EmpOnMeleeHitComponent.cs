@@ -35,4 +35,6 @@ public sealed partial class EmpOnMeleeHitComponent : Component
     /// </summary>
     [DataField]
     public bool DisableOnHit = true;
+
+    [DataField] public int Strength = 1; // Far Horizons
 }

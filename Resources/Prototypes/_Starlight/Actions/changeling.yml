@@ -185,7 +185,8 @@
       sprite: _Starlight/Interface/Actions/actions_changeling.rsi
       state: shriek_dissonant
   - type: InstantAction
-    event: !type:ShriekDissonantEvent {}
+    event: !type:ShriekDissonantEvent
+      empStrength: 6 # Far Horizons
   - type: ChangelingAction
     chemicalCost: 30
     useInLesserForm: true

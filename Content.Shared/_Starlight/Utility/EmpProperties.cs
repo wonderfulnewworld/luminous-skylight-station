@@ -22,6 +22,8 @@ public sealed partial class EmpProperties
     [DataField("disableDuration"), ViewVariables(VVAccess.ReadWrite)]
     public TimeSpan DisableDuration = TimeSpan.FromSeconds(60);
 
+    [DataField] public int Strength = 1; // Far Horizons
+
     public EmpProperties(float range, float energyConsumption, TimeSpan disableDuration)
     {
         Range = range;

@@ -202,6 +202,7 @@
     noPowerPopup: ninja-no-power
   # core ninja suit stuff
   - type: NinjaSuit
+    empStrength: 5
   - type: EmpResistance
     strengthMultiplier: 0
   - type: UseDelay

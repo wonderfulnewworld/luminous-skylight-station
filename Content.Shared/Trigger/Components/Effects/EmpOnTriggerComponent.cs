@@ -26,4 +26,6 @@ public sealed partial class EmpOnTriggerComponent : BaseXOnTriggerComponent
     /// </summary>
     [DataField, AutoNetworkedField]
     public TimeSpan DisableDuration = TimeSpan.FromSeconds(60);
+
+    [DataField] public int Strength = 1; // Far Horizons
 }

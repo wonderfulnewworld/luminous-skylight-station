@@ -214,6 +214,8 @@
       maxRange: 6
       energyConsumption: 12500
       duration: 15
+      strengthModifier: 0.5 # FH
+      maxStrength: 10 # FH
 
 - type: reaction
   id: Flash

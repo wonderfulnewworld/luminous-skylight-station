@@ -60,6 +60,7 @@
     - type: EmpOnTrigger
       range: 2
       energyConsumption: 5000
+      strength: 5 # FH - idk what this is, idk how it's used
     - type: DeleteOnTrigger
 
 - type: entity

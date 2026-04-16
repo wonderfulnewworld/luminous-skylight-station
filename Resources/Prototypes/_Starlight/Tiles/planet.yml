@@ -37,11 +37,13 @@
   - type: TileEntityEffect
     effects:
     - !type:Emp
-      rangePerUnit: 0.2
+      rangeModifier: 0.2 # FH fixed wrong argument name
       maxRange: 6
       energyConsumption: 12500
       duration: 15
       probability: 0.05
+      strengthModifier: 0.1 # FH
+      maxStrength: 5 # FH
 
 - type: decal
   id: AbyssBushOne

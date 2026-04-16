@@ -21,6 +21,6 @@ public sealed partial class HitscanEmpEffectSystem : EntitySystem
         if (args.Data.HitEntity == null)
             return;
 
-        _emp.EmpPulse(_transform.GetMapCoordinates(args.Data.HitEntity.Value), hitscan.Comp.Emp.Range, hitscan.Comp.Emp.EnergyConsumption, hitscan.Comp.Emp.DisableDuration);
+        _emp.EmpPulse(_transform.GetMapCoordinates(args.Data.HitEntity.Value), hitscan.Comp.Emp.Range, hitscan.Comp.Emp.EnergyConsumption, hitscan.Comp.Emp.DisableDuration, strength: hitscan.Comp.Emp.Strength); // Far Horizons
     }
 }

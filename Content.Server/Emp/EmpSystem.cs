@@ -52,7 +52,7 @@ public sealed partial class EmpSystem : SharedEmpSystem
             if(comp.DisableOnHit)
                 _itemToggle.TryDeactivate(uid);
             foreach (var target in args.HitEntities)
-                EmpPulse(_transform.GetMapCoordinates(target), comp.Range, comp.EnergyConsumption, comp.DisableDuration);
+                EmpPulse(_transform.GetMapCoordinates(target), comp.Range, comp.EnergyConsumption, comp.DisableDuration, strength: comp.Strength); // Far Horizons
         }
     }
 

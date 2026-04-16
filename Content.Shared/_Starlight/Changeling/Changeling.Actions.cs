@@ -34,7 +34,11 @@ public sealed partial class ExitStasisEvent : InstantActionEvent { }
 
 public sealed partial class CreateBoneShardEvent : InstantActionEvent { }
 public sealed partial class ToggleChitinousArmorEvent : InstantActionEvent { }
-public sealed partial class ShriekDissonantEvent : InstantActionEvent { }
+
+public sealed partial class ShriekDissonantEvent : InstantActionEvent
+{
+    [DataField] public int EmpStrength = 1; // Far Horizons
+}
 public sealed partial class ShriekResonantEvent : InstantActionEvent { }
 public sealed partial class ToggleStrainedMusclesEvent : InstantActionEvent { }
 

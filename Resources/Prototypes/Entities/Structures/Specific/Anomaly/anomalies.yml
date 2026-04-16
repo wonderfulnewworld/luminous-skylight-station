@@ -184,6 +184,7 @@
     color: "#ffffaa"
     castShadows: false
   - type: ElectricityAnomaly
+    empStrength: 7 # Far Horizons - emp on crit strength
   - type: Electrified
 
 - type: entity

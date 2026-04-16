@@ -1171,6 +1171,7 @@
       min: 0
       max: 3
   - type: XAEEmpInArea
+    strength: 5 # FH
 
 - type: entity
   id: XenoArtifactPolyMonkey

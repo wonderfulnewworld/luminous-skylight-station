@@ -92,6 +92,7 @@
     rechargeDuration: 60
   - type: InstantAction
     event: !type:EMPScreamEvent
+      strength: 7 # Far Horizons - idk what balance should there even be for these
 
 - type: entity
   id: ActionEggInjection

@@ -1025,6 +1025,7 @@
     range: 5
     energyConsumption: 50000
     disableDuration: 10
+    strength: 8 # FH
   - type: Ammo
     muzzleFlash: null
   - type: PointLight

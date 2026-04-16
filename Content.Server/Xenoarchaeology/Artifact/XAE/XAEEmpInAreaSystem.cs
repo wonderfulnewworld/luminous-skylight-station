@@ -15,6 +15,6 @@ public sealed partial class XAEEmpInAreaSystem : BaseXAESystem<XAEEmpInAreaCompo
     /// <inheritdoc />
     protected override void OnActivated(Entity<XAEEmpInAreaComponent> ent, ref XenoArtifactNodeActivatedEvent args)
     {
-        _emp.EmpPulse(args.Coordinates, ent.Comp.Range, ent.Comp.EnergyConsumption, ent.Comp.DisableDuration);
+        _emp.EmpPulse(args.Coordinates, ent.Comp.Range, ent.Comp.EnergyConsumption, ent.Comp.DisableDuration, strength: ent.Comp.Strength); // Far Horizons
     }
 }

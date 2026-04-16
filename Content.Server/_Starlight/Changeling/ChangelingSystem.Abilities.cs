@@ -314,7 +314,7 @@ public sealed partial class ChangelingSystem : EntitySystem
 
         var pos = _transform.GetMapCoordinates(uid);
         var power = comp.ShriekPower;
-        _emp.EmpPulse(pos, power, 5000f, power * TimeSpan.FromSeconds(2));
+        _emp.EmpPulse(pos, power, 5000f, power * TimeSpan.FromSeconds(2), strength: args.EmpStrength); // Far Horizons
     }
     private void OnShriekResonant(EntityUid uid, ChangelingComponent comp, ref ShriekResonantEvent args)
     {

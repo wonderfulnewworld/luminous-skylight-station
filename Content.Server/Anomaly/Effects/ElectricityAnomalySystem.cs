@@ -39,7 +39,7 @@ public sealed partial class ElectricityAnomalySystem : EntitySystem
     {
         var range = anomaly.Comp.MaxElectrocuteRange * 3 * args.PowerModifier;
 
-        _emp.EmpPulse(_transform.GetMapCoordinates(anomaly), range, anomaly.Comp.EmpEnergyConsumption, anomaly.Comp.EmpDisabledDuration);
+        _emp.EmpPulse(_transform.GetMapCoordinates(anomaly), range, anomaly.Comp.EmpEnergyConsumption, anomaly.Comp.EmpDisabledDuration, strength: anomaly.Comp.EmpStrength); // Far Horizons
         _lightning.ShootRandomLightnings(anomaly, range, anomaly.Comp.MaxBoltCount * 3, arcDepth: 3);
     }
 

@@ -75,6 +75,8 @@ public sealed partial class NinjaSuitComponent : Component
     /// </summary>
     [DataField]
     public TimeSpan EmpDuration = TimeSpan.FromSeconds(60);
+
+    [DataField] public int EmpStrength = 1; // Far Horizons
 }
 
 public sealed partial class RecallKatanaEvent : InstantActionEvent;

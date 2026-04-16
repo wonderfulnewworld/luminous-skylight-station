@@ -6,9 +6,7 @@ using Robust.Shared.Map;
 using Robust.Shared.Timing;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
-using Content.Shared.Humanoid; // Starlight
 using Content.Shared._Starlight.Cybernetics; // Starlight
-using Robust.Shared.Utility;
 
 namespace Content.Shared.Emp;
 
@@ -44,16 +42,17 @@ public abstract partial class SharedEmpSystem : EntitySystem
     /// <summary>
     /// Triggers an EMP pulse at the given location, by first raising an <see cref="EmpAttemptEvent"/>, then by raising <see cref="EmpPulseEvent"/> on all entities in range.
     /// </summary>
-    /// <param name="coordinates">The location to trigger the EMP pulse at.</param>
+    /// <param name="mapCoordinates">The location to trigger the EMP pulse at.</param>
     /// <param name="range">The range of the EMP pulse.</param>
     /// <param name="energyConsumption">The amount of energy consumed by the EMP pulse. In Joule.</param>
     /// <param name="duration">The duration of the EMP effects.</param>
     /// <param name="user">The player that caused the effect. Used for predicted audio.</param>
-    public void EmpPulse(MapCoordinates mapCoordinates, float range, float energyConsumption, TimeSpan duration, EntityUid? user = null)
+    /// <param name="strength">Strength of EMP pulse. Far Horizons</param>
+    public void EmpPulse(MapCoordinates mapCoordinates, float range, float energyConsumption, TimeSpan duration, EntityUid? user = null, int strength = 1) // Far Horizons
     {
         foreach (var uid in _lookup.GetEntitiesInRange(mapCoordinates, range))
         {
-            TryEmpEffects(uid, energyConsumption, duration, user);
+            TryEmpEffects(uid, energyConsumption, duration, user, strength); // Far Horizons
         }
         // TODO: replace with PredictedSpawn once it works with animated sprites
         if (_net.IsServer)
@@ -72,13 +71,14 @@ public abstract partial class SharedEmpSystem : EntitySystem
     /// <param name="duration">The duration of the EMP effects.</param>
     /// <param name="user">The player that caused the effect. Used for predicted audio.</param>
     /// <param name="predicted">Whether this pulse is being replicated on the client.</param>
-    public void EmpPulse(EntityCoordinates coordinates, float range, float energyConsumption, TimeSpan duration, EntityUid? user = null, bool predicted = true)
+    /// <param name="strength">Strength of EMP pulse. Far Horizons</param>
+    public void EmpPulse(EntityCoordinates coordinates, float range, float energyConsumption, TimeSpan duration, EntityUid? user = null, bool predicted = true, int strength = 1) // Far Horizons
     {
         _entSet.Clear();
         _lookup.GetEntitiesInRange(coordinates, range, _entSet);
         foreach (var uid in _entSet)
         {
-            TryEmpEffects(uid, energyConsumption, duration, user);
+            TryEmpEffects(uid, energyConsumption, duration, user, strength); // Far Horizons
         }
         // TODO: replace with PredictedSpawn once it works with animated sprites
         if (_net.IsServer)
@@ -97,15 +97,16 @@ public abstract partial class SharedEmpSystem : EntitySystem
     /// <param name="energyConsumption">The amount of energy consumed by the EMP.</param>
     /// <param name="duration">The duration of the EMP effects.</param>
     /// <param name="user">The player that caused the EMP. For prediction purposes.</param>
+    /// <param name="strength">Strength of EMP pulse. Far Horizons</param>
     /// <returns>If the entity was affected by the EMP.</returns>
-    public bool TryEmpEffects(EntityUid uid, float energyConsumption, TimeSpan duration, EntityUid? user = null)
+    public bool TryEmpEffects(EntityUid uid, float energyConsumption, TimeSpan duration, EntityUid? user = null, int strength = 1) // Far Horizons
     {
         var attemptEv = new EmpAttemptEvent();
         RaiseLocalEvent(uid, ref attemptEv);
         if (attemptEv.Cancelled)
             return false;
 
-        return DoEmpEffects(uid, energyConsumption, duration, user);
+        return DoEmpEffects(uid, energyConsumption, duration, user, strength); // Far Horizons
     }
 
     /// <summary>
@@ -115,8 +116,9 @@ public abstract partial class SharedEmpSystem : EntitySystem
     /// <param name="energyConsumption">The amount of energy consumed by the EMP.</param>
     /// <param name="duration">The duration of the EMP effects.</param>
     /// <param name="user">The player that caused the EMP. For prediction purposes.</param>
+    /// <param name="strength">Strength of EMP pulse. Far Horizons</param>
     /// <returns>If the entity was affected by the EMP.</returns>
-    public bool DoEmpEffects(EntityUid uid, float energyConsumption, TimeSpan duration, EntityUid? user = null)
+    public bool DoEmpEffects(EntityUid uid, float energyConsumption, TimeSpan duration, EntityUid? user = null, int strength = 1) // Far Horizons
     {
         var strMultiplier = 1f;
         var durMultiplier = 1f;
@@ -125,7 +127,7 @@ public abstract partial class SharedEmpSystem : EntitySystem
             strMultiplier = resistance.StrengthMultiplier;
             durMultiplier = resistance.DurationMultiplier;
         }
-        var ev = new EmpPulseEvent(energyConsumption * strMultiplier, false, false, duration * durMultiplier, user);
+        var ev = new EmpPulseEvent(energyConsumption * strMultiplier, false, false, duration * durMultiplier, user, strength); // Far Horizons
         RaiseLocalEvent(uid, ref ev);
 
         // TODO: replace with PredictedSpawn once it works with animated sprites
@@ -204,7 +206,7 @@ public record struct EmpAttemptEvent(bool Cancelled);
 /// <param name="User">The player that caused the EMP. For prediction purposes.</param>
 
 [ByRefEvent]
-public record struct EmpPulseEvent(float EnergyConsumption, bool Affected, bool Disabled, TimeSpan Duration, EntityUid? User);
+public record struct EmpPulseEvent(float EnergyConsumption, bool Affected, bool Disabled, TimeSpan Duration, EntityUid? User, int Strength); // Far Horizons
 
 /// <summary>
 /// Raised on an entity after <see cref="EmpDisabledComponent"/> is removed.

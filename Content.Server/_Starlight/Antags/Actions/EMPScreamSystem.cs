@@ -36,7 +36,7 @@ public sealed partial class EMPScreamSystem : EntitySystem
         ScreamEffect(uid, ev.Power, ev.ScreamSound);
 
         var pos = _transform.GetMapCoordinates(uid);
-        _emp.EmpPulse(pos, ev.Power, ev.EnergyConsumption, ev.Power * ev.DurationMultiply);
+        _emp.EmpPulse(pos, ev.Power, ev.EnergyConsumption, ev.Power * ev.DurationMultiply, strength: ev.Strength); // Far Horizons
     }
 
     private void ScreamEffect(EntityUid source, float screamPower, SoundSpecifier? sound = null)

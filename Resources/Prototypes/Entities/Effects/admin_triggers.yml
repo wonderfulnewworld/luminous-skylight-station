@@ -19,6 +19,7 @@
   - type: EmpOnTrigger
     range: 4
     energyConsumption: 50000
+    strength: 10 # FH
 
 - type: entity
   id: AdminInstantEffectBluespace

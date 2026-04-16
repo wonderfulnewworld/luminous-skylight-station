@@ -149,6 +149,6 @@ public sealed partial class NinjaSuitSystem : SharedNinjaSuitSystem
         if (CheckDisabled(ent, user))
             return;
 
-        _emp.EmpPulse(Transform(user).Coordinates, comp.EmpRange, comp.EmpConsumption, comp.EmpDuration, user);
+        _emp.EmpPulse(Transform(user).Coordinates, comp.EmpRange, comp.EmpConsumption, comp.EmpDuration, user, strength: comp.EmpStrength); // Far Horizons
     }
 }
