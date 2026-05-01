@@ -94,3 +94,76 @@
     amount: # 20 min survival
       min: 200
       max: 300
+
+- type: entity
+  id: RRCardDieObjectiveFax
+  parent: CrewCondition
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RailroadSpawnFlow
+    objectivePrototype: DieObjective
+  - type: RailroadCard
+    title: rr-die-objective
+    icon: "☠"
+    iconColor: "#d11a1a"
+    color: "#550000"
+    image: /Textures/_Starlight/Railroading/criminal.png
+    description: rr-die-objective-desc
+  - type: RailroadFaxOnChosen
+    addresses:
+    - Captain's Office
+    - Captain
+    - Security
+    - Bridge
+    - Conference Room
+    - HoS Office
+    - Warden's Office
+    - Warden
+    - Detective's Office
+    - Magistrate
+    - Central Command
+    letters:
+    - name: rr-die-objective-letter-name
+      content: rr-die-objective-letter-content
+      paperPrototype: PaperNTCC
+      stampState: paper_stamp-centcom
+      stampedBy:
+        - stampedColor: "#006666"
+          stampedName: rr-nt-isd
+  - type: RailroadFaxOnFailed
+    addresses:
+    - Captain's Office
+    - Captain
+    - Security
+    - Bridge
+    - Conference Room
+    - HoS Office
+    - Warden's Office
+    - Warden
+    - Detective's Office
+    - Magistrate
+    - Central Command
+    letters:
+    - name: rr-die-objective-failed-name
+      content: rr-die-objective-failed-content
+      paperPrototype: PaperNTCC
+      stampState: paper_stamp-centcom
+      stampedBy:
+        - stampedColor: "#006620"
+          stampedName: rr-cc
+  - type: RailroadMessageOnChosen
+    messages:
+    - message: rr-die-objective-message
+      wrapped: rr-die-objective-wrapped-message
+      color: "#d11a1a"
+  - type: RailroadTimerTask
+    duration: 60
+  - type: RailroadSurviveTask
+  - type: RailroadDeliveryReward
+    delivery: PackageDeliveryRewardSyndicateLetter
+    dataset: railroadingDeliveryMessages
+    wrappedDataset: railroadingDeliveryWrappedMessages
+  - type: RailroadDonationReward
+    amount:
+      min: 150
+      max: 250
