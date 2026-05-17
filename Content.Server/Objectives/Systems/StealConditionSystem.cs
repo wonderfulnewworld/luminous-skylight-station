@@ -36,8 +36,7 @@ public sealed partial class StealConditionSystem : EntitySystem
     [Dependency] private SharedMindSystem _mindSystem = default!; // Starlight
     [Dependency] private RailroadingSystem _railroad = default!; // Starlight
     [Dependency] private ShadekinSystem _shadekin = default!; // Starlight
-
-    private EntityQuery<ContainerManagerComponent> _containerQuery;
+    [Dependency] private EntityQuery<ContainerManagerComponent> _containerQuery = default!;
 
     private HashSet<Entity<TransformComponent>> _nearestEnts = new();
     private HashSet<EntityUid> _countedItems = new();
@@ -45,8 +44,6 @@ public sealed partial class StealConditionSystem : EntitySystem
     public override void Initialize()
     {
         base.Initialize();
-
-        _containerQuery = GetEntityQuery<ContainerManagerComponent>();
 
         SubscribeLocalEvent<StealConditionComponent, ObjectiveAssignedEvent>(OnAssigned);
         SubscribeLocalEvent<StealConditionComponent, ObjectiveAfterAssignEvent>(OnAfterAssign);

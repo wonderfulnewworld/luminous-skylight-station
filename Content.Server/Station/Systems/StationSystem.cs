@@ -41,14 +41,12 @@ public sealed partial class StationSystem : SharedStationSystem
     [Dependency] private SharedTransformSystem _transform = default!;
     [Dependency] private MetaDataSystem _metaData = default!;
     [Dependency] private PvsOverrideSystem _pvsOverride = default!;
+    [Dependency] private EntityQuery<MapGridComponent> _gridQuery = default!;
     [Dependency] private IEntitySystemManager _entitySystemManager = default!; // Starlight
     [Dependency] private IPrototypeManager _prototype = default!; // Starlight
     [Dependency] private IComponentFactory _factory = default!; // Starlight
 
     private ISawmill _sawmill = default!;
-
-    private EntityQuery<MapGridComponent> _gridQuery;
-    private EntityQuery<TransformComponent> _xformQuery;
 
     private ValueList<MapId> _mapIds;
     private ValueList<(Box2Rotated Bounds, MapId MapId)> _gridBounds;
@@ -59,9 +57,6 @@ public sealed partial class StationSystem : SharedStationSystem
         base.Initialize();
 
         _sawmill = _logManager.GetSawmill("station");
-
-        _gridQuery = GetEntityQuery<MapGridComponent>();
-        _xformQuery = GetEntityQuery<TransformComponent>();
 
         SubscribeLocalEvent<GameRunLevelChangedEvent>(OnRoundEnd);
         SubscribeLocalEvent<PostGameMapLoad>(OnPostGameMapLoad);
@@ -263,7 +258,7 @@ public sealed partial class StationSystem : SharedStationSystem
         // First collect all valid map IDs where station grids exist
         foreach (var gridUid in dataComponent.Grids)
         {
-            if (!_xformQuery.TryGetComponent(gridUid, out var xform))
+            if (!TryComp(gridUid, out TransformComponent? xform))
                 continue;
 
             var mapId = xform.MapID;
@@ -277,7 +272,7 @@ public sealed partial class StationSystem : SharedStationSystem
         foreach (var gridUid in dataComponent.Grids)
         {
             if (!_gridQuery.TryComp(gridUid, out var grid) ||
-                !_xformQuery.TryGetComponent(gridUid, out var gridXform))
+                !TryComp(gridUid, out TransformComponent? gridXform))
             {
                 continue;
             }
@@ -297,7 +292,7 @@ public sealed partial class StationSystem : SharedStationSystem
         foreach (var session in Filter.GetAllPlayers(_player))
         {
             var entity = session.AttachedEntity;
-            if (entity == null || !_xformQuery.TryGetComponent(entity, out var xform))
+            if (entity == null || !TryComp(entity, out TransformComponent? xform))
                 continue;
 
             var mapId = xform.MapID;

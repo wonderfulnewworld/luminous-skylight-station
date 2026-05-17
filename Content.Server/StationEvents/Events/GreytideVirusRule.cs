@@ -25,6 +25,9 @@ public sealed partial class GreytideVirusRule : StationEventSystem<GreytideVirus
     [Dependency] private IPrototypeManager _prototype = default!;
     [Dependency] private IRobustRandom _random = default!;
 
+    [Dependency] private EntityQuery<FirelockComponent> _firelockQuery = default!;
+    [Dependency] private EntityQuery<AccessReaderComponent> _accessReaderQuery = default!;
+
     protected override void Added(EntityUid uid, GreytideVirusRuleComponent virusComp, GameRuleComponent gameRule, GameRuleAddedEvent args)
     {
         if (!TryComp<StationEventComponent>(uid, out var stationEvent))
@@ -64,13 +67,10 @@ public sealed partial class GreytideVirusRule : StationEventSystem<GreytideVirus
                 accessIds.UnionWith(proto.Tags);
         }
 
-        var firelockQuery = GetEntityQuery<FirelockComponent>();
-        var accessQuery = GetEntityQuery<AccessReaderComponent>();
-
         var lockQuery = AllEntityQuery<LockComponent, TransformComponent>();
         while (lockQuery.MoveNext(out var lockUid, out var lockComp, out var xform))
         {
-            if (!accessQuery.TryComp(lockUid, out var accessComp))
+            if (!_accessReaderQuery.TryComp(lockUid, out var accessComp))
                 continue;
 
             // make sure not to hit CentCom or other maps
@@ -92,7 +92,7 @@ public sealed partial class GreytideVirusRule : StationEventSystem<GreytideVirus
         while (airlockQuery.MoveNext(out var airlockUid, out var airlockComp, out var doorComp, out var xform))
         {
             // don't space everything
-            if (firelockQuery.HasComp(airlockUid))
+            if (_firelockQuery.HasComp(airlockUid))
                 continue;
 
             // make sure not to hit CentCom or other maps

@@ -21,6 +21,8 @@ namespace Content.Server.Shuttles.Systems;
 
 public sealed partial class ShuttleSystem
 {
+    [Dependency] private EntityQuery<DockingComponent> _dockingQuery = default!;
+
     private void InitializeGridFills()
     {
         SubscribeLocalEvent<GridSpawnComponent, StationPostInitEvent>(OnGridSpawnPostInit);
@@ -451,15 +453,11 @@ public sealed partial class ShuttleSystem
 
     private (EntityUid Entity, DockingComponent Component)? GetSingleDock(EntityUid uid)
     {
-        var dockQuery = GetEntityQuery<DockingComponent>();
-        var xformQuery = GetEntityQuery<TransformComponent>();
-        var xform = xformQuery.GetComponent(uid);
-
-        var rator = xform.ChildEnumerator;
+        var rator = Transform(uid).ChildEnumerator;
 
         while (rator.MoveNext(out var child))
         {
-            if (!dockQuery.TryGetComponent(child, out var dock))
+            if (!_dockingQuery.TryGetComponent(child, out var dock))
                 continue;
 
             return (child, dock);

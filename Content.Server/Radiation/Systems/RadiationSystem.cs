@@ -17,6 +17,7 @@ public sealed partial class RadiationSystem : EntitySystem
     [Dependency] private SharedTransformSystem _transform = default!;
     [Dependency] private SharedStackSystem _stack = default!;
     [Dependency] private SharedMapSystem _maps = default!;
+    [Dependency] private EntityQuery<RadiationReceiverComponent> _receiverQuery = default!;
     [Dependency] private IGameTiming _gameTiming = default!; // Funkystation: Funky atmos - /tg/ gases
 
     private EntityQuery<RadiationBlockingContainerComponent> _blockerQuery;
