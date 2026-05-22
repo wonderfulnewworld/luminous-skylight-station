@@ -42,6 +42,10 @@ public sealed class CrewManifestSystem : EntitySystem
         _departments.Clear();
         foreach (var department in _prototypeManager.EnumeratePrototypes<DepartmentPrototype>())
         {
+            #region Starlight
+            if (!department.ShowOnManifest)
+                continue; // Don't add department to manifest if not shown.
+            #endregion
             _departments.Add(department.ID);
 
             for (var i = 1; i <= department.Roles.Count; i++)

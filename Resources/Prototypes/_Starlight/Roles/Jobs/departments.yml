@@ -10,6 +10,7 @@
   - Lawyer
   editorHidden: true
   primary: false
+  showOnManifest: false
 
 - type: department
   id: Representatives

@@ -47,6 +47,13 @@ public sealed partial class DepartmentPrototype : IPrototype
     /// </summary>
     [DataField]
     public bool EditorHidden;
+    #region Starlight
+    /// <summary>
+    /// Determines if a department will show on manifest. Can be used to prevent duplicate departments from showing up.
+    /// </summary>
+    [DataField]
+    public bool ShowOnManifest = true;
+    #endregion
 }
 
 /// <summary>
