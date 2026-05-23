@@ -248,9 +248,14 @@ public sealed class StationJobsTest
 
                         foreach (var (job, array) in ((StationJobsComponent) comp).SetupAvailableJobs)
                         {
-                            Assert.That(array.Length, Is.EqualTo(2));
+                            // Support both legacy [min,max] and new [min,max,divisor] job slot formats.
+                            Assert.That(array.Length, Is.EqualTo(2).Or.EqualTo(3));
                             Assert.That(array[0] is -1 or >= 0);
                             Assert.That(array[1] is -1 or >= 0);
+                            if (array.Length == 3)
+                            {
+                                Assert.That(array[2], Is.GreaterThan(0));
+                            }
                             Assert.That(invalidJobs, Does.Not.Contain(job), $"Station {stationId} contains job prototype {job} which cannot be present roundstart.");
                         }
                     }

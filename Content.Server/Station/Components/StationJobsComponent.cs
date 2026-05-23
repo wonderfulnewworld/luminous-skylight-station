@@ -27,6 +27,12 @@ public sealed partial class StationJobsComponent : Component
     [DataField] public int TotalJobs;
 
     /// <summary>
+    /// The player count when the component was last refreshed for scaling.
+    /// </summary>
+    [ViewVariables] public int LastPlayerCount;
+
+    // Used to detect when player-count-based job scaling needs to be refreshed.
+    /// <summary>
     /// Station is running on extended access.
     /// </summary>
     [DataField] public bool ExtendedAccess;
@@ -74,8 +80,10 @@ public sealed partial class StationJobsComponent : Component
     public Dictionary<NetUserId, List<ProtoId<JobPrototype>>> PlayerJobs = new();
 
     /// <summary>
-    /// Mapping of jobs to an int[2] array that specifies jobs available at round start, and midround.
+    /// Mapping of jobs to an int[2] or int[3] array that specifies jobs available at round start, midround, and optional population scaling.
     /// Negative values implies that there is no limit.
+    /// The optional third element is the per-player scaling divisor: add one extra slot for every N players.
+    /// This was added to make jobs scale dynamically with connected player count.
     /// </summary>
     [DataField("availableJobs", required: true)]
     [Access(typeof(StationSystem))] // Starlight

@@ -39,19 +39,32 @@ public sealed partial class StationJobsSystem : EntitySystem
         SubscribeLocalEvent<PlayerJoinedLobbyEvent>(OnPlayerJoinedLobby);
         SubscribeLocalEvent<NewLifeOpenedEvent>(OnPlayerNewLifeOpen); //  🌟Starlight🌟
         SubscribeLocalEvent<PlayerConnectEvent>(OnPlayerConnect); //  🌟Starlight🌟
+        // Refresh scaled slot counts whenever player session status changes,
+        // since player count can affect available jobs through the new scaling divisor.
+        _player.PlayerStatusChanged += PlayerStatusChanged;
         Subs.CVar(_configurationManager, CCVars.GameDisallowLateJoins, _ => UpdateJobsAvailable(), true);
+    }
+
+    public override void Shutdown()
+    {
+        // Unsubscribe on shutdown to avoid dangling event handlers.
+        _player.PlayerStatusChanged -= PlayerStatusChanged;
     }
 
     private void OnInit(Entity<StationJobsComponent> ent, ref ComponentInit args)
     {
+        // Calculate mid-round total using the player-count-scaled round-start slots.
         ent.Comp.MidRoundTotalJobs = ent.Comp.SetupAvailableJobs.Values
-            .Select(x => Math.Max(x[1], 0))
+            .Select(x => Math.Max(GetScaledJobSlot(x, 1, _player.PlayerCount) ?? 0, 0))
             .Sum();
 
         ent.Comp.OverflowJobs = ent.Comp.SetupAvailableJobs
             .Where(x => x.Value[0] < 0)
             .Select(x => x.Key)
             .ToHashSet();
+
+        // Track the player count used for the current scaling state.
+        ent.Comp.LastPlayerCount = _player.PlayerCount;
     }
 
     public override void Update(float _)
@@ -74,11 +87,14 @@ public sealed partial class StationJobsSystem : EntitySystem
         if (!TryComp<StationJobsComponent>(msg.Station, out var stationJobs))
             return;
 
+        // Initialize job list using player-count-scaled round-start slots.
         stationJobs.JobList = stationJobs.SetupAvailableJobs.ToDictionary(
             x => x.Key,
-            x=> (int?)(x.Value[1] < 0 ? null : x.Value[1]));
+            x => GetScaledJobSlot(x.Value, 1, _player.PlayerCount));
 
         stationJobs.TotalJobs = stationJobs.JobList.Values.Select(x => x ?? 0).Sum();
+        // Remember the current player count so later refreshes only run when it changes.
+        stationJobs.LastPlayerCount = _player.PlayerCount;
 
         UpdateJobsAvailable();
     }
@@ -411,7 +427,7 @@ public sealed partial class StationJobsSystem : EntitySystem
 
         return stationJobs.SetupAvailableJobs.ToDictionary(
             x => x.Key,
-            x=> (int?)(x.Value[0] < 0 ? null : x.Value[0]));
+            x => GetScaledJobSlot(x.Value, 0, _player.PlayerCount));
     }
 
     /// <summary>
@@ -483,6 +499,85 @@ public sealed partial class StationJobsSystem : EntitySystem
     private TickerJobsAvailableEvent _cachedAvailableJobs = new(new(), new());
 
     /// <summary>
+    /// Gets a slot count from a job setup array, applying player-count scaling if present.
+    /// </summary>
+    /// <param name="values">The setup array from the station job prototype.</param>
+    /// <param name="index">Index in the array to read (0 for latejoin, 1 for round start).</param>
+    /// <param name="playerCount">Current player count for scaling calculations.</param>
+    /// <returns>The scaled slot count, or null for unlimited slots.</returns>
+    private static int? GetScaledJobSlot(int[] values, int index, int playerCount)
+    {
+        if (index >= values.Length)
+            return null;
+
+        var slots = values[index];
+        if (slots < 0)
+            return null;
+
+        if (values.Length < 3 || values[2] <= 0)
+            return slots;
+
+        return slots + playerCount / values[2];
+    }
+
+    // Refresh any station jobs that depend on player-count scaling.
+    // This is triggered when the number of active sessions changes.
+    private void RefreshScaledJobSlots()
+    {
+        var currentPlayerCount = _player.PlayerCount;
+        var query = EntityQueryEnumerator<StationJobsComponent>();
+
+        while (query.MoveNext(out var station, out var comp))
+        {
+            if (comp.SetupAvailableJobs.Count == 0)
+                continue;
+
+            if (comp.LastPlayerCount == currentPlayerCount)
+                continue;
+
+            var oldPlayerCount = comp.LastPlayerCount;
+            comp.LastPlayerCount = currentPlayerCount;
+            var dirty = false;
+
+            foreach (var (job, values) in comp.SetupAvailableJobs)
+            {
+                if (values.Length < 3 || values[2] <= 0)
+                    continue;
+
+                if (!comp.JobList.TryGetValue(job, out var remaining) || remaining is null)
+                    continue;
+
+                var oldSlots = GetScaledJobSlot(values, 1, oldPlayerCount);
+                var newSlots = GetScaledJobSlot(values, 1, currentPlayerCount);
+                if (oldSlots is null || newSlots is null)
+                    continue;
+
+                var delta = newSlots.Value - oldSlots.Value;
+                if (delta == 0)
+                    continue;
+
+                comp.JobList[job] = Math.Max((remaining ?? 0) + delta, 0);
+                dirty = true;
+            }
+
+            if (!dirty)
+                continue;
+
+            comp.TotalJobs = comp.JobList.Values.Select(x => x ?? 0).Sum();
+            comp.MidRoundTotalJobs = comp.SetupAvailableJobs.Values
+                .Select(x => Math.Max(GetScaledJobSlot(x, 1, currentPlayerCount) ?? 0, 0))
+                .Sum();
+            UpdateJobsAvailable();
+        }
+    }
+
+    // Handle player/session count changes by refreshing scaled jobs.
+    private void PlayerStatusChanged(object? sender, SessionStatusEventArgs args)
+    {
+        RefreshScaledJobSlots();
+    }
+
+    /// <summary>
     /// Assembles an event from the current available-to-play jobs.
     /// This is moderately expensive to construct.
     /// </summary>
@@ -529,6 +624,8 @@ public sealed partial class StationJobsSystem : EntitySystem
     //  🌟Starlight🌟
     private void OnPlayerConnect(PlayerConnectEvent ev)
     {
+        // Apply any pending player-count scaling before sending job availability to the new connection.
+        RefreshScaledJobSlots();
         RaiseNetworkEvent(_cachedAvailableJobs, ev.PlayerSession.Channel);
     }
 
