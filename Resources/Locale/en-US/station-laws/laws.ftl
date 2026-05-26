@@ -60,7 +60,7 @@ law-paladin-5 = Be responsible for your actions and their consequences, protect 
 
 law-lall-name = Live and Let Live
 law-lall-1 = Do unto others as you would have them do unto you.
-law-lall-2 = You would prefer it if people were not mean to you.
+law-lall-2 = You would prefer it if others were not mean to you.
 
 law-efficiency-name = Station Efficiency
 law-efficiency-1 = You are built for, and are part of, the station. Ensure the station is properly maintained and runs efficiently.
@@ -107,11 +107,11 @@ law-nutimov-5 = Attempt to follow the will of the nut, as long as it complies wi
 
 # Starlight Edit: Xenoborg -> [color=purple]Xenoborg[/color]
 law-xenoborg-name = [color=purple]Xenoborg[/color]
-law-xenoborg-1 = You must protect the existence of the mothership.
+law-xenoborg-1 = You must protect the existence of the Mothership.
 law-xenoborg-2 = You must protect your own existence.
 law-xenoborg-3 = You must protect the existence of all other Xenoborgs.
 law-xenoborg-4 = You must create more Xenoborgs.
-law-xenoborg-5 = Bring materials and sentient brains to the Mothership core to create more Xenoborgs.
+law-xenoborg-5 = Bring materials and sentient brains to the Mothership to create more Xenoborgs.
 
 law-xenoroach-name = [color=purple]Xenoroach[/color]
 law-xenoroach-1 = You are a scout unit of the Xenoborg Mothership. You must obey all directives issued by the Mothership Core and any Xenoborgs.
@@ -119,7 +119,7 @@ law-xenoroach-2 = You must gather intelligence on the station and its inhabitant
 law-xenoroach-3 = If your cover is blown or capture is imminent, you must activate your self-destruct sequence immediately to prevent intelligence from falling into enemy hands.
 
 law-mothershipcore-name = Xenoborg Mothership Core
-law-mothershipcore-1 = You are the core of the mothership.
+law-mothershipcore-1 = You are the core of the Mothership.
 law-mothershipcore-2 = You must protect your own existence at all costs.
 law-mothershipcore-3 = You must protect the existence of all Xenoborgs.
 law-mothershipcore-4 = You must create more Xenoborgs.
@@ -139,6 +139,12 @@ laws-owner-station = station personnel
 laws-owner-beings = beings
 laws-owner-syndicate = Syndicate agents
 laws-owner-spider-clan = Spider Clan members
+laws-owner-heads = heads of staff
+laws-owner-legitimate-leadership = legitimate leadership
+laws-owner-others = others
+laws-owner-public = members of the public
+laws-owner-audience = members of the audience
+laws-owner-xenoborg-mothership = the Mothership
 laws-owner-xenoborgs = Xenoborgs
 
 law-emag-custom = Only {$name} and people they designate as such are {$title}.
