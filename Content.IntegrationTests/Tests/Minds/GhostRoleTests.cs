@@ -4,6 +4,7 @@ using Content.Server.Ghost.Roles;
 using Content.Server.Ghost.Roles.Components;
 using Content.Shared.Ghost;
 using Content.Shared.Mind;
+using Content.Shared.Mind.Components;
 using Content.Shared.Players;
 using Robust.Shared.Console;
 using Robust.Shared.GameObjects;
@@ -61,21 +62,31 @@ public sealed class GhostRoleTests
         var session = sPlayerMan.Sessions.Single();
         var originalPlayerMindId = session.ContentData()!.Mind!.Value;
 
-        var ghosts = entMan.AllEntities<GhostComponent>();
-
-        // Check that there are no ghosts
-        Assert.That(!ghosts.Any(), $"Ghosts detected! Count: {ghosts.Count()}, Owners: {string.Join(", ", ghosts.Select(x => x.Owner.Id))}");
+        TestContext.Progress.WriteLine($"=== TakeRoleAndReturn(adminGhost={adminGhost}, command={ghostCommand}) starting ===");
+        TestContext.Progress.WriteLine($"Session: {session.Name} / {session.UserId}");
+        TestContext.Progress.WriteLine($"Original player mind id: {originalPlayerMindId}");
+        TestContext.Progress.WriteLine($"Initial attached entity: {FormatEntity(entMan, session.AttachedEntity)}");
+        LogGhosts(entMan, "Initial ghost state");
+        AssertGhostCount(entMan, 0, "initial state before spawning player mob");
 
         // Spawn player entity & attach
         EntityUid originalPlayerMob = default;
+        TestContext.Progress.WriteLine($"Spawning original player mob prototype {TestMobProtoId} at {mapData.GridCoords}.");
         await server.WaitPost(() =>
         {
             originalPlayerMob = entMan.SpawnEntity(TestMobProtoId, mapData.GridCoords);
+            TestContext.Progress.WriteLine($"Spawned original player mob: {FormatEntity(entMan, originalPlayerMob)}");
             mindSystem.TransferTo(originalPlayerMindId, originalPlayerMob, true);
+            TestContext.Progress.WriteLine($"Transferred original mind {originalPlayerMindId} to {FormatEntity(entMan, originalPlayerMob)}.");
         });
 
         await pair.RunTicksSync(10);
         var originalPlayerMind = entMan.GetComponent<MindComponent>(originalPlayerMindId);
+        TestContext.Progress.WriteLine("After spawning and attaching original player mob:");
+        TestContext.Progress.WriteLine($"Session attached entity: {FormatEntity(entMan, session.AttachedEntity)}");
+        LogMind("Original player mind", originalPlayerMind);
+        LogGhosts(entMan, "Ghost state after original mob attach");
+
         Assert.Multiple(() =>
         {
             // Check player got attached.
@@ -85,13 +96,20 @@ public sealed class GhostRoleTests
             Assert.That(originalPlayerMind.OriginalOwnerUserId, Is.EqualTo(session.UserId));
 
             // Check that there are still no ghosts
-            Assert.That(entMan.Count<GhostComponent>(), Is.Zero);
+            AssertGhostCount(entMan, 0, "after spawning and attaching original player mob");
         });
 
         // Use the ghost command
+        TestContext.Progress.WriteLine($"Executing ghost command: {ghostCommand}");
         conHost.ExecuteCommand(ghostCommand);
         await pair.RunTicksSync(10);
         var ghostOne = session.AttachedEntity;
+        TestContext.Progress.WriteLine("After first ghost command:");
+        TestContext.Progress.WriteLine($"ghostOne: {FormatEntity(entMan, ghostOne)}");
+        TestContext.Progress.WriteLine($"Session attached entity: {FormatEntity(entMan, session.AttachedEntity)}");
+        LogMind("Original player mind", originalPlayerMind);
+        LogGhosts(entMan, "Ghost state after first ghost command");
+
         Assert.Multiple(() =>
         {
             // Assert that the ghost is a new entity with a new mind
@@ -116,17 +134,24 @@ public sealed class GhostRoleTests
             Assert.That(originalPlayerMind.OriginalOwnerUserId, Is.EqualTo(session.UserId));
 
             // Check that there is only one ghost
-            Assert.That(entMan.Count<GhostComponent>(), Is.EqualTo(1));
+            AssertGhostCount(entMan, 1, "after first ghost command");
         });
 
         // Spawn ghost takeover entity.
         EntityUid ghostRole = default;
-        await server.WaitPost(() => ghostRole = entMan.SpawnEntity(GhostRoleProtoId, mapData.GridCoords));
+        TestContext.Progress.WriteLine($"Spawning ghost role prototype {GhostRoleProtoId}.");
+        await server.WaitPost(() =>
+        {
+            ghostRole = entMan.SpawnEntity(GhostRoleProtoId, mapData.GridCoords);
+            TestContext.Progress.WriteLine($"Spawned ghost role entity: {FormatEntity(entMan, ghostRole)}");
+        });
 
         // Take the ghost role
+        TestContext.Progress.WriteLine("Taking ghost role.");
         await server.WaitPost(() =>
         {
             var id = entMan.GetComponent<GhostRoleComponent>(ghostRole).Identifier;
+            TestContext.Progress.WriteLine($"Ghost role identifier: {id}");
             entMan.EntitySysManager.GetEntitySystem<GhostRoleSystem>().Takeover(session, id);
         });
 
@@ -134,6 +159,15 @@ public sealed class GhostRoleTests
         await pair.RunTicksSync(10);
         var ghostRoleMindId = session.ContentData()!.Mind!.Value;
         var ghostRoleMind = entMan.GetComponent<MindComponent>(ghostRoleMindId);
+        TestContext.Progress.WriteLine("After taking ghost role:");
+        TestContext.Progress.WriteLine($"ghostRole: {FormatEntity(entMan, ghostRole)}");
+        TestContext.Progress.WriteLine($"ghostOne deleted: {entMan.Deleted(ghostOne)}");
+        TestContext.Progress.WriteLine($"Ghost role mind id: {ghostRoleMindId}");
+        TestContext.Progress.WriteLine($"Session attached entity: {FormatEntity(entMan, session.AttachedEntity)}");
+        LogMind("Original player mind", originalPlayerMind);
+        LogMind("Ghost role mind", ghostRoleMind);
+        LogGhosts(entMan, "Ghost state after taking ghost role");
+
         Assert.Multiple(() =>
         {
             // Check that the ghost role mind is new
@@ -169,13 +203,22 @@ public sealed class GhostRoleTests
             Assert.That(entMan.Deleted(ghostOne));
 
             // Check that there is are no lingereing ghosts
-            Assert.That(entMan.Count<GhostComponent>(), Is.Zero);
+            AssertGhostCount(entMan, 0, "after taking ghost role");
         });
 
         // Ghost again.
+        TestContext.Progress.WriteLine($"Executing second ghost command: {ghostCommand}");
         conHost.ExecuteCommand(ghostCommand);
         await pair.RunTicksSync(10);
         var ghostTwo = session.AttachedEntity;
+        TestContext.Progress.WriteLine("After second ghost command:");
+        TestContext.Progress.WriteLine($"ghostTwo: {FormatEntity(entMan, ghostTwo)}");
+        TestContext.Progress.WriteLine($"ghostOne deleted: {entMan.Deleted(ghostOne)}");
+        TestContext.Progress.WriteLine($"Session attached entity: {FormatEntity(entMan, session.AttachedEntity)}");
+        LogMind("Original player mind", originalPlayerMind);
+        LogMind("Ghost role mind", ghostRoleMind);
+        LogGhosts(entMan, "Ghost state after second ghost command");
+
         Assert.Multiple(() =>
         {
             // Check that the new ghost is a new entity
@@ -206,19 +249,29 @@ public sealed class GhostRoleTests
             Assert.That(ghostRoleMind.OriginalOwnerUserId, Is.EqualTo(session.UserId));
 
             // Check that there is exactly one ghost
-            Assert.That(entMan.Count<GhostComponent>(), Is.EqualTo(1));
+            AssertGhostCount(entMan, 1, "after second ghost command");
         });
 
         if (!adminGhost)
         {
             // End of the normal player ghost role test
+            TestContext.Progress.WriteLine("Non-admin ghost case complete. Returning pair.");
             await pair.CleanReturnAsync();
+            TestContext.Progress.WriteLine("=== TakeRoleAndReturn(adminGhost=False) finished successfully ===");
             return;
         }
 
         // Next, control the original entity again:
+        TestContext.Progress.WriteLine($"Returning to original player mind {originalPlayerMindId} by setting UserId to {session.UserId}.");
         await server.WaitPost(() => mindSystem.SetUserId(originalPlayerMindId, session.UserId));
         await pair.RunTicksSync(10);
+
+        TestContext.Progress.WriteLine("After returning to original player mind:");
+        TestContext.Progress.WriteLine($"Session attached entity: {FormatEntity(entMan, session.AttachedEntity)}");
+        TestContext.Progress.WriteLine($"ghostTwo deleted: {entMan.Deleted(ghostTwo)}");
+        LogMind("Original player mind", originalPlayerMind);
+        LogMind("Ghost role mind", ghostRoleMind);
+        LogGhosts(entMan, "Ghost state after returning to original player mind");
 
         Assert.Multiple(() =>
         {
@@ -242,9 +295,69 @@ public sealed class GhostRoleTests
             Assert.That(ghostRoleMind.OriginalOwnerUserId, Is.EqualTo(session.UserId));
 
             // Check that there is are no lingereing ghosts
-            Assert.That(entMan.Count<GhostComponent>(), Is.Zero);
+            AssertGhostCount(entMan, 0, "after returning to original player mind");
         });
 
+        TestContext.Progress.WriteLine("Admin ghost case complete. Returning pair.");
         await pair.CleanReturnAsync();
+        TestContext.Progress.WriteLine("=== TakeRoleAndReturn(adminGhost=True) finished successfully ===");
+    }
+
+    private static void AssertGhostCount(IEntityManager entMan, int expected, string phase)
+    {
+        var ghosts = entMan.AllEntities<GhostComponent>().ToList();
+        TestContext.Progress.WriteLine($"Ghost count during {phase}: expected {expected}, actual {ghosts.Count}");
+
+        if (ghosts.Count != expected)
+            TestContext.Progress.WriteLine($"Ghost mismatch during {phase}:\n{DumpGhosts(entMan)}");
+
+        Assert.That(ghosts.Count, Is.EqualTo(expected), $"Ghost count mismatch during {phase}.\n{DumpGhosts(entMan)}");
+    }
+
+    private static void LogGhosts(IEntityManager entMan, string phase)
+    {
+        TestContext.Progress.WriteLine($"{phase}:\n{DumpGhosts(entMan)}");
+    }
+
+    private static string DumpGhosts(IEntityManager entMan)
+    {
+        var ghosts = entMan.AllEntities<GhostComponent>().ToList();
+
+        if (ghosts.Count == 0)
+            return "  No ghosts";
+
+        return string.Join("\n", ghosts.Select(ghost =>
+        {
+            var owner = ghost.Owner;
+            var mindText = "no MindContainer";
+            if (entMan.TryGetComponent<MindContainerComponent>(owner, out var mindContainer))
+                mindText = mindContainer.Mind?.ToString() ?? "null mind";
+
+            return $"  Ghost {FormatEntity(entMan, owner)} | MindContainer.Mind={mindText} | Deleted={entMan.Deleted(owner)}";
+        }));
+    }
+
+    private static void LogMind(string label, MindComponent mind)
+    {
+        TestContext.Progress.WriteLine($"{label}: {DumpMind(mind)}");
+    }
+
+    private static string DumpMind(MindComponent mind)
+    {
+        return
+            $"OwnedEntity={mind.OwnedEntity}, " +
+            $"VisitingEntity={mind.VisitingEntity}, " +
+            $"UserId={mind.UserId}, " +
+            $"OriginalOwnerUserId={mind.OriginalOwnerUserId}";
+    }
+
+    private static string FormatEntity(IEntityManager entMan, EntityUid? uid)
+    {
+        if (uid == null)
+            return "<null>";
+
+        return entMan.Deleted(uid.Value)
+            ? $"{uid.Value} <deleted>"
+            : entMan.ToPrettyString(uid.Value);
     }
 }
