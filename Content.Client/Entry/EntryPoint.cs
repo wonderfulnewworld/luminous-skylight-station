@@ -30,6 +30,7 @@ using Content.Client.Voting;
 using Content.Shared._NullLink;
 using Content.Shared._Starlight.DocumentManager;
 using Content.Shared.Ame.Components;
+using Content.Shared._FarHorizons.Lobby;
 using Content.Shared.Gravity;
 using Content.Shared.Localizations;
 using Robust.Client;
@@ -89,6 +90,7 @@ namespace Content.Client.Entry
         [Dependency] private ISharedNullLinkPlayerRolesReqManager _sharedNullLinkPlayer = default!; //NullLink
         [Dependency] private PreWrittenDocumentManager _documentManager = default!; // Starlight
         [Dependency] private IClientAchievementManager _achievementManager = default!; // Starlight
+        [Dependency] private ISharedLobbyManager _lobby = default!; // Far Horizons
 
         public override void PreInit()
         {
@@ -161,12 +163,28 @@ namespace Content.Client.Entry
             _playbackMan.Initialize();
             _clientsidePlaytimeManager.Initialize();
 
+            // Far Horizons start
+            //_factions.Init(); // Starlight, no factions
+            _lobby.Init();
+            // Far Horizons end
+
             //AUTOSCALING default Setup!
             _configManager.SetCVar("interface.resolutionAutoScaleUpperCutoffX", 1080);
             _configManager.SetCVar("interface.resolutionAutoScaleUpperCutoffY", 720);
             _configManager.SetCVar("interface.resolutionAutoScaleLowerCutoffX", 520);
             _configManager.SetCVar("interface.resolutionAutoScaleLowerCutoffY", 240);
             _configManager.SetCVar("interface.resolutionAutoScaleMinimum", 0.5f);
+        }
+
+        public override void Shutdown()
+        {
+            base.Shutdown();
+            //_titleWindowManager.Shutdown();
+
+            // Far Horizons start
+            //_factions.Shutdown(); // Starlight, no factions
+            _lobby.Shutdown();
+            // Far Horizons end
         }
 
         public override void PostInit()

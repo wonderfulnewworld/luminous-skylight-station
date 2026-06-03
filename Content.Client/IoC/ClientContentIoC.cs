@@ -29,6 +29,7 @@ using Content.Shared.Chat;
 using Content.Shared.IoC;
 using Content.Shared.Players.PlayTimeTracking;
 using Content.Shared.Players.RateLimiting;
+using Content.Client._FarHorizons.Lobby;
 using Content.Shared._Starlight;
 using Content.Client._NullLink;
 using Content.Client._Starlight.Achievement;
@@ -83,6 +84,7 @@ namespace Content.Client.IoC
 
             collection.Register<IClientAchievementManager, ClientAchievementManager>(); // Starlight
             collection.Register<IAchievementRewardManager, ClientAchievementManager>(); // Starlight
+            collection.Register<ISharedLobbyManager, ClientLobbyManager>(); // Far Horizons
             collection.Register<PreWrittenDocumentManager>(); // Starlight
             collection.Register<IStarlightShaderManager, StarlightShaderManager>(); // Starlight
         }

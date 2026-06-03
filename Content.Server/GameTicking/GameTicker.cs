@@ -6,6 +6,7 @@ using Content.Server.Antag;
 using Content.Server.Chat.Managers;
 using Content.Server.Chat.Systems;
 using Content.Server.Database;
+using Content.Server._FarHorizons.Lobby;
 using Content.Server.Ghost;
 using Content.Server.Maps;
 using Content.Server.Nuke;
@@ -74,6 +75,7 @@ namespace Content.Server.GameTicking
         [Dependency] private RoundEndSystem _roundEndSystem = default!; // Starlight
         [Dependency] private AntagSelectionSystem _antagSelection = default!;
         [Dependency] private AutoDiscordLogSystem _autolog = default!; // Starlight
+        [Dependency] private IServerLobbyManager _lobby = default!; // Far Horizons
 
         [ViewVariables] private bool _initialized;
         [ViewVariables] private bool _postInitialized;

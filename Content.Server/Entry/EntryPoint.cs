@@ -31,6 +31,7 @@ using Content.Server.ServerInfo;
 using Content.Server.ServerUpdates;
 using Content.Server.Voting.Managers;
 using Content.Shared._NullLink;
+using Content.Shared._FarHorizons.Lobby;
 using Content.Shared._Starlight.DocumentManager;
 using Content.Shared.CCVar;
 using Content.Shared.Kitchen;
@@ -101,6 +102,7 @@ namespace Content.Server.Entry
         [Dependency] private INullLinkEventBusManager _nullLinkEventBus = default!;
         [Dependency] private INullLinkPlayerManager _nullLinkPlayerManager = default!;
 #endregion Nulllink
+        [Dependency] private ISharedLobbyManager _lobby = default!; // Far Horizons
 
         public override void PreInit()
         {
@@ -162,6 +164,7 @@ namespace Content.Server.Entry
 			_bugReport.Initialize();
 			_preWrittenDocument.Initialize();
             //🌟Starlight🌟 end
+            _lobby.Init(); // Far Horizons
         }
 
         public override void PostInit()

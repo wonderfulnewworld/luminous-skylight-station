@@ -50,6 +50,11 @@ using Content.Server._Starlight.TextToSpeech;
 using Content.Server._Starlight.Economy;
 #endregion Nulllink
 
+#region Far Horizons
+using Content.Server._FarHorizons.Lobby;
+using Content.Shared._FarHorizons.Lobby;
+#endregion
+
 namespace Content.Server.IoC;
 
 internal static class ServerContentIoC
@@ -122,5 +127,9 @@ internal static class ServerContentIoC
         deps.Register<ISharedNullLinkPlayerResourcesManager, NullLinkPlayerResourcesManager>();
 
         // nulllink end
+        // Far Horizons start
+        deps.Register<ISharedLobbyManager, ServerLobbyManager>();
+        deps.Register<IServerLobbyManager, ServerLobbyManager>();
+        // Far Horizons end
     }
 }
