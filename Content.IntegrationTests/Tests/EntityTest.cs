@@ -145,8 +145,6 @@ namespace Content.IntegrationTests.Tests
         [Test]
         public async Task SpawnAndDirtyAllEntities()
         {
-            // This test dirties the pair as it simply deletes ALL entities when done. Overhead of restarting the round
-            // is minimal relative to the rest of the test.
             var settings = new PoolSettings { Connected = true, Dirty = true };
             await using var pair = await PoolManager.GetServerClient(settings);
             var server = pair.Server;
@@ -164,43 +162,79 @@ namespace Content.IntegrationTests.Tests
                 .EnumeratePrototypes<EntityPrototype>()
                 .Where(p => !p.Abstract)
                 .Where(p => !pair.IsTestPrototype(p))
-                .Where(p => !p.Components.ContainsKey("MapGrid")) // This will smash stuff otherwise.
+                .Where(p => !p.Components.ContainsKey("MapGrid"))
                 .Select(p => p.ID)
+                .OrderBy(x => x)
                 .ToList();
 
-            await server.WaitPost(() =>
+            TestContext.Progress.WriteLine($"SpawnAndDirtyAllEntities: testing {protoIds.Count} prototypes.");
+
+            for (var i = 0; i < protoIds.Count; i++)
             {
-                foreach (var protoId in protoIds)
+                var protoId = protoIds[i];
+                TestContext.Progress.WriteLine($"[{i + 1}/{protoIds.Count}] Spawning {protoId}");
+
+                await server.WaitPost(() =>
                 {
                     mapSys.CreateMap(out var mapId);
                     var grid = mapManager.CreateGridEntity(mapId);
-                    var ent = sEntMan.SpawnEntity(protoId, new EntityCoordinates(grid.Owner, 0.5f, 0.5f));
-                    foreach (var (_, component) in sEntMan.GetNetComponents(ent))
+
+                    EntityUid ent;
+                    try
+                    {
+                        ent = sEntMan.SpawnEntity(protoId, new EntityCoordinates(grid.Owner, 0.5f, 0.5f));
+                    }
+                    catch (Exception e)
+                    {
+                        Assert.Fail($"Failed while spawning prototype '{protoId}':\n{e}");
+                        return;
+                    }
+
+                    TestContext.Progress.WriteLine($"[{i + 1}/{protoIds.Count}] Spawned {protoId} as {sEntMan.ToPrettyString(ent)}");
+
+                var netComponentCount = 0;
+
+                foreach (var netComponent in sEntMan.GetNetComponents(ent))
+                {
+                    var component = netComponent.component;
+                    netComponentCount++;
+
+                    try
                     {
                         sEntMan.Dirty(ent, component);
                     }
+                    catch (Exception e)
+                    {
+                        Assert.Fail(
+                            $"Failed while dirtying component '{component.GetType().Name}' " +
+                            $"on prototype '{protoId}' entity {sEntMan.ToPrettyString(ent)}:\n{e}");
+                    }
                 }
-            });
+                    TestContext.Progress.WriteLine(
+                        $"[{i + 1}/{protoIds.Count}] Finished dirtying {netComponentCount} net components on {protoId}");
+                });
 
+                if (i % 100 == 0)
+                {
+                    TestContext.Progress.WriteLine($"[{i + 1}/{protoIds.Count}] Running sync ticks...");
+                    await pair.RunTicksSync(1);
+                }
+            }
+
+            TestContext.Progress.WriteLine("Finished spawning/dirtying all prototypes. Running final sync ticks.");
             await pair.RunTicksSync(15);
 
-            // Make sure the client actually received the entities
-            // 500 is completely arbitrary. Note that the client & sever entity counts aren't expected to match.
-            Assert.That(client.ResolveDependency<IEntityManager>().EntityCount, Is.GreaterThan(500));
+            var clientCount = client.ResolveDependency<IEntityManager>().EntityCount;
+            TestContext.Progress.WriteLine($"Client entity count after sync: {clientCount}");
+
+            Assert.That(clientCount, Is.GreaterThan(500));
+
+            TestContext.Progress.WriteLine("Deleting all entities.");
 
             await server.WaitPost(() =>
             {
-                static IEnumerable<(EntityUid, TComp)> Query<TComp>(IEntityManager entityMan)
-                    where TComp : Component
-                {
-                    var query = entityMan.AllEntityQueryEnumerator<TComp>();
-                    while (query.MoveNext(out var uid, out var meta))
-                    {
-                        yield return (uid, meta);
-                    }
-                }
-
                 var entityMetas = Query<MetaDataComponent>(sEntMan).ToList();
+
                 foreach (var (uid, meta) in entityMetas)
                 {
                     if (!meta.EntityDeleted)
@@ -372,6 +406,14 @@ namespace Content.IntegrationTests.Tests
                 }
             }
             return false;
+        }
+
+        private static IEnumerable<(EntityUid, TComp)> Query<TComp>(IEntityManager entityMan)
+            where TComp : Component
+        {
+            var query = entityMan.AllEntityQueryEnumerator<TComp>();
+            while (query.MoveNext(out var uid, out var comp))
+                yield return (uid, comp);
         }
 
         [Test]
