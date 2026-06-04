@@ -23,8 +23,6 @@ namespace Content.IntegrationTests.Tests
         [Test]
         public async Task SpawnAndDeleteAllEntitiesOnDifferentMaps()
         {
-            // This test dirties the pair as it simply deletes ALL entities when done. Overhead of restarting the round
-            // is minimal relative to the rest of the test.
             var settings = new PoolSettings { Dirty = true };
             await using var pair = await PoolManager.GetServerClient(settings);
             var server = pair.Server;
@@ -34,53 +32,110 @@ namespace Content.IntegrationTests.Tests
             var prototypeMan = server.ResolveDependency<IPrototypeManager>();
             var mapSystem = entityMan.System<SharedMapSystem>();
 
-            await server.WaitPost(() =>
+            var protoIds = prototypeMan
+                .EnumeratePrototypes<EntityPrototype>()
+                .Where(p => !p.Abstract)
+                .Where(p => !pair.IsTestPrototype(p))
+                .Where(p => !p.Components.ContainsKey("MapGrid"))
+                .Where(p => !p.Components.ContainsKey("RoomFill"))
+                .Select(p => p.ID)
+                .OrderBy(x => x)
+                .ToList();
+
+            TestContext.Progress.WriteLine(
+                $"SpawnAndDeleteAllEntitiesOnDifferentMaps: testing {protoIds.Count} prototypes.");
+
+            for (var i = 0; i < protoIds.Count; i++)
             {
-                var protoIds = prototypeMan
-                    .EnumeratePrototypes<EntityPrototype>()
-                    .Where(p => !p.Abstract)
-                    .Where(p => !pair.IsTestPrototype(p))
-                    .Where(p => !p.Components.ContainsKey("MapGrid")) // This will smash stuff otherwise.
-                    .Where(p => !p.Components.ContainsKey("RoomFill")) // This comp can delete all entities, and spawn others
-                    .Select(p => p.ID)
-                    .ToList();
+                var protoId = protoIds[i];
 
-                foreach (var protoId in protoIds)
+                TestContext.Progress.WriteLine(
+                    $"[{i + 1}/{protoIds.Count}] Spawning {protoId}");
+
+                await server.WaitPost(() =>
                 {
-                    mapSystem.CreateMap(out var mapId);
-                    var grid = mapManager.CreateGridEntity(mapId);
-                    // TODO: Fix this better in engine.
-                    mapSystem.SetTile(grid.Owner, grid.Comp, Vector2i.Zero, new Tile(1));
-                    var coord = new EntityCoordinates(grid.Owner, 0, 0);
-                    entityMan.SpawnEntity(protoId, coord);
-                }
-            });
-
-            await server.WaitRunTicks(450); // 15 seconds, enough to trigger most update loops
-
-            await server.WaitPost(() =>
-            {
-                static IEnumerable<(EntityUid, TComp)> Query<TComp>(IEntityManager entityMan)
-                    where TComp : Component
-                {
-                    var query = entityMan.AllEntityQueryEnumerator<TComp>();
-                    while (query.MoveNext(out var uid, out var meta))
+                    try
                     {
-                        yield return (uid, meta);
-                    }
-                }
+                        mapSystem.CreateMap(out var mapId);
 
+                        var grid = mapManager.CreateGridEntity(mapId);
+
+                        mapSystem.SetTile(
+                            grid.Owner,
+                            grid.Comp,
+                            Vector2i.Zero,
+                            new Tile(1));
+
+                        var coord = new EntityCoordinates(grid.Owner, 0, 0);
+
+                        var ent = entityMan.SpawnEntity(protoId, coord);
+
+                        TestContext.Progress.WriteLine(
+                            $"[{i + 1}/{protoIds.Count}] Spawned {protoId} as {entityMan.ToPrettyString(ent)} on map {mapId}");
+                    }
+                    catch (Exception e)
+                    {
+                        Assert.Fail(
+                            $"Failed while spawning prototype '{protoId}':\n{e}");
+                    }
+                });
+
+                if (i % 100 == 0)
+                {
+                    TestContext.Progress.WriteLine(
+                        $"[{i + 1}/{protoIds.Count}] Progress checkpoint");
+                }
+            }
+
+            TestContext.Progress.WriteLine(
+                "Finished spawning all prototypes.");
+
+            TestContext.Progress.WriteLine(
+                "Running 450 ticks for update loops.");
+
+            await server.WaitRunTicks(450);
+
+            TestContext.Progress.WriteLine(
+                $"Entity count after tick processing: {entityMan.EntityCount}");
+
+            TestContext.Progress.WriteLine(
+                "Deleting all entities.");
+
+            await server.WaitPost(() =>
+            {
                 var entityMetas = Query<MetaDataComponent>(entityMan).ToList();
+
+                TestContext.Progress.WriteLine(
+                    $"Beginning deletion of {entityMetas.Count} entities.");
+
+                var deletedCount = 0;
+
                 foreach (var (uid, meta) in entityMetas)
                 {
-                    if (!meta.EntityDeleted)
-                        entityMan.DeleteEntity(uid);
+                    if (meta.EntityDeleted)
+                        continue;
+
+                    TestContext.Progress.WriteLine(
+                        $"Deleting [{deletedCount + 1}/{entityMetas.Count}] " +
+                        $"{meta.EntityPrototype?.ID ?? "<no prototype>"} ({uid})");
+
+                    entityMan.DeleteEntity(uid);
+                    deletedCount++;
                 }
+
+                TestContext.Progress.WriteLine(
+                    $"Finished issuing delete calls for {deletedCount} entities.");
 
                 Assert.That(entityMan.EntityCount, Is.Zero);
             });
 
+            TestContext.Progress.WriteLine(
+                "Calling CleanReturnAsync()");
+
             await pair.CleanReturnAsync();
+
+            TestContext.Progress.WriteLine(
+                "SpawnAndDeleteAllEntitiesOnDifferentMaps completed.");
         }
 
         [Test]
