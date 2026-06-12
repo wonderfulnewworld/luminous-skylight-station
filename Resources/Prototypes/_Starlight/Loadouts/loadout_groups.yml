@@ -818,6 +818,7 @@
   name: loadout-group-borg-brain-type
   minLimit: 1
   maxLimit: 1
+  defaultSelected: 1
   loadouts:
   - LoadoutSiliconPositronicBrain
   - LoadoutSiliconSpeciesBrain
