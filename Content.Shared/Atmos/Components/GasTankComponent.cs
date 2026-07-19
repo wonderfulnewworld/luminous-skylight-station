@@ -2,10 +2,11 @@
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Shared.Atmos.Components;
 
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true, fieldDeltas: true)]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true, fieldDeltas: true), AutoGenerateComponentPause]
 public sealed partial class GasTankComponent : Component, IGasMixtureHolder
 {
     public const float MaxExplosionRange = 26f;
@@ -105,6 +106,12 @@ public sealed partial class GasTankComponent : Component, IGasMixtureHolder
 
     [DataField, AutoNetworkedField]
     public EntityUid? ToggleActionEntity;
+
+    /// <summary>
+    ///     Tracks elapsed time between client state updates for <see cref="GasMaxPressureHolderComponent"/>.
+    /// </summary>
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
+    public TimeSpan NextDirtyTime;
 
     /// <summary>
     ///     Valve to release gas from tank

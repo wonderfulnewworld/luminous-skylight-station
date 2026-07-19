@@ -1,4 +1,6 @@
 using Content.Client.Actions;
+using Content.Client.Charges.UI;
+using Content.Client.Items;
 using Content.Shared.Charges.Components;
 using Content.Shared.Charges.Systems;
 
@@ -10,6 +12,12 @@ public sealed partial class ChargesSystem : SharedChargesSystem
 
     private Dictionary<EntityUid, int> _lastCharges = new();
     private Dictionary<EntityUid, int> _tempLastCharges = new();
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        Subs.ItemStatus<LimitedChargesComponent>(entity => new ChargeStatusControl(entity));
+    }
 
     public override void Update(float frameTime)
     {

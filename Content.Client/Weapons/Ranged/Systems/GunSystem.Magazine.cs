@@ -1,9 +1,20 @@
+using Content.Client.Items;
+using Content.Client.Weapons.Ranged.UI;
 using Content.Shared.Weapons.Ranged;
+using Content.Shared.Weapons.Ranged.Components;
 
 namespace Content.Client.Weapons.Ranged.Systems;
 
 public sealed partial class GunSystem
 {
+    protected override void InitializeMagazine()
+    {
+        base.InitializeMagazine();
+        SubscribeLocalEvent<MagazineAmmoProviderComponent, UpdateAmmoCounterEvent>(OnMagazineAmmoUpdate);
+        SubscribeLocalEvent<MagazineAmmoProviderComponent, AmmoCounterControlEvent>(OnMagazineControl);
+
+        Subs.ItemStatus<BallisticAmmoProviderComponent>(entity => new MagazineStatusControl(entity));
+    }
 
     [SubscribeLocalEvent]
     private void OnMagazineAmmoUpdate(Entity<MagazineAmmoProviderComponent> ent, ref UpdateAmmoCounterEvent args)
