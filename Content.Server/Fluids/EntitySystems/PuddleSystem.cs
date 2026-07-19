@@ -16,11 +16,13 @@ using Content.Shared.Popups;
 using Content.Shared.Slippery;
 using Content.Shared.Inventory;
 using Content.Shared._Funkystation.Fluids;
+using Content.Shared.Gravity;
 using Content.Shared.Standing;
 using Content.Shared.StepTrigger.Systems;
 using Robust.Shared.Collections;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
+using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
@@ -43,7 +45,8 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
     [Dependency] private TurfSystem _turf = default!;
     [Dependency] private InventorySystem _inventory = default!; // Funky - Clothing stains
     [Dependency] private StandingStateSystem _standing = default!; // Moffstation - Clothing stains
-    private EntityQuery<PuddleComponent> _puddleQuery;
+    [Dependency] private EntityQuery<PuddleComponent> _puddleQuery = default!;
+    [Dependency] private EntityQuery<EvaporationSparkleComponent> _evaporationSparklesQuery = default!;
 
     /*
      * TODO: Need some sort of way to do blood slash / vomit solution spill on its own
@@ -59,34 +62,7 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
 
         SubscribeLocalEvent<PuddleComponent, SpreadNeighborsEvent>(OnPuddleSpread);
         SubscribeLocalEvent<PuddleComponent, SlipEvent>(OnPuddleSlip);
-
-        SubscribeLocalEvent<PuddleComponent, StartCollideEvent>(OnStepInPuddle); // Moffstation - Stains
     }
-
-    // Funky - Start - Clothing Stains
-    // Using startcollide rather than onstep, since the onstep is messed with by slippable... its bleak
-    private void OnStepInPuddle(Entity<PuddleComponent> ent, ref StartCollideEvent args)
-    {
-        if (!_solutionContainerSystem.ResolveSolution(ent.Owner, ent.Comp.SolutionName, ref ent.Comp.Solution, out var solution))
-            return;
-
-        if (solution.Volume <= FixedPoint2.Zero)
-            return;
-
-
-        // Choose le target...
-        // if standing and have shoes, just get it on their shoes
-        // otherwise, just spill it on them in general
-        var target = args.OtherEntity;
-        if (!_standing.IsDown(args.OtherEntity)
-            && _inventory.TryGetSlotEntity(args.OtherEntity, "shoes", out var shoes)
-            && shoes is { } shoeUid)
-            target = shoeUid;
-
-        var spilledEvent = new SpilledOnEvent(ent.Owner, solution);
-        RaiseLocalEvent(target, spilledEvent);
-    }
-    // Funky - End
 
     // TODO: This can be predicted once https://github.com/space-wizards/RobustToolbox/pull/5849 is merged
     private void OnPuddleSpread(Entity<PuddleComponent> entity, ref SpreadNeighborsEvent args)
