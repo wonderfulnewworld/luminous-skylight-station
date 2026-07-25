@@ -47,7 +47,6 @@ public abstract partial class SharedPuddleSystem : EntitySystem
     [Dependency] private SpeedModifierContactsSystem _speedModContacts = default!;
     [Dependency] private StepTriggerSystem _stepTrigger = default!;
     [Dependency] private TileFrictionController _tile = default!;
-    [Dependency] private INetManager _net = default!;
     [Dependency] private InventorySystem _inventory = default!; // Funky - Clothing stains
     [Dependency] private StandingStateSystem _standing = default!; // Moff - Clothing stains
     [Dependency] private SharedGravitySystem _gravity = default!; // Moff - Clothing Stains
@@ -67,11 +66,7 @@ public abstract partial class SharedPuddleSystem : EntitySystem
 
     // Using local deletion queue instead of the standard queue so that we can easily "undelete" if a puddle
     // loses & then gains reagents in a single tick.
-    private HashSet<EntityUid> _deletionQueue = [];
-
-    private EntityQuery<StepTriggerComponent> _stepTriggerQuery;
-    private EntityQuery<ReactiveComponent> _reactiveQuery;
-    private EntityQuery<EvaporationComponent> _evaporationQuery;
+    private readonly HashSet<EntityUid> _deletionQueue = new(); // Starlight
 
     public override void Initialize()
     {
@@ -82,14 +77,11 @@ public abstract partial class SharedPuddleSystem : EntitySystem
         SubscribeLocalEvent<PuddleComponent, GetFootstepSoundEvent>(OnGetFootstepSound);
         SubscribeLocalEvent<PuddleComponent, ExaminedEvent>(HandlePuddleExamined);
         SubscribeLocalEvent<PuddleComponent, EntRemovedFromContainerMessage>(OnEntRemoved);
+        SubscribeLocalEvent<PuddleComponent, StartCollideEvent>(OnStepInPuddle); // Starlight
 
         SubscribeLocalEvent<EvaporationComponent, MapInitEvent>(OnEvaporationMapInit);
 
         SubscribeLocalEvent<PrototypesReloadedEventArgs>(OnPrototypesReloaded);
-
-        _stepTriggerQuery = GetEntityQuery<StepTriggerComponent>();
-        _reactiveQuery = GetEntityQuery<ReactiveComponent>();
-        _evaporationQuery = GetEntityQuery<EvaporationComponent>();
 
         CacheStandsout();
         InitializeSpillable();
@@ -114,7 +106,7 @@ public abstract partial class SharedPuddleSystem : EntitySystem
 
     // Moff start - we basically rewrote this function compared to what funky has
     // Using startcollide rather than onstep, since the onstep is messed with by slippable... its bleak
-    [SubscribeLocalEvent]
+    //[SubscribeLocalEvent] // Starlight
     private void OnStepInPuddle(Entity<PuddleComponent> ent, ref StartCollideEvent args)
     {
         // The thing stepping in the puddle. Because I keep forgetting which is which
