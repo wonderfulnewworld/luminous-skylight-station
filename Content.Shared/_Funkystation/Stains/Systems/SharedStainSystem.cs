@@ -51,7 +51,7 @@ public abstract partial class SharedStainSystem : EntitySystem
 
     private void OnSolutionChanged(Entity<StainableComponent> ent, ref SolutionChangedEvent args)
     {
-        if (args.Solution.Comp.Id == ent.Comp.SolutionName)
+        if (args.Solution.Comp.Solution.Name == ent.Comp.SolutionName) // Starlight... still no solution rewrite.
             UpdateVisuals(ent);
     }
 
