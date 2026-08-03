@@ -5,6 +5,7 @@ using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Inventory;
 using Content.Shared.Throwing;
+using Content.Shared.Whitelist;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
@@ -27,6 +28,7 @@ public abstract partial class SharedProjectileSystem : EntitySystem
     [Dependency] private SharedHandsSystem _hands = default!;
     [Dependency] private SharedPhysicsSystem _physics = default!;
     [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private EntityWhitelistSystem _whitelist = null!;
     [Dependency] private SharedContainerSystem _containerSystem = default!;
     [Dependency] private IGameTiming _timing = default!; //Starlight -- arming time
     [Dependency] private TagSystem _tag = default!; //Starlight -- arming time
@@ -43,6 +45,7 @@ public abstract partial class SharedProjectileSystem : EntitySystem
         SubscribeLocalEvent<EmbeddableProjectileComponent, ComponentShutdown>(OnEmbeddableCompShutdown);
 
         SubscribeLocalEvent<EmbeddedContainerComponent, EntityTerminatingEvent>(OnEmbeddableTermination);
+        SubscribeLocalEvent<ComplexProjectileDamageComponent, BeforeProjectileHitEvent>(OnBeforeComplexProjectileHit);
     }
 
     private void OnEmbedActivate(Entity<EmbeddableProjectileComponent> embeddable, ref ActivateInWorldEvent args)
@@ -215,6 +218,17 @@ public abstract partial class SharedProjectileSystem : EntitySystem
         DetachAllEmbedded(container);
     }
 
+    private void OnBeforeComplexProjectileHit(Entity<ComplexProjectileDamageComponent> ent, ref BeforeProjectileHitEvent args)
+    {
+        foreach (var option in ent.Comp.DamageOptions)
+        {
+            if (!_whitelist.CheckBoth(args.Target, option.Blacklist, option.Whitelist))
+                continue;
+            args.Damage = option.Damage;
+            return;
+        }
+    }
+
     public void DetachAllEmbedded(Entity<EmbeddedContainerComponent> container)
     {
         foreach (var embedded in container.Comp.EmbeddedObjects)
@@ -305,3 +319,9 @@ public record struct ProjectileReflectAttemptEvent(EntityUid ProjUid, Projectile
 /// </summary>
 [ByRefEvent]
 public record struct ProjectileHitEvent(DamageSpecifier Damage, EntityUid Target, EntityUid? Shooter = null);
+
+/// <summary>
+/// Raised before a projectile hits an entity
+/// </summary>
+[ByRefEvent]
+public record struct BeforeProjectileHitEvent(DamageSpecifier Damage, EntityUid Target, EntityUid? Shooter = null);
