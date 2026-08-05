@@ -71,11 +71,7 @@ public sealed partial class AntagRandomObjectivesSystem : EntitySystem
 
     private void OnObjectivesSelected(ObjectivePickerSelected ev, EntitySessionEventArgs args)
     {
-        if (!_mind.TryGetMind(args.SenderSession, out var mindId, out _)
-            || GetNetEntity(mindId) != ev.MindId)
-            return;
-
-        ApplySelectedObjectives(mindId, ev.SelectedObjectives);
+        ApplySelectedObjectives(GetEntity(ev.MindId), ev.SelectedObjectives);
     }
 
     public void ApplySelectedObjectives(EntityUid mindId, IEnumerable<NetEntity> selectedObjectives)
@@ -86,14 +82,9 @@ public sealed partial class AntagRandomObjectivesSystem : EntitySystem
         if (!TryComp<PotentialObjectivesComponent>(mindId, out var potentialObjectivesComp))
             return;
 
-        var selected = selectedObjectives.ToHashSet();
-        if (selected.Count == 0
-            || selected.Count > potentialObjectivesComp.MaxChoices
-            || selected.Any(objective => !potentialObjectivesComp.ObjectiveOptions.ContainsKey(objective)))
-            return;
-
-        // Only operate on objectives offered to this mind, and delete unused candidates.
-        foreach (var objective in potentialObjectivesComp.ObjectiveOptions.Keys)
+        // Verify the objectives are actually in their component
+        var objectiveIds = potentialObjectivesComp.ObjectiveOptions.Keys.ToHashSet();
+        foreach (var objective in selectedObjectives)
         {
             if (selected.Contains(objective))
             {
