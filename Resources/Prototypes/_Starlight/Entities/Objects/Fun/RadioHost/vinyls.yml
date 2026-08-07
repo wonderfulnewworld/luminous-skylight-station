@@ -43,7 +43,7 @@
   parent: [BaseEvilVinylDisc, BaseSyndicateContraband]
   id: VinylWarInevitable
   name: "vinyl: War Inevitable"
-  description: A dramatic song that preludes inevitable conflict.
+  description: A dramatic song that preludes inevitable conflict. Published by Comitas Systems during the Pod Wars.
   components:
   - type: Sprite
     state: default
@@ -60,7 +60,7 @@
   parent: [BaseEvilVinylDisc, BaseSyndicateContraband]
   id: VinylNuclearOperationsInfil
   name: "vinyl: Nuclear Operations Infil"
-  description: A tense song that plays during the infiltration phase in Nukie movies. Produced by the defunct Comitas Systems.
+  description: A tense song that plays during the infiltration phase in Nukie movies. Published by Comitas Systems during the Pod Wars.
   components:
   - type: Sprite
     state: default
@@ -111,7 +111,7 @@
       path: /Audio/StationEvents/countdown.ogg
 
 - type: entity
-  parent: [BaseVinylDisc, BaseSyndicateContraband]
+  parent: [BaseEvilVinylDisc, BaseSyndicateContraband]
   id: VinylBlatantlyNuclear
   name: "vinyl: Blatantly Nuclear"
   description: A tense song that plays during the climax of Nukie movies. Published by Comitas Systems during the Pod Wars.
