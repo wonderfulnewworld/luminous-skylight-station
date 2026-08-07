@@ -52,6 +52,7 @@
     - state: label
       color: "#940000"
     - state: base-shine
+      color: "#d10000"
   - type: Vinyl
     song:
       path: /Audio/_Starlight/StationEvents/War_Inevitable.ogg
@@ -69,6 +70,7 @@
     - state: label
       color: "#940000"
     - state: base-shine
+      color: "#d10000"
   - type: Vinyl
     song:
       path: /Audio/_Starlight/StationEvents/nuclearoperations_infil.ogg
@@ -106,6 +108,7 @@
     - state: label
       color: "#bb1515"
     - state: base-shine
+      color: "#d10000"
   - type: Vinyl
     song:
       path: /Audio/StationEvents/countdown.ogg
@@ -123,6 +126,7 @@
     - state: label
       color: "#cc4444"
     - state: base-shine
+      color: "#d10000"
   - type: Vinyl
     song:
       path: /Audio/StationEvents/blatantly_nuclear.ogg
@@ -140,6 +144,7 @@
     - state: label
       color: "#cc4444"
     - state: base-shine
+      color: "#d10000"
   - type: Vinyl
     song:
       path: /Audio/StationEvents/sound_station_14.ogg
@@ -158,6 +163,7 @@
     - state: label
       color: "#6e0000"
     - state: base-shine
+      color: "#d10000"
   - type: Vinyl
     song:
       path: /Audio/_Starlight/StationEvents/nuclearoperations.ogg
@@ -175,6 +181,7 @@
     - state: label
       color: "#972323"
     - state: base-shine
+      color: "#d10000"
   - type: Vinyl
     song:
       path: /Audio/_Starlight/StationEvents/moodswings.ogg
@@ -192,6 +199,7 @@
     - state: label
       color: "#b60000"
     - state: base-shine
+      color: "#d10000"
   - type: Vinyl
     song:
       path: /Audio/_Starlight/StationEvents/One_Against_All.ogg
