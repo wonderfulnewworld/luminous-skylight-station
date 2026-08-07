@@ -1,0 +1,278 @@
+- type: entity
+  parent: BaseVinylDisc
+  id: BaseEvilVinylDisc
+  name: evil vinyl disc
+  abstract: true
+  components:
+  - type: Sprite
+    state: default
+    layers:
+    - state: base-dark
+    - state: base-shine
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 50
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: GlassBreak
+          params:
+            volume: -4
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          VinylBroken:
+            min: 1
+            max: 1
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: MeleeWeapon
+    attackRate: 2
+    damage:
+      types:
+        Slash: 8
+  - type: DamageOtherOnHit
+    ignoreResistances: true
+    damage:
+      types:
+        Slash: 10
+
+# War Ops
+- type: entity
+  parent: [BaseEvilVinylDisc, BaseSyndicateContraband]
+  id: VinylWarInevitable
+  name: "vinyl: War Inevitable"
+  description: A dramatic song that preludes inevitable conflict.
+  components:
+  - type: Sprite
+    state: default
+    layers:
+    - state: base-dark
+    - state: label
+      color: "#940000"
+    - state: base-shine
+  - type: Vinyl
+    song:
+      path: /Audio/_Starlight/StationEvents/War_Inevitable.ogg
+
+- type: entity
+  parent: [BaseEvilVinylDisc, BaseSyndicateContraband]
+  id: VinylNuclearOperationsInfil
+  name: "vinyl: Nuclear Operations Infil"
+  description: A tense song that plays during the infiltration phase in Nukie movies. Produced by the defunct Comitas Systems.
+  components:
+  - type: Sprite
+    state: default
+    layers:
+    - state: base-dark
+    - state: label
+      color: "#940000"
+    - state: base-shine
+  - type: Vinyl
+    song:
+      path: /Audio/_Starlight/StationEvents/nuclearoperations_infil.ogg
+
+# Nuke Armed
+## Wizden
+- type: entity
+  parent: [BaseEvilVinylDisc, BaseSyndicateContraband]
+  id: VinylRunningOutOriginal
+  name: "vinyl: Running Out"
+  suffix: Do Not Give
+  description: A tense song that plays during the climax of Nukie movies. Published by Comitas Systems during the Pod Wars.
+  components:
+  - type: Sprite
+    state: default
+    layers:
+    - state: base-dark
+    - state: label
+      color: "#9e2424"
+    - state: base-shine
+  - type: Vinyl
+    song:
+      path: /Audio/StationEvents/running_out.ogg
+
+- type: entity
+  parent: [BaseEvilVinylDisc, BaseSyndicateContraband]
+  id: VinylCountdown
+  name: "vinyl: Countdown"
+  description: A tense song that plays during the climax of Nukie movies. Published by Comitas Systems during the Pod Wars.
+  components:
+  - type: Sprite
+    state: default
+    layers:
+    - state: base-dark
+    - state: label
+      color: "#bb1515"
+    - state: base-shine
+  - type: Vinyl
+    song:
+      path: /Audio/StationEvents/countdown.ogg
+
+- type: entity
+  parent: [BaseVinylDisc, BaseSyndicateContraband]
+  id: VinylBlatantlyNuclear
+  name: "vinyl: Blatantly Nuclear"
+  description: A tense song that plays during the climax of Nukie movies. Published by Comitas Systems during the Pod Wars.
+  components:
+  - type: Sprite
+    state: default
+    layers:
+    - state: base-dark
+    - state: label
+      color: "#cc4444"
+    - state: base-shine
+  - type: Vinyl
+    song:
+      path: /Audio/StationEvents/blatantly_nuclear.ogg
+
+- type: entity
+  parent: [BaseEvilVinylDisc, BaseSyndicateContraband]
+  id: VinylSoundStationFourteen
+  name: "vinyl: Sound Station 14"
+  description: A tense song that plays during the climax of Nukie movies. Published by Comitas Systems during the Pod Wars.
+  components:
+  - type: Sprite
+    state: default
+    layers:
+    - state: base-dark
+    - state: label
+      color: "#cc4444"
+    - state: base-shine
+  - type: Vinyl
+    song:
+      path: /Audio/StationEvents/sound_station_14.ogg
+
+## Starlight
+- type: entity
+  parent: [BaseEvilVinylDisc, BaseSyndicateContraband]
+  id: VinylNuclearOperations
+  name: "vinyl: Nuclear Operations"
+  description: A tense song that plays during the climax of Nukie movies. Published by Comitas Systems during the Pod Wars.
+  components:
+  - type: Sprite
+    state: default
+    layers:
+    - state: base-dark
+    - state: label
+      color: "#6e0000"
+    - state: base-shine
+  - type: Vinyl
+    song:
+      path: /Audio/_Starlight/StationEvents/nuclearoperations.ogg
+
+- type: entity
+  parent: [BaseEvilVinylDisc, BaseSyndicateContraband]
+  id: VinylMoodSwings
+  name: "vinyl: Mood Swings"
+  description: A tense song that plays during the climax of Nukie movies. Published by Comitas Systems during the Pod Wars.
+  components:
+  - type: Sprite
+    state: default
+    layers:
+    - state: base-dark
+    - state: label
+      color: "#972323"
+    - state: base-shine
+  - type: Vinyl
+    song:
+      path: /Audio/_Starlight/StationEvents/moodswings.ogg
+
+- type: entity
+  parent: [BaseEvilVinylDisc, BaseSyndicateContraband]
+  id: VinylOneAgainstAll
+  name: "vinyl: One Against All"
+  description: A tense song that plays during the climax of Nukie movies starring Lone Operatives. Published by Comitas Systems during the Pod Wars.
+  components:
+  - type: Sprite
+    state: default
+    layers:
+    - state: base-dark
+    - state: label
+      color: "#b60000"
+    - state: base-shine
+  - type: Vinyl
+    song:
+      path: /Audio/_Starlight/StationEvents/One_Against_All.ogg
+
+# Cosmic Cult
+- type: entity
+  parent: [BaseEvilVinylDisc, BaseCosmicCultItem]
+  id: VinylANewDawn
+  name: "vinyl: A New Dawn"
+  description: A dramatic song heralding the end of the world.
+  components:
+  - type: Sprite
+    state: default
+    layers:
+    - state: base-light
+    - state: label
+      color: "#6797ff"
+    - state: base-shine
+  - type: MeleeWeapon
+    attackRate: 2
+    damage:
+      types:
+        Slash: 3
+        Asphyxiation: 4
+        Cold: 2
+  - type: DamageOtherOnHit
+    ignoreResistances: true
+    damage:
+      types:
+        Slash: 4
+        Asphyxiation: 5
+        Cold: 5
+  - type: Vinyl
+    song:
+      path: /Audio/_Starlight/CosmicCult/a_new_dawn.ogg
+
+- type: entity
+  parent: [BaseEvilVinylDisc, BaseCosmicCultItem]
+  id: VinylCausticShift
+  name: "vinyl: Caustic Shift"
+  description: An electric song celebrating inevitable triumph.
+  components:
+  - type: Sprite
+    state: default
+    layers:
+    - state: base-light
+    - state: label
+      color: "#67cfff"
+    - state: base-shine
+  - type: MeleeWeapon
+    attackRate: 2
+    damage:
+      types:
+        Slash: 3
+        Asphyxiation: 4
+        Cold: 2
+  - type: DamageOtherOnHit
+    ignoreResistances: true
+    damage:
+      types:
+        Slash: 4
+        Asphyxiation: 5
+        Cold: 5
+  - type: Vinyl
+    song:
+      path: /Audio/_Starlight/CosmicCult/caustic_shift.ogg
+
+# Theta Alert
+- type: entity
+  parent: BaseVinylDisc
+  id: VinylBurnTheHive
+  name: "vinyl: Burn The Hive"
+  description: A desperate song that only plays in the absence of everything. Hold on to anything.
+  components:
+  - type: Sprite
+    state: default
+    layers:
+    - state: default
+    - state: label
+      color: "#741b47"
+    - state: base-shine
+  - type: Vinyl
+    song:
+      path: /Audio/_Starlight/StationEvents/Burn_The_Hive_by_Bolgarich.ogg

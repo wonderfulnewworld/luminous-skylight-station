@@ -37,6 +37,7 @@
             max: 1
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
+  - type: LandAtCursor # Starlight
   - type: DamageOnLand
     ignoreResistances: true
     damage:

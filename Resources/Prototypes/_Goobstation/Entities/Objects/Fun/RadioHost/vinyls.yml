@@ -569,7 +569,7 @@
 - type: entity
   parent: BaseVinylDisc
   id: VinylRunningOut
-  name: "vinyl: Running Out"
+  name: "vinyl: Running Out (Cover)" # Starlight
   description: A dramatic fast pace electronic tune.
   components:
   - type: Sprite
