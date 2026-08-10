@@ -77,8 +77,6 @@ public sealed partial class AntagGhostRoleTest : AntagTest
         "Changeling", // We don't use Wizden Changelings
         /// Need their own tests ideally
         "Wizard",
-        "WizardDuel",
-        "SubWizard",
         "WizardSpawn",
         "TerrorSpidersSpawn",
         "BrighteyeSpawn",

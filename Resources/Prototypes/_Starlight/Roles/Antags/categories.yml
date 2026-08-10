@@ -43,7 +43,6 @@
   accentColor: "#6b3999"
   antags:
   - Wizard
-  - WizardDuelist
 
 - type: antagCategory
   id: Xenoborgs

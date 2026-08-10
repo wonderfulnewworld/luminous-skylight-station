@@ -112,8 +112,6 @@
       prob: 0.48 # Starlight. Adds up to 1.
     - id: VampireLess # Starlight. The rework is here.
       prob: 0.25
-    - id: SubWizard
-      prob: 0.05 # We can go back down to 0.05, since they scale now.
     - id: Devil
       prob: 0.05 # rare
     #- id: SubXenoborgs # Subgamemode replaced with SubXenoborgs
@@ -135,8 +133,6 @@
       prob: 0.175 # They can honestly just have the same chance as the vampires.
     - id: VampireLess # Starlight reworked
       prob: 0.175
-    - id: SubWizard
-      prob: 0.05 # We can go back down to 0.05, since they scale now.
     #- id: SubXenoborgs # Subgamemode replaced with SubXenoborgs
     #      prob: 0.05
     #- id: SubBrighteye
@@ -154,8 +150,6 @@
       prob: 0.55
     - id: SLChangeling #Starlight lings
       prob: 0.20 # Can be a little higher now, since lings don't have their standalone anymore.
-    - id: SubWizard
-      prob: 0.05 # We can go back down to 0.05, since they scale now.
     - id: Devil
       prob: 0.05 # rare
     #- id: SubXenoborgs # Subgamemode replaced with SubXenoborgs
@@ -173,8 +167,6 @@
     rules:
     - id: ThiefLess # So that only 3 thieves max spawn in rev games.
       prob: 0.28 # Starlight, to account for Wizard and Xenoborgs
-    - id: SubWizard
-      prob: 0.05
     - id: Devil
       prob: 0.05
     #- id: SubXenoborgs # Subgamemode replaced with SubXenoborgs
@@ -217,8 +209,6 @@
       prob: 0.15
     - id: VampireLess
       prob: 0.15
-    - id: SubWizard
-      prob: 0.05
     #- id: SubXenoborgs
     #  prob: 0.05
     # No SELF Agents in Nukie games because of the FREEmag = free guns!!!

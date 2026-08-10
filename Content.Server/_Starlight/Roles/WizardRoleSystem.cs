@@ -9,8 +9,8 @@ using Robust.Shared.Prototypes;
 namespace Content.Server._Starlight.Roles;
 
 /// <summary>
-/// Ensures the wizard mob entity has the Wizard tag whenever a WizardRoleComponent or
-/// WizardDuelistRoleComponent mind role is assigned, and removes it when both are gone.
+/// Ensures the wizard mob entity has the Wizard tag whenever a WizardRoleComponent
+/// mind role is assigned, and removes it when both are gone.
 /// This guarantees that RestrictByUserTag checks on wizard items always work correctly,
 /// regardless of the spawn path (roundstart, midround ghost role, admin force-make-antag, etc.).
 /// </summary>
@@ -34,8 +34,7 @@ public sealed partial class WizardRoleSystem : EntitySystem
     }
 
     private bool IsWizardMind(EntityUid mindId, MindComponent _)
-    => _roles.MindHasRole<WizardRoleComponent>(mindId)
-        || _roles.MindHasRole<WizardDuelistRoleComponent>(mindId);
+    => _roles.MindHasRole<WizardRoleComponent>(mindId);
 
     private void OnRoleAdded(RoleAddedEvent args)
     {

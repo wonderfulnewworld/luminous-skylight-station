@@ -142,7 +142,7 @@
     - Nukeops
     - Traitor
     - Revolutionary
-    - WizardDuel
+    - Wizard
     #- Xenoborgs
     - RampingStationEventScheduler
     - SLChangeling
@@ -172,8 +172,7 @@
     - Nukeops
     - Traitor
     - Revolutionary
-    - SubWizard # Well, you did say *Aller* at once.
-    - WizardDuel # Well, you did say *Aller* at once.
+    - Wizard
     #- Xenoborgs
     - BasicStationEventScheduler
     - BasicStationEventScheduler

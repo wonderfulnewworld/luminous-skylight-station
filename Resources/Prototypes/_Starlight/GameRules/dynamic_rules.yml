@@ -50,7 +50,7 @@
           max: 5 # 5 seconds, really just here to ensure it rolls roundstart and then doesn't roll again
         children:
         - id: TraitorLess # We'll use TraitorLess instead of Traitor, at least on Alpha, since they tend to lump in with a lot of other things.
-          weight: 35
+          weight: 40
           prob: 0.80 # Give traitor a chance to fail, since it's so common. In essence, this means we have a chance at getting Extended.
           conditions:
           - !type:HasBudgetCondition
@@ -58,7 +58,7 @@
           - !type:PlayerCountCondition
             min: 5
         - id: Vampire
-          weight: 15
+          weight: 20
           prob: 0.90 # Vampire can have a slightly higher chance to fail than the other gamemodes, it's the other "most likely" gamemode
           conditions:
           - !type:HasBudgetCondition
@@ -100,17 +100,6 @@
           - !type:MaxRuleOccurenceCondition
           - !type:PlayerCountCondition
             min: 20
-        - id: WizardDuel
-          weight: 10
-          prob: 0.95
-          conditions:
-          - !type:HasBudgetCondition
-          - !type:MaxRuleOccurenceCondition
-          - !type:MutuallyExclusiveRuleCondition
-            rules:
-            - Zombie # Wizards don't lose their abilities in Zombie games, so they can't be allowed together
-          - !type:PlayerCountCondition
-            min: 35
       # Minor Rules
       - !type:GroupSelector
         conditions:
@@ -138,16 +127,6 @@
           - !type:MaxRuleOccurenceCondition
           - !type:PlayerCountCondition
             min: 5
-        - id: SubWizard
-          prob: 0.05
-          conditions:
-          - !type:HasBudgetCondition
-          - !type:MaxRuleOccurenceCondition
-          - !type:MutuallyExclusiveRuleCondition
-            rules:
-            - Zombie # Wizards don't lose their abilities in Zombie games, so they can't be allowed together
-          - !type:PlayerCountCondition
-            min: 40
         - id: Devil
           prob: 0.05
           conditions:
@@ -210,17 +189,6 @@
           - !type:MaxRuleOccurenceCondition
           - !type:PlayerCountCondition
             min: 20
-        - id: WizardDuel
-          weight: 4
-          prob: 0.40
-          conditions:
-          - !type:HasBudgetCondition
-          - !type:MaxRuleOccurenceCondition
-          - !type:MutuallyExclusiveRuleCondition
-            rules:
-            - Zombie # Wizards don't lose their abilities in Zombie games, so they can't be allowed together
-          - !type:PlayerCountCondition
-            min: 35
         - id: ThiefLess
           weight: 8
           prob: 0.50
@@ -251,17 +219,6 @@
           - !type:MaxRuleOccurenceCondition
           - !type:PlayerCountCondition
             min: 5
-        - id: SubWizard
-          weight: 5
-          prob: 0.50
-          conditions:
-          - !type:HasBudgetCondition
-          - !type:MaxRuleOccurenceCondition
-          - !type:MutuallyExclusiveRuleCondition
-            rules:
-            - Zombie # Wizards don't lose their abilities in Zombie games, so they can't be allowed together
-          - !type:PlayerCountCondition
-            min: 40
         - id: Devil
           weight: 5
           prob: 0.50
@@ -433,7 +390,7 @@
           max: 5 # 5 seconds, really just here to ensure it rolls roundstart and then doesn't roll again
         children:
         - id: TraitorLess
-          weight: 43
+          weight: 46
           prob: 0.75 # Beta has an innate chance at Extended, so we give TraitorLes and Vampire a higher chance to fail to roll here. It roughly equals their Secret chance at Extended.
           conditions:
           - !type:HasBudgetCondition
@@ -441,7 +398,7 @@
           - !type:PlayerCountCondition
             min: 5
         - id: Vampire # We can count Vampires as being a major on Beta.
-          weight: 23
+          weight: 26
           prob: 0.75
           conditions:
           - !type:HasBudgetCondition
@@ -483,17 +440,6 @@
           - !type:MaxRuleOccurenceCondition
           - !type:PlayerCountCondition
             min: 20
-        - id: WizardDuel
-          weight: 6
-          prob: 0.95
-          conditions:
-          - !type:HasBudgetCondition
-          - !type:MaxRuleOccurenceCondition
-          - !type:MutuallyExclusiveRuleCondition
-            rules:
-            - Zombie # Wizards don't lose their abilities in Zombie games, so they can't be allowed together
-          - !type:PlayerCountCondition
-            min: 35
       # Minor Rules, Beta can keep the same as Alpha since these aren't split normally anyways
       - !type:GroupSelector
         conditions:
@@ -521,16 +467,6 @@
           - !type:MaxRuleOccurenceCondition
           - !type:PlayerCountCondition
             min: 5
-        - id: SubWizard
-          prob: 0.05
-          conditions:
-          - !type:HasBudgetCondition
-          - !type:MaxRuleOccurenceCondition
-          - !type:MutuallyExclusiveRuleCondition
-            rules:
-            - Zombie # Wizards don't lose their abilities in Zombie games, so they can't be allowed together
-          - !type:PlayerCountCondition
-            min: 40
         - id: Devil
           prob: 0.05
           conditions:
@@ -593,17 +529,6 @@
           - !type:MaxRuleOccurenceCondition
           - !type:PlayerCountCondition
             min: 20
-        - id: WizardDuel
-          weight: 4
-          prob: 0.40
-          conditions:
-          - !type:HasBudgetCondition
-          - !type:MaxRuleOccurenceCondition
-          - !type:MutuallyExclusiveRuleCondition
-            rules:
-            - Zombie # Wizards don't lose their abilities in Zombie games, so they can't be allowed together
-          - !type:PlayerCountCondition
-            min: 35
         - id: ThiefLess
           weight: 8
           prob: 0.50
@@ -632,17 +557,6 @@
           - !type:MaxRuleOccurenceCondition
           - !type:PlayerCountCondition
             min: 5
-        - id: SubWizard
-          weight: 5
-          prob: 0.50
-          conditions:
-          - !type:HasBudgetCondition
-          - !type:MaxRuleOccurenceCondition
-          - !type:MutuallyExclusiveRuleCondition
-            rules:
-            - Zombie # Wizards don't lose their abilities in Zombie games, so they can't be allowed together
-          - !type:PlayerCountCondition
-            min: 40
         - id: Devil
           weight: 5
           prob: 0.50
