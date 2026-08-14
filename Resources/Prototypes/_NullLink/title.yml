@@ -15,90 +15,112 @@
     titles:
     - text: "Host"
       color: "#EC9C49"
+      category: Staff
       roles:
       - 1305376794823753904 # Host
     - text: "SLN-Manager"
       color: "#369876"
+      category: Staff
       roles:
       - 1305029511838175262 # SLN Manager
     - text: "Community-Manager"
       color: "#EBB8E8"
+      category: Staff
       roles:
       - 1352520081002991636 # Community Manager
     - text: "Events-Manager"
       color: "#5900ff"
+      category: Staff
       roles:
       - 1353887132082507857 # Events Manager
     - text: "Supervisor"
       color: "#ff4848"
+      category: Staff
       roles:
       - 1305375624613068800 # Supervisor
     - text: "Head-Spriter"
       color: "#ea800f"
+      category: Staff
       roles:
       - 1362773454721519668 # Head Spriter
     - text: "Head-Mapper"
       color: "#f19b40"
+      category: Staff
       roles:
       - 1307729133614141441 # Head Mapper
     - text: "Staff-Admin"
       color: "#1153cc"
+      category: Staff
       roles:
       - 1310741799601573960 # Staff Admin
     - text: "Staff-Instructor"
       color: "#b3aeff"
+      category: Staff
       roles:
       - 1276773207453728841 # Staff Instructor
     - text: "SLN-PL"
       color: "#f1eb58"
+      category: Staff
       roles:
       - 1374523965850128517 # SLN-PL
     - text: "Maintainer"
       color: "#f1eb58"
+      category: Staff
       roles:
       - 1380299412164579328 # Maintainer
     - text: "Senior Developer"
       color: "#c4c9ce"
+      category: Staff
       roles:
       - 1473631364048879759 # Senior Developer
     - text: "Developer"
       color: "#f1eb58"
+      category: Staff
       roles:
       - 1272899036571238521 # Developer
     - text: "Event-C."
       color: "#7c58ff"
+      category: Staff
       roles:
       - 1297054047596974090 # Event Coordinator
     - text: "Jr.Event-C."
       color: "#983fc9"
+      category: Staff
       roles:
       - 1308128839993659422 # Jr. Event Coordinator
     - text: "Admin"
       color: "#ff7600"
+      category: Staff
       roles:
       - 1305028815906537482 # Admin
     - text: "Trialmin"
       color: "#7ac000"
+      category: Staff
       roles:
       - 1305029272653533268 # Trialmin
     - text: "Senior Prototyper"
       color: "#edc113"
+      category: Staff
       roles:
       - 1473619558211260539 # Senior Prototyper
     - text: "Prototyper"
       color: "#F1C40F"
+      category: Staff
       roles:
       - 1348030990811009044 # Prototyper
     - text: "Mapper"
       color: "#8ff10f"
+      category: Staff
       roles:
       - 1297739822131056703 # Mapper
     - text: "Spriter"
       color: "#8ff10f"
+      category: Staff
       roles:
       - 1299137799693406288 # Spriter
     - text: "Staff"
       color: "#ad1457"
+      category: Staff
       roles:
       - 1294130614508716155 # Staff
     - text: "Former"
@@ -117,6 +139,7 @@
     titles:
     - text: "[font=\"Icon\"][/font]"
       color: "#ed0bc4"
+      category: Patron
       roles:
       - 1381351437665308894 # Patron
     - text: "[font=\"Icon\"][/font]"

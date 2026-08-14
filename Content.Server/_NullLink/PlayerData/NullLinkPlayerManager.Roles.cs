@@ -22,6 +22,7 @@ public sealed partial class NullLinkPlayerManager : INullLinkPlayerManager
         RebuildTitle(_playerManager.GetSessionById(new NetUserId(ev.Player)), playerData);
 
         SendPlayerRoles(playerData.Session, playerData.Roles);
+        PlayerDataChanged?.Invoke();
         return ValueTask.CompletedTask;
     }
 
@@ -38,6 +39,7 @@ public sealed partial class NullLinkPlayerManager : INullLinkPlayerManager
         RebuildTitle(_playerManager.GetSessionById(new NetUserId(ev.Player)), playerData);
 
         SendPlayerRoles(playerData.Session, playerData.Roles);
+        PlayerDataChanged?.Invoke();
         return ValueTask.CompletedTask;
     }
 

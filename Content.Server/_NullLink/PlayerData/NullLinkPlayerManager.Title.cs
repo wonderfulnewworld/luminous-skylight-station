@@ -19,6 +19,8 @@ public sealed partial class NullLinkPlayerManager : INullLinkPlayerManager
 
         foreach (var player in _playerById)
             RebuildTitle(_playerManager.GetSessionById(new NetUserId(player.Key)), player.Value);
+
+        PlayerDataChanged?.Invoke();
     }
 
     private void RebuildTitle(ICommonSession player, PlayerData playerData)
@@ -27,6 +29,7 @@ public sealed partial class NullLinkPlayerManager : INullLinkPlayerManager
             return;
 
         var result = new List<string>(_builder.Segments.Count);
+        var category = PlayerTitleCategory.Player;
         foreach (var segment in _builder.Segments)
         {
             foreach (var title in segment.Titles)
@@ -39,10 +42,15 @@ public sealed partial class NullLinkPlayerManager : INullLinkPlayerManager
                     result.Add($"[color={patronColor}]{title.Text}[/color]");
                 else
                     result.Add(title.Text);
+
+                if ((byte) title.Category > (byte) category)
+                    category = title.Category;
+
                 break;
             }
         }
 
         playerData.Title = result.Count > 0 ? string.Join(_builder.Separator, result) : null;
+        playerData.TitleCategory = category;
     }
 }

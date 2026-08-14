@@ -1,17 +1,19 @@
 using Content.Shared._FarHorizons.Lobby;
+using Content.Shared._Starlight.Lobby;
 using Robust.Shared.Network;
 
 namespace Content.Client._FarHorizons.Lobby;
 
 public sealed partial class ClientLobbyManager : SharedLobbyManager
 {
-    [Dependency] private readonly IClientNetManager _netManager = default!;
+    [Dependency] private IClientNetManager _netManager = default!;
 
     public override void Init()
     {
         base.Init();
 
         _netManager.RegisterNetMessage<MsgJobPicksUpdated>(ReceiveCurrentJobPicks);
+        _netManager.RegisterNetMessage<MsgOnlinePlayersUpdated>(ReceiveOnlinePlayers); // Starlight
     }
 
     private void ReceiveCurrentJobPicks(MsgJobPicksUpdated msg)
@@ -19,4 +21,12 @@ public sealed partial class ClientLobbyManager : SharedLobbyManager
         JobPicks = msg.JobPicks;
         CallOnOnJobPicksUpdated();
     }
+
+    #region Starlight
+    private void ReceiveOnlinePlayers(MsgOnlinePlayersUpdated msg)
+    {
+        OnlinePlayers = msg.Players;
+        CallOnOnlinePlayersUpdated();
+    }
+    #endregion
 }

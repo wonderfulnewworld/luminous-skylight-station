@@ -35,4 +35,18 @@ public sealed partial class Title
 
     [DataField]
     public Color? Color;
+
+    /// <summary>
+    /// The highest-priority online player list category granted by this title.
+    /// Title segments still control stacking, so only one title from a segment can be displayed.
+    /// </summary>
+    [DataField]
+    public PlayerTitleCategory Category;
+}
+
+public enum PlayerTitleCategory : byte
+{
+    Player,
+    Patron,
+    Staff,
 }

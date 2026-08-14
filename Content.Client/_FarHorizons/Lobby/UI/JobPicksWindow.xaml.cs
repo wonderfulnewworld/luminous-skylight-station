@@ -10,6 +10,7 @@ using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.CustomControls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Prototypes;
+using Robust.Client.UserInterface;
 
 namespace Content.Client._FarHorizons.Lobby.UI;
 
@@ -105,66 +106,102 @@ public sealed partial class JobPicksWindow : DefaultWindow
             }
         });
 
-        var jobs = _protoMan.EnumeratePrototypes<DepartmentPrototype>()
+        var departments = _protoMan.EnumeratePrototypes<DepartmentPrototype>()
             .Where(department => !department.EditorHidden)
-            .SelectMany(department => department.Roles)
-            .Distinct()
-            .Select(job => _protoMan.Index(job))
-            .Where(job => job.SetPreference)
             .ToList();
-        jobs.Sort(JobUIComparer.Instance);
+        departments.Sort(DepartmentUIComparer.Instance);
 
+        var firstDepartment = true;
         var jobPicks = _lobby.GetJobPicks();
-        foreach (var job in jobs)
+        foreach (var department in departments)
         {
-            var jobContainer = new BoxContainer
+            var jobs = department.Roles
+                .Select(job => _protoMan.Index(job))
+                .Where(job => job.SetPreference)
+                .ToList();
+            jobs.Sort(JobUIComparer.Instance);
+
+            if (jobs.Count == 0)
+                continue;
+
+            if (firstDepartment)
             {
-                Orientation = BoxContainer.LayoutOrientation.Horizontal,
-                HorizontalExpand = true
-            };
-
-            var jobIcon = _protoMan.Index(job.Icon);
-            var icon = new TextureRect
+                firstDepartment = false;
+            }
+            else
             {
-                TextureScale = new Vector2(2, 2),
-                VerticalAlignment = VAlignment.Center,
-                Texture = _sprite.Frame0(jobIcon.Icon)
-            };
+                JobListContent.AddChild(new Control
+                {
+                    MinSize = new Vector2(0, 23)
+                });
+            }
 
-            var jobLabel = new Label
+            JobListContent.AddChild(new PanelContainer
             {
-                Margin = new Thickness(5f, 0, 0, 0),
-                Text = job.LocalizedName,
-                HorizontalExpand = true
-            };
+                PanelOverride = new StyleBoxFlat { BackgroundColor = Color.FromHex("#464966") },
+                HorizontalExpand = true,
+                Children =
+                {
+                    new Label
+                    {
+                        Margin = new Thickness(5f, 0, 0, 0),
+                        Text = Loc.GetString("humanoid-profile-editor-department-jobs-label",
+                            ("departmentName", Loc.GetString(department.Name)))
+                    }
+                }
+            });
 
-            if (!jobPicks.TryGetValue(job.ID, out var value))
-                value = (0, 0, 0);
-
-            var lowPrioLabel = new Label
+            foreach (var job in jobs)
             {
-                Margin = new Thickness(5f, 0, 0, 0),
-                Text = $" {value.Low}"
-            };
+                var jobContainer = new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                    HorizontalExpand = true
+                };
 
-            var mediumPrioLabel = new Label
-            {
-                Margin = new Thickness(5f, 0, 0, 0),
-                Text = $" {value.Medium}"
-            };
+                var jobIcon = _protoMan.Index(job.Icon);
+                var icon = new TextureRect
+                {
+                    TextureScale = new Vector2(2, 2),
+                    VerticalAlignment = VAlignment.Center,
+                    Texture = _sprite.Frame0(jobIcon.Icon)
+                };
 
-            var highPrioLabel = new Label
-            {
-                Margin = new Thickness(5f, 0, 0, 0),
-                Text = $" {value.High}"
-            };
+                var jobLabel = new Label
+                {
+                    Margin = new Thickness(5f, 0, 0, 0),
+                    Text = job.LocalizedName,
+                    HorizontalExpand = true
+                };
 
-            jobContainer.AddChild(icon);
-            jobContainer.AddChild(jobLabel);
-            jobContainer.AddChild(lowPrioLabel);
-            jobContainer.AddChild(mediumPrioLabel);
-            jobContainer.AddChild(highPrioLabel);
-            JobListContent.AddChild(jobContainer);
+                if (!jobPicks.TryGetValue(job.ID, out var value))
+                    value = (0, 0, 0);
+
+                var lowPrioLabel = new Label
+                {
+                    Margin = new Thickness(5f, 0, 0, 0),
+                    Text = $" {value.Low}"
+                };
+
+                var mediumPrioLabel = new Label
+                {
+                    Margin = new Thickness(5f, 0, 0, 0),
+                    Text = $" {value.Medium}"
+                };
+
+                var highPrioLabel = new Label
+                {
+                    Margin = new Thickness(5f, 0, 0, 0),
+                    Text = $" {value.High}"
+                };
+
+                jobContainer.AddChild(icon);
+                jobContainer.AddChild(jobLabel);
+                jobContainer.AddChild(lowPrioLabel);
+                jobContainer.AddChild(mediumPrioLabel);
+                jobContainer.AddChild(highPrioLabel);
+                JobListContent.AddChild(jobContainer);
+            }
         }
         #endregion
     }

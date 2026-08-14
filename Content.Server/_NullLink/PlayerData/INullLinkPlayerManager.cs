@@ -9,6 +9,8 @@ public interface INullLinkPlayerManager
 {
     IEnumerable<ICommonSession> Mentors { get; }
 
+    event Action? PlayerDataChanged;
+
     string GetDiscordAuthUrl(string customState);
     string GetSteamAuthUrl(string customState);
     void Initialize();

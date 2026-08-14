@@ -45,6 +45,8 @@ public sealed partial class NullLinkPlayerManager : INullLinkPlayerManager, IAch
     private bool _resourcesEnabled = false;
 
     public IEnumerable<ICommonSession> Mentors => _mentors.Values;
+    public event Action? PlayerDataChanged;
+
     public void Initialize()
     {
         _sawmill = _logManager.GetSawmill("NullLink player data");
@@ -97,6 +99,8 @@ public sealed partial class NullLinkPlayerManager : INullLinkPlayerManager, IAch
         switch (e.NewStatus)
         {
             case SessionStatus.Zombie:
+                PlayerDataChanged?.Invoke();
+                break;
             case SessionStatus.Connecting:
                 break;
             case SessionStatus.Connected:
@@ -111,6 +115,7 @@ public sealed partial class NullLinkPlayerManager : INullLinkPlayerManager, IAch
                         .FireAndForget(err=> _sawmill.Error($"PlayerConnected dispatch failed: {err}"));
                 SendPlayerRoles(e.Session, state.Roles);
                 CheckDiscordLink(e.Session);
+                PlayerDataChanged?.Invoke();
                 break;
             case SessionStatus.InGame:
                 break;
@@ -121,6 +126,7 @@ public sealed partial class NullLinkPlayerManager : INullLinkPlayerManager, IAch
                 _playerById.Remove(e.Session.UserId, out _);
                 _mentors.Remove(e.Session.UserId, out _);
                 _discordPromptOpen.Remove(e.Session);
+                PlayerDataChanged?.Invoke();
                 break;
             default:
                 break;

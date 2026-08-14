@@ -4,12 +4,14 @@ using System.Linq;
 using Robust.Shared.Player;
 using Starlight.NullLink;
 using Starlight.NullLink.Event;
+using Content.Shared._NullLink;
 
 namespace Content.Server._NullLink.PlayerData;
 
 public sealed class PlayerData
 {
     public string? Title { get; set; }
+    public PlayerTitleCategory TitleCategory { get; set; }
     public required ICommonSession Session { get; init; }
     public ImmutableHashSet<ulong> Roles { get; set; } = [];
     public Dictionary<string, double> Resources { get; set; } = [];
