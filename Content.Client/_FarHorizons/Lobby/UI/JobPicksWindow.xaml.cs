@@ -40,15 +40,8 @@ public sealed partial class JobPicksWindow : DefaultWindow
     {
         #region Starlight
         // Pretty much this entire section is edited since we don't have factions.
-        JobList.RemoveAllChildren();
-
-        var jobListContent = new BoxContainer
-        {
-            Orientation = BoxContainer.LayoutOrientation.Vertical,
-            Margin = new Thickness(0, 0, 5f, 0),
-        };
-
-        JobList.AddChild(jobListContent);
+        // Only clear our content. Removing the ScrollContainer's children also removes its internal scrollbars.
+        JobListContent.RemoveAllChildren();
 
         var headerContainer = new BoxContainer
         {
@@ -56,7 +49,7 @@ public sealed partial class JobPicksWindow : DefaultWindow
             HorizontalExpand = true
         };
 
-        jobListContent.AddChild(headerContainer);
+        JobListContent.AddChild(headerContainer);
 
         headerContainer.AddChild(new PanelContainer
         {
@@ -171,8 +164,8 @@ public sealed partial class JobPicksWindow : DefaultWindow
             jobContainer.AddChild(lowPrioLabel);
             jobContainer.AddChild(mediumPrioLabel);
             jobContainer.AddChild(highPrioLabel);
-            jobListContent.AddChild(jobContainer);
-            #endregion
+            JobListContent.AddChild(jobContainer);
         }
+        #endregion
     }
 }
