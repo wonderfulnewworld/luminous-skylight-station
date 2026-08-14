@@ -29,6 +29,7 @@ using Content.Shared.Chat;
 using Content.Shared.IoC;
 using Content.Shared.Players.PlayTimeTracking;
 using Content.Shared.Players.RateLimiting;
+using Content.Shared._FarHorizons.Lobby;
 using Content.Client._FarHorizons.Lobby;
 using Content.Shared._Starlight;
 using Content.Client._NullLink;
