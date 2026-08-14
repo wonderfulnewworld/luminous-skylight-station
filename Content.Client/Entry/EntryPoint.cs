@@ -163,9 +163,7 @@ namespace Content.Client.Entry
             _playbackMan.Initialize();
             _clientsidePlaytimeManager.Initialize();
 
-            // Far Horizons start
-            _lobby.Init();
-            // Far Horizons end
+            _lobby.Init(); // Far Horizons
 
             //AUTOSCALING default Setup!
             _configManager.SetCVar("interface.resolutionAutoScaleUpperCutoffX", 1080);
@@ -180,9 +178,7 @@ namespace Content.Client.Entry
             base.Shutdown();
             //_titleWindowManager.Shutdown();
 
-            // Far Horizons start
-            _lobby.Shutdown();
-            // Far Horizons end
+            _lobby.Shutdown(); // Far Horizons
         }
 
         public override void PostInit()
