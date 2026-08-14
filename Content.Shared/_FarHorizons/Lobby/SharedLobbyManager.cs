@@ -1,11 +1,11 @@
-using Content.Shared._FarHorizons.Factions;
+using Content.Shared.Roles;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared._FarHorizons.Lobby;
 
 public abstract partial class SharedLobbyManager : ISharedLobbyManager
 {
-    protected Dictionary<ProtoId<FactionJobAssignmentPrototype>, (int, int, int)> JobPicks = [];
+    protected Dictionary<ProtoId<JobPrototype>, (int Low, int Medium, int High)> JobPicks = []; // Starlight, no factions
 
     public virtual void Init() { }
 
@@ -14,5 +14,5 @@ public abstract partial class SharedLobbyManager : ISharedLobbyManager
     public event Action? OnJobPicksUpdated;
     protected void CallOnOnJobPicksUpdated() => OnJobPicksUpdated?.Invoke();
 
-    public Dictionary<ProtoId<FactionJobAssignmentPrototype>, (int, int, int)> GetJobPicks() => JobPicks;
+    public Dictionary<ProtoId<JobPrototype>, (int Low, int Medium, int High)> GetJobPicks() => JobPicks; // Starlight, no factions
 }

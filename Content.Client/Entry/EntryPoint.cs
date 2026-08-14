@@ -164,7 +164,6 @@ namespace Content.Client.Entry
             _clientsidePlaytimeManager.Initialize();
 
             // Far Horizons start
-            //_factions.Init(); // Starlight, no factions
             _lobby.Init();
             // Far Horizons end
 
@@ -182,7 +181,6 @@ namespace Content.Client.Entry
             //_titleWindowManager.Shutdown();
 
             // Far Horizons start
-            //_factions.Shutdown(); // Starlight, no factions
             _lobby.Shutdown();
             // Far Horizons end
         }

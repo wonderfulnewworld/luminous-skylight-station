@@ -1,4 +1,4 @@
-using Content.Shared._FarHorizons.Factions;
+using Content.Shared.Roles;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared._FarHorizons.Lobby;
@@ -10,5 +10,5 @@ public interface ISharedLobbyManager
 
     event Action? OnJobPicksUpdated;
 
-    Dictionary<ProtoId<FactionJobAssignmentPrototype>, (int, int, int)> GetJobPicks();
+    Dictionary<ProtoId<JobPrototype>, (int Low, int Medium, int High)> GetJobPicks(); // Starlight, no factions
 }

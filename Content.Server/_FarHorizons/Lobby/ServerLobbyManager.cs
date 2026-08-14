@@ -1,21 +1,19 @@
 using System.Linq;
-using Content.Server._FarHorizons.Factions;
 using Content.Server.Preferences.Managers;
-using Content.Shared._FarHorizons.Factions;
 using Content.Shared._FarHorizons.Lobby;
 using Content.Shared.GameTicking;
 using Content.Shared.Preferences;
+using Content.Shared.Roles;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Utility;
 
 namespace Content.Server._FarHorizons.Lobby;
 
 public sealed partial class ServerLobbyManager : SharedLobbyManager, IServerLobbyManager
 {
-    [Dependency] private readonly IServerFactionManager _faction = default!;
-    [Dependency] private readonly IServerNetManager _netMan = default!;
-    [Dependency] private readonly IServerPreferencesManager _prefMan = default!;
+    //[Dependency] private readonly IServerFactionManager _faction = default!; // Strlight, no factions.
+    [Dependency] private IServerNetManager _netMan = default!;
+    [Dependency] private IServerPreferencesManager _prefMan = default!;
 
     public new void Init()
     {
@@ -40,7 +38,7 @@ public sealed partial class ServerLobbyManager : SharedLobbyManager, IServerLobb
             _netMan.ServerSendMessage(msg, target);
     }
 
-    private void SetJobPicks(Dictionary<ProtoId<FactionJobAssignmentPrototype>, (int, int, int)> jobPicks)
+    private void SetJobPicks(Dictionary<ProtoId<JobPrototype>, (int Low, int Medium, int High)> jobPicks) // Starlight, no factions
     {
         if (JobPicks == jobPicks) return;
 
@@ -50,38 +48,45 @@ public sealed partial class ServerLobbyManager : SharedLobbyManager, IServerLobb
 
     public void RefreshJobPicks(Dictionary<NetUserId, PlayerGameStatus> players)
     {
-        Dictionary<ProtoId<FactionJobAssignmentPrototype>, (int, int, int)> result = new();
+        Dictionary<ProtoId<JobPrototype>, (int Low, int Medium, int High)> result = new(); // Starlight, no factions
 
         var readyPlayers = players.Where(p => p.Value == PlayerGameStatus.ReadyToPlay)
             .Select(p => p.Key).ToList();
 
         foreach (var pref in readyPlayers.Select(player => _prefMan.GetPreferencesOrNull(player)).Where(p => p != null))
-        foreach (var ((faction, job), priority) in pref!.JobPriorities)
+        foreach (var (job, priority) in pref!.JobPrioritiesFiltered()) // Starlight, no factions
         {
             if (priority == JobPriority.Never) continue;
 
-            var assignment = _faction.ListFactionJobs().Where(p => p.Faction == faction && p.Job == job)
-                .Select(p => (ProtoId<FactionJobAssignmentPrototype>)p.ID).FirstOrNull();
+            #region Starlight
+            //var assignment = _faction.ListFactionJobs().Where(p => p.Faction == faction && p.Job == job)
+            //    .Select(p => (ProtoId<FactionJobAssignmentPrototype>)p.ID).FirstOrNull();
 
-            if (assignment == null) continue;
+            //if (assignment == null) continue;
 
-            if (!result.ContainsKey(assignment.Value))
-                result[assignment.Value] = (0, 0, 0);
+            //if (!result.ContainsKey(assignment.Value))
+            //    result[assignment.Value] = (0, 0, 0);
+
+            if (!result.TryGetValue(job, out var picks))
+                picks = (0, 0, 0);
+            #endregion
 
             switch (priority)
             {
                 case JobPriority.Low:
-                    result[assignment.Value] = (result[assignment.Value].Item1 + 1, result[assignment.Value].Item2, result[assignment.Value].Item3);
+                    picks.Low++; // Starlight
                     break;
                 case JobPriority.Medium:
-                    result[assignment.Value] = (result[assignment.Value].Item1, result[assignment.Value].Item2 + 1, result[assignment.Value].Item3);
+                    picks.Medium++; // Starlight
                     break;
                 case JobPriority.High:
-                    result[assignment.Value] = (result[assignment.Value].Item1, result[assignment.Value].Item2, result[assignment.Value].Item3 + 1);
+                    picks.High++; // Starlight
                     break;
                 default:
                     continue;
             }
+
+            result[job] = picks; // Starlight
         }
 
         SetJobPicks(result);
