@@ -42,7 +42,7 @@
         min: 0
         max: 1 # Starlight end
   - type: DynamicRuleCost
-    cost: 150
+    cost: 200 # It's kinda boring, but it also rolls too often.
     cooldown: 1 # Starlight
 
 - type: antagSpecifier
