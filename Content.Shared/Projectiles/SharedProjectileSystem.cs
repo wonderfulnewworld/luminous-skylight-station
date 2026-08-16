@@ -4,6 +4,7 @@ using Content.Shared.DoAfter;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Inventory;
+using Content.Shared.Tag;
 using Content.Shared.Throwing;
 using Content.Shared.Whitelist;
 using Robust.Shared.Audio.Systems;
@@ -15,8 +16,7 @@ using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Serialization;
-using Content.Shared.Tag; // Starlight
-using Robust.Shared.Timing; // Starlight
+using Robust.Shared.Timing;
 namespace Content.Shared.Projectiles;
 
 public abstract partial class SharedProjectileSystem : EntitySystem
@@ -28,6 +28,7 @@ public abstract partial class SharedProjectileSystem : EntitySystem
     [Dependency] private SharedHandsSystem _hands = default!;
     [Dependency] private SharedPhysicsSystem _physics = default!;
     [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private IGameTiming _timing = default!;
     [Dependency] private EntityWhitelistSystem _whitelist = null!;
     [Dependency] private SharedContainerSystem _containerSystem = default!;
     [Dependency] private IGameTiming _timing = default!; //Starlight -- arming time
@@ -229,6 +230,13 @@ public abstract partial class SharedProjectileSystem : EntitySystem
         }
     }
 
+    [SubscribeLocalEvent]
+    private void OnBeingShot(Entity<ProjectileComponent> entity, ref MapInitEvent args)
+    {
+        entity.Comp.WhenToStopIgnoringShooter = _timing.CurTime + entity.Comp.DelayToAcknowledgeShooter;
+        Dirty(entity);
+    }
+
     public void DetachAllEmbedded(Entity<EmbeddedContainerComponent> container)
     {
         foreach (var embedded in container.Comp.EmbeddedObjects)
@@ -242,7 +250,8 @@ public abstract partial class SharedProjectileSystem : EntitySystem
 
     private void PreventCollision(EntityUid uid, ProjectileComponent component, ref PreventCollideEvent args)
     {
-        if ((component.IgnoreShooter && (args.OtherEntity == component.Shooter || args.OtherEntity == component.Weapon)) //Starlight edit
+        if ((_timing.CurTime < component.WhenToStopIgnoringShooter
+            && (args.OtherEntity == component.Shooter || args.OtherEntity == component.Weapon)) //Starlight edit
         || (!component.Armed && !_tag.HasAnyTag(args.OtherEntity, component.NotArmedCollideWith))) //Starlight
         {
             args.Cancelled = true;
