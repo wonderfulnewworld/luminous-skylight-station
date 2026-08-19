@@ -19,14 +19,23 @@
   recipes:
   # engi xenoborg
   - XenoborgModuleDoorControlRecipe
-  - XenoborgModuleTileGunRecipe # Starlight, for now
+  - XenoborgModuleDeflectorFieldRecipe
+  - XenoborgModuleZapRecipe
+  - XenoborgModuleOilGunRecipe
+  - XenoborgModuleNaniteGunRecipe
+  - XenoborgModuleTileGunRecipe
   # heavy xenoborg
   - XenoborgModuleHeavyLaserRecipe
+  - XenoborgModuleGuidedMissileLauncherRecipe
+  - XenoborgModuleRocketRecipe
+  - XenoborgModuleBurstFireLaserRecipe
+  - XenoborgModuleHeavyRadioactiveRecipe
   - XenoborgModuleSuperHeavyLaserRecipe # Starlight
   # scout xenoborg
   - XenoborgModuleEnergySwordRecipe
+  - XenoborgModuleJumpRecipe
+  - XenoborgModuleBioKinfeRecipe
   - XenoborgModuleEnergyBladeRecipe # Starlight
-  - XenoborgModuleJumpRecipe # Starlight, for now
   # stealth xenoborg
   - XenoborgModuleSuperCloakDeviceRecipe
   - XenoborgModuleHypoPlusRecipe # Starlight
