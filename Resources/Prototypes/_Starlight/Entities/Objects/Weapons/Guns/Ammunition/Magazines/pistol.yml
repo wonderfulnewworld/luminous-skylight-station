@@ -390,6 +390,30 @@
         color: "#E7EEEE"
 
 - type: entity
+  id: MagazinePistolDragon
+  parent: MagazinePistolIncendiary
+  name: pistol magazine (.35 auto dragon)
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgePistolDragon
+  - type: Sprite
+    layers:
+    - state: incendiary
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-1
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#FF8C00"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#FF8C00"
+
+- type: entity
   id: MagazinePistolPractice
   name: pistol magazine (.35 auto practice)
   parent: BaseMagazinePistol
@@ -743,6 +767,30 @@
         color: "#E7EEEE"
 
 - type: entity
+  id: MagazinePistolHighCapacityDragon
+  parent: MagazinePistolHighCapacityIncendiary
+  name: extended pistol magazine (.35 auto dragon)
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgePistolDragon
+  - type: Sprite
+    layers:
+    - state: incendiary
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-1
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#FF8C00"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#FF8C00"
+
+- type: entity
   id: MagazinePistolHighCapacityUranium
   name: extended pistol magazine (.35 auto uranium)
   parent: BaseMagazinePistolHighCapacity
@@ -966,7 +1014,7 @@
   id: MagazinePistolSubMachineGunIncendiary
   name: SMG magazine (.35 auto incendiary)
   parent: BaseMagazinePistolSubMachineGun
-  description: 30-round double-stack magazine for submachine guns. Intended to hold self-igniting incendiary ammunition.
+  description: 30-round double-stack magazine for submachine guns. Intended to hold incendiary ammunition.
   components:
   - type: BallisticAmmoProvider
     proto: CartridgePistolIncendiary
@@ -987,7 +1035,30 @@
       - state: inhand-right-stripe
         color: "#E7EEEE"
 
-
+- type: entity
+  id: MagazinePistolSubMachineGunDragon
+  parent: MagazinePistolSubMachineGunIncendiary
+  name: SMG magazine (.35 auto dragon)
+  description: 30-round double-stack magazine for submachine guns. Intended to hold volatile Dragon ammunition that sets targets ablaze.
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgePistolDragon
+  - type: Sprite
+    layers:
+    - state: incendiary
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-1
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#FF8C00"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#FF8C00"
 
 - type: entity
   id: MagazinePistolSubMachineGunRubber
@@ -1250,4 +1321,3 @@
       - state: inhand-right-mag
       - state: inhand-right-stripe
         color: "#72E374"
-

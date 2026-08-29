@@ -94,7 +94,7 @@
   id: MagazineBoxRifleIncendiary
   parent: BaseMagazineBoxRifle
   name: ammunition box (.20 rifle incendiary)
-  description: A cardboard box of .20 rifle rounds. Intended to hold self-igniting incendiary ammunition.
+  description: A cardboard box of .20 rifle rounds. Intended to hold incendiary ammunition that burns targets. # Starlight
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeRifleIncendiary
@@ -121,4 +121,3 @@
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
     - state: uranium
-

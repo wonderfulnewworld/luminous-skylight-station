@@ -53,7 +53,7 @@
   parent: BaseCartridgeRifle
   id: CartridgeRifleIncendiary
   name: cartridge (.20 rifle incendiary)
-  description: A modern intermediate cartridge for combat rifles. Incendiary ammunition contains a self-igniting compound that sets targets ablaze.
+  description: A modern intermediate cartridge for combat rifles. Incendiary ammunition contains a pyrotechnic compound that inflicts severe burns. # Starlight
   components:
   - type: CartridgeAmmo
     proto: BulletRifleTraceIncendiary

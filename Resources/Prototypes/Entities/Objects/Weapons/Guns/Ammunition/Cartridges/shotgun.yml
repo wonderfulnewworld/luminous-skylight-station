@@ -114,7 +114,7 @@
   parent: [ BaseShellShotgun, BaseSecurityContraband ]
   id: ShellShotgunIncendiary
   name: 12 gauge incendiary buckshot # Starlight change: .50 -> 12 gauge
-  description: The standard cartridge used by most modern shotguns. Incendiary ammunition contains a self-igniting compound that sets targets ablaze.
+  description: The standard cartridge used by most modern shotguns. Incendiary ammunition contains a pyrotechnic compound that inflicts severe burns. # Starlight
   components:
   - type: Sprite
     layers:

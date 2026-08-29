@@ -65,6 +65,15 @@
 
 - type: latheRecipe
   parent: BaseAmmoRecipe
+  id: MagazineRifleDragon
+  result: MagazineRifleDragon
+  materials:
+    Steel: 50
+    Plastic: 100
+    Plasma: 100
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
   id: MagazineRifleAP
   result: MagazineRifleAP
   materials:
@@ -118,6 +127,14 @@
   result: MagazineBoxRifleIncendiary
   materials:
     Plastic: 750
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazineBoxRifleDragon
+  result: MagazineBoxRifleDragon
+  materials:
+    Plastic: 750
+    Plasma: 750
 
 - type: latheRecipe
   parent: BaseAmmoRecipe

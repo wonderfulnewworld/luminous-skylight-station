@@ -53,7 +53,7 @@
   parent: BaseCartridgeMagnum
   id: CartridgeMagnumIncendiary
   name: cartridge (.45 magnum incendiary)
-  description: Heavy magnum cartridge mostly used by revolvers. Incendiary ammunition contains a self-igniting compound that sets targets ablaze.
+  description: Heavy magnum cartridge mostly used by revolvers. Incendiary ammunition contains a pyrotechnic compound that inflicts severe burns. # Starlight
   components:
   - type: CartridgeAmmo
     proto: BulletMagnumTraceIncendiary

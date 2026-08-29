@@ -24,6 +24,8 @@ research-technology-thermalvision-eyes = Thermal Vision Cyber Eyes
 research-technology-olfactory-nose = Olfactory Implant
 
 research-technology-ion-weaponry = Ion Weaponry
+research-technology-dragon-munitions = Dragon Munitions
+research-technology-incendiary-munitions = Incendiary Munitions
 research-technology-declone-technology = Declone Technology
 research-technology-scan-gate = Scan Gates Technology
 

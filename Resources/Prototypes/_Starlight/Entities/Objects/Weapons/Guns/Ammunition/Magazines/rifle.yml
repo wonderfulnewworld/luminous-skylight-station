@@ -175,6 +175,30 @@
         color: "#E7EEEE"
 
 - type: entity
+  id: MagazineRifleDragon
+  parent: MagazineRifleIncendiary
+  name: "magazine (.20 rifle dragon)"
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeRifleDragon
+  - type: Sprite
+    layers:
+    - state: incendiary
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-1
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#FF8C00"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#FF8C00"
+
+- type: entity
   id: MagazineRiflePractice
   name: "magazine (.20 rifle practice)"
   parent: BaseMagazineRifle
@@ -401,6 +425,28 @@
       - state: inhand-right-mag
       - state: inhand-right-stripe
         color: "#E7EEEE"
+
+- type: entity
+  id: MagazineRifleM52Dragon
+  parent: MagazineRifleM52Incendiary
+  name: "magazine (.20 rifle dragon)"
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeRifleDragon
+  - type: Sprite
+    layers:
+    - state: incendiary
+      map: [ "enum.GunVisualLayers.Base" ]
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#FF8C00"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#FF8C00"
 
 - type: entity
   id: MagazineRifleM52Practice

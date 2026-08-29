@@ -58,3 +58,19 @@
       - state: tip
         map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#1A8C1A"
+
+- type: entity
+  id: CartridgeRifleDragon
+  parent: CartridgeRifleIncendiary
+  name: cartridge (.20 rifle dragon)
+  description: A modern intermediate cartridge for combat rifles. Dragon ammunition contains a volatile compound that sets targets ablaze.
+  components:
+  - type: CartridgeAmmo
+    proto: BulletRifleTraceDragon
+  - type: Sprite
+    layers:
+    - state: base
+      map: [ "enum.AmmoVisualLayers.Base" ]
+    - state: tip
+      map: [ "enum.AmmoVisualLayers.Tip" ]
+      color: "#FF8C00"

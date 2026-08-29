@@ -131,7 +131,7 @@
   parent: BaseMagazineShotgun
   id: MagazineShotgunIncendiary
   name: 12 gauge incendiary drum # Starlight change: .50 -> 12 gauge
-  description: A large drum magazine used by some military-grade automatic shotguns. Intended to hold self-igniting incendiary ammunition.
+  description: A large drum magazine used by some military-grade automatic shotguns. Intended to hold incendiary ammunition that burns targets. # Starlight
   components:
   - type: BallisticAmmoProvider
     proto: ShellShotgunIncendiary

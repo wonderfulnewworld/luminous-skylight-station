@@ -68,3 +68,19 @@
       - state: tip
         map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#B68F0E"
+
+- type: entity
+  id: CartridgeMagnumDragon
+  parent: CartridgeMagnumIncendiary
+  name: cartridge (.45 magnum dragon)
+  description: Heavy magnum cartridge mostly used by revolvers. Dragon ammunition contains a volatile compound that sets targets ablaze.
+  components:
+  - type: CartridgeAmmo
+    proto: BulletMagnumTraceDragon
+  - type: Sprite
+    layers:
+    - state: base
+      map: [ "enum.AmmoVisualLayers.Base" ]
+    - state: tip
+      map: [ "enum.AmmoVisualLayers.Tip" ]
+      color: "#FF8C00"

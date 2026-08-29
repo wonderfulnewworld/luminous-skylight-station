@@ -34,6 +34,14 @@
     Plastic: 310
 
 - type: latheRecipe
+  parent: BaseEmptyAmmoRecipe
+  id: MagazinePistolSubMachineGunDragon
+  result: MagazinePistolSubMachineGunDragon
+  materials:
+    Plastic: 310
+    Plasma: 100
+
+- type: latheRecipe
   parent: BaseAmmoRecipe
   id: MagazinePistolSubMachineGunUranium
   result: MagazinePistolSubMachineGunUranium

@@ -255,6 +255,26 @@
     deviation: 0.05
   - type: HitscanRicochet
     chance: 0.48
+  - type: HitscanBasicVisuals
+    muzzleFlash:
+      sprite: _Starlight/Objects/Weapons/Guns/Projectiles/projectiles.rsi
+      state: muzzle
+    travelFlash:
+      sprite: _Starlight/Objects/Weapons/Guns/Projectiles/projectiles.rsi
+      state: trace
+    impactFlash:
+      sprite: _Starlight/Objects/Weapons/Guns/Projectiles/projectiles.rsi
+      state: impact
+    bullet:
+      sprite:
+        sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
+        state: incendiary
+
+- type: entity
+  id: BulletMagnumTraceDragon
+  parent: BulletMagnumTraceIncendiary
+  categories: [ HideSpawnMenu ]
+  components:
   - type: HitscanIgniteEffect
   - type: HitscanBasicVisuals
     muzzleFlash:
@@ -270,6 +290,7 @@
       sprite:
         sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
         state: incendiary
+      color: "#FF8C00"
 
 - type: entity
   id: BulletMagnumTraceUranium
@@ -452,7 +473,6 @@
       types:
         Blunt: 2
         Heat: 14
-  - type: HitscanIgniteEffect
   - type: HitscanPierce
     chance: 0.69
     deviation: 0.2
@@ -463,6 +483,19 @@
       sprite:
         sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
         state: incendiary
+
+- type: entity
+  id: BulletPistolTraceDragon
+  parent: BulletPistolTraceIncendiary
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: HitscanIgniteEffect
+  - type: HitscanBasicVisuals
+    bullet:
+      sprite:
+        sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
+        state: incendiary
+      color: "#FF8C00"
 
 - type: entity
   id: BulletPistolTraceUranium
@@ -806,7 +839,6 @@
       types:
         Blunt: 3
         Heat: 16
-  - type: HitscanIgniteEffect
   - type: HitscanPierce
     chance: 0.69
     deviation: 0.05
@@ -817,6 +849,19 @@
       sprite:
         sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
         state: incendiary
+
+- type: entity
+  id: BulletLightRifleTraceDragon
+  parent: BulletLightRifleTraceIncendiary
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: HitscanIgniteEffect
+  - type: HitscanBasicVisuals
+    bullet:
+      sprite:
+        sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
+        state: incendiary
+      color: "#FF8C00"
 
 - type: entity
   id: BulletLightRifleTraceUranium
@@ -953,7 +998,6 @@
       types:
         Blunt: 2
         Heat: 15
-  - type: HitscanIgniteEffect
   - type: HitscanPierce
     chance: 0.69
   - type: HitscanRicochet
@@ -963,6 +1007,19 @@
       sprite:
         sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
         state: incendiary
+
+- type: entity
+  id: BulletRifleTraceDragon
+  parent: BulletRifleTraceIncendiary
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: HitscanIgniteEffect
+  - type: HitscanBasicVisuals
+    bullet:
+      sprite:
+        sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
+        state: incendiary
+      color: "#FF8C00"
 
 - type: entity
   id: BulletRifleTraceUranium
@@ -1107,12 +1164,24 @@
         Heat: 3
   - type: HitscanPierce
     chance: 0.02
+  - type: HitscanBasicVisuals
+    bullet:
+      sprite:
+        sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
+        state: buckshot-flare
+
+- type: entity
+  id: PelletShotgunDragonTrace
+  parent: PelletShotgunIncendiaryTrace
+  categories: [ HideSpawnMenu ]
+  components:
   - type: HitscanIgniteEffect
   - type: HitscanBasicVisuals
     bullet:
       sprite:
         sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
         state: buckshot-flare
+      color: "#FF8C00"
 
 - type: entity
   id: PelletShotgunIncendiarySpreadTrace
@@ -1121,6 +1190,16 @@
   components:
   - type: ProjectileSpread
     proto: PelletShotgunIncendiaryTrace
+    count: 12
+    spread: 15
+
+- type: entity
+  id: PelletShotgunDragonSpreadTrace
+  parent: PelletShotgunDragonTrace
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: ProjectileSpread
+    proto: PelletShotgunDragonTrace
     count: 12
     spread: 15
 

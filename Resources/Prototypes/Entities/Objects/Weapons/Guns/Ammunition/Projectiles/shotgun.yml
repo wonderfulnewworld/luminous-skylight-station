@@ -63,8 +63,8 @@
       types:
         Piercing: 7
         Heat: 3
-  - type: IgnitionSource
-    ignited: true
+  #- type: IgnitionSource # Starlight, no more ignition on incends
+  #  ignited: true # Starlight
 
 - type: entity
   parent: PelletShotgunIncendiary

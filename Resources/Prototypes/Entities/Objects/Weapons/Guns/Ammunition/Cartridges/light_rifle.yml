@@ -52,7 +52,7 @@
   parent: BaseCartridgeLightRifleSP
   id: CartridgeLightRifleIncendiary
   name: cartridge (.30 rifle incendiary)
-  description: A classic intermediate cartridge used by many combat rifles and LMGs. Incendiary ammunition contains a self-igniting compound that sets targets ablaze.
+  description: A classic intermediate cartridge used by many combat rifles and LMGs. Incendiary ammunition contains a pyrotechnic compound that inflicts severe burns. # Starlight
   components:
   - type: CartridgeAmmo
     proto: BulletLightRifleTraceIncendiary

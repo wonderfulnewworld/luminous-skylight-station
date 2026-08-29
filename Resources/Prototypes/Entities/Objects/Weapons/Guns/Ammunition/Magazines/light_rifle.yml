@@ -150,7 +150,7 @@
   parent: BaseMagazineLightRifle
   id: MagazineLightRifleIncendiary
   name: "magazine (.30 rifle incendiary)"
-  description: Curved 30-round double stack magazine for combat rifles. Intended to hold self-igniting incendiary ammunition.
+  description: Curved 30-round double stack magazine for combat rifles. Intended to hold incendiary ammunition that burns targets. # Starlight
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeLightRifleIncendiary

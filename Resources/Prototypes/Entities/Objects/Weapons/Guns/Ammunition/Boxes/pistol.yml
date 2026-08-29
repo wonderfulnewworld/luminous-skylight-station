@@ -74,7 +74,7 @@
   parent: BaseMagazineBoxPistol
   id: MagazineBoxPistolIncendiary
   name: ammunition box (.35 auto incendiary)
-  description: A cardboard box of .35 auto rounds. Intended to hold self-igniting incendiary ammunition.
+  description: A cardboard box of .35 auto rounds. Intended to hold incendiary ammunition that burns targets. # Starlight
   components:
   - type: BallisticAmmoProvider
     proto: CartridgePistolIncendiary

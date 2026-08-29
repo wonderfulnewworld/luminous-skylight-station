@@ -180,58 +180,71 @@
 # Light Rifle
   - MagazineBoxLightRifleRubber
   - MagazineBoxLightRifleIncendiary
+  - MagazineBoxLightRifleDragon
   - MagazineBoxLightRifleUranium
   - MagazineBoxLightRifleAP
 # Magnum
   - MagazineBoxMagnumRubber
   - MagazineBoxMagnumIncendiary
+  - MagazineBoxMagnumDragon
   - MagazineBoxMagnumUranium
   - MagazineBoxMagnumAP
 # Pistol
   - MagazineBoxPistolRubber
   - MagazineBoxPistolIncendiary
+  - MagazineBoxPistolDragon
   - MagazineBoxPistolUranium
   - MagazineBoxPistolAP
   - MagazineBoxPistol40AP
 # Rifle
   - MagazineBoxRifleRubber
   - MagazineBoxRifleIncendiary
+  - MagazineBoxRifleDragon
   - MagazineBoxRifleUranium
   - MagazineBoxRifleAP
 # Shotgun
   - BoxBeanbag
   - BoxShotgunIncendiary
+  - BoxShotgunDragon
   - BoxShotgunUranium
   - BoxShellTranquilizer
 #####################MAGAZINE#######################
 # Light Rifle
   - MagazineLightRifleIncendiary
+  - MagazineLightRifleDragon
   - MagazineLightRifleUranium
   - MagazineLightRifleAP
   - MagazineDMRIncendiary
+  - MagazineDMRDragon
   - MagazineDMRUranium
   - MagazineDMRAP
 # Magnum
   - SpeedLoaderMagnumIncendiary
+  - SpeedLoaderMagnumDragon
   - SpeedLoaderMagnumUranium
   - SpeedLoaderMagnumAP
 # Pistol
   - MagazinePistolIncendiary
+  - MagazinePistolDragon
   - MagazinePistolUranium
   - MagazinePistolAP
   - MagazinePistol40AP
 # SMG
   - MagazinePistolSubMachineGunIncendiary
+  - MagazinePistolSubMachineGunDragon
   - MagazinePistolSubMachineGunUranium
   - MagazinePistolSubMachineGunAP
 # Rifle
   - MagazineRifleIncendiary
+  - MagazineRifleDragon
   - MagazineRifleUranium
   - MagazineRifleAP
 # Shotgun
   - MagazineShotgunBeanbag
   - MagazineShotgunIncendiary
+  - MagazineShotgunDragon
   - SpeedLoaderShotgunIncendiary
+  - SpeedLoaderShotgunDragon
   - SpeedLoaderShotgunUranium
 # Grenade
   - MagazineGrenadeEmpty
@@ -330,4 +343,3 @@
   recipes:
   - HandImplantClaws
   - HandImplantForensics
-

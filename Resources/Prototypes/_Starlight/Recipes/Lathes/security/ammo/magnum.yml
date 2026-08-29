@@ -70,6 +70,15 @@
 
 - type: latheRecipe
   parent: BaseAmmoRecipe
+  id: SpeedLoaderMagnumDragon
+  result: SpeedLoaderMagnumDragon
+  materials:
+    Steel: 50
+    Plastic: 150
+    Plasma: 100
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
   id: SpeedLoaderMagnumAP
   result: SpeedLoaderMagnumAP
   materials:
@@ -137,6 +146,14 @@
   result: MagazineBoxMagnumIncendiary
   materials:
     Plastic: 240
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazineBoxMagnumDragon
+  result: MagazineBoxMagnumDragon
+  materials:
+    Plastic: 240
+    Plasma: 200
 
 - type: latheRecipe
   parent: BaseAmmoRecipe

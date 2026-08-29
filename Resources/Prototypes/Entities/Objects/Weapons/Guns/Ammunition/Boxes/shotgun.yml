@@ -111,7 +111,7 @@
   parent: AmmoProviderShotgunShell
   id: BoxShotgunIncendiary
   name: box of 12 gauge incendiary buckshot # Starlight change: .50 -> 12 gauge
-  description: A cardboard box of 12 gauge shotgun shells. Intended to hold self-igniting incendiary ammunition. # Starlight change: .50 -> 12 gauge
+  description: A cardboard box of 12 gauge shotgun shells. Intended to hold incendiary ammunition that burns targets. # Starlight change: .50 -> 12 gauge
   components:
     - type: BallisticAmmoProvider
       proto: ShellShotgunIncendiary

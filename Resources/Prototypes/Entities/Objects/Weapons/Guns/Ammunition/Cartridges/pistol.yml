@@ -53,7 +53,7 @@
   parent: BaseCartridgePistol
   id: CartridgePistolIncendiary
   name: cartridge (.35 auto incendiary)
-  description: Arguably the most popular caliber on the market, used by all manner of pistols and submachine guns. Incendiary ammunition contains a self-igniting compound that sets targets ablaze.
+  description: Arguably the most popular caliber on the market, used by all manner of pistols and submachine guns. Incendiary ammunition contains a pyrotechnic compound that inflicts severe burns. # Starlight
   components:
   - type: CartridgeAmmo
     proto: BulletPistolTraceIncendiary

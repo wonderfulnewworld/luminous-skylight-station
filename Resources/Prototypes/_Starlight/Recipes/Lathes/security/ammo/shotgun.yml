@@ -37,6 +37,15 @@
     Steel: 100
     Plastic: 190
 
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazineShotgunDragon
+  result: MagazineShotgunDragon
+  materials:
+    Steel: 100
+    Plastic: 190
+    Plasma: 200
+
 #Speedloaders
 - type: latheRecipe
   parent: BaseEmptyAmmoRecipe
@@ -78,6 +87,15 @@
 
 - type: latheRecipe
   parent: BaseAmmoRecipe
+  id: SpeedLoaderShotgunDragon
+  result: SpeedLoaderShotgunDragon
+  materials:
+    Steel: 60
+    Plastic: 110
+    Plasma: 120
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
   id: SpeedLoaderShotgunUranium
   result: SpeedLoaderShotgunUranium
   materials:
@@ -115,6 +133,15 @@
   materials:
     Steel: 80
     Plastic: 320
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: BoxShotgunDragon
+  result: BoxShotgunDragon
+  materials:
+    Steel: 80
+    Plastic: 320
+    Plasma: 340
 
 - type: latheRecipe
   parent: BaseAmmoRecipe

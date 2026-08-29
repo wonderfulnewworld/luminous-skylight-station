@@ -68,6 +68,30 @@
       - state: inhand-right-mag
 
 - type: entity
+  id: MagazineLightRifleDragon
+  parent: MagazineLightRifleIncendiary
+  name: "magazine (.30 rifle dragon)"
+  description: Curved 30-round double-stack magazine for combat rifles. Intended to hold volatile Dragon ammunition that sets targets ablaze.
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeLightRifleDragon
+  - type: Sprite
+    layers:
+    - state: incendiary
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-1
+      map: [ "enum.GunVisualLayers.Mag" ]
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#FF8C00"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#FF8C00"
+
+- type: entity
   id: MagazineLightRifleMaxim
   name: "pan magazine (.30 rifle)"
   parent: BaseMagazineLightRifle

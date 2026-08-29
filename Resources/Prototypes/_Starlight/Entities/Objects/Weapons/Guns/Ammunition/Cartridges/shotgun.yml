@@ -95,3 +95,25 @@
     soundEject:
       collection: ShellEject
     proto: PelletShotgunBreachSpreadTrace
+
+- type: entity
+  id: ShellShotgunDragon
+  parent: ShellShotgunIncendiary
+  name: 12 gauge dragon buckshot
+  description: The standard cartridge used by most modern shotguns. Dragon ammunition contains a volatile compound that sets targets ablaze.
+  components:
+  - type: Sprite
+    layers:
+    - state: base
+      map: [ "enum.AmmoVisualLayers.Base" ]
+    - state: tip
+      map: [ "enum.AmmoVisualLayers.Tip" ]
+      color: "#FF8C00"
+    - state: incendiary
+    - state: spent
+      map: [ "enum.AmmoVisualLayers.Spent" ]
+      visible: false
+  - type: CartridgeAmmo
+    soundEject:
+      collection: ShellEject
+    proto: PelletShotgunDragonSpreadTrace

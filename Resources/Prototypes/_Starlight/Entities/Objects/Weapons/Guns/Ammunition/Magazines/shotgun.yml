@@ -118,3 +118,28 @@
       - state: inhand-right-mag
       - state: inhand-right-stripe
         color: "#0096FF"
+
+- type: entity
+  id: MagazineShotgunDragon
+  parent: MagazineShotgunIncendiary
+  name: 12 gauge dragon drum
+  description: A large drum magazine used by some military-grade automatic shotguns. Intended to hold volatile Dragon ammunition that sets targets ablaze.
+  components:
+  - type: BallisticAmmoProvider
+    proto: ShellShotgunDragon
+  - type: Sprite
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-1
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#FF8C00"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#FF8C00"

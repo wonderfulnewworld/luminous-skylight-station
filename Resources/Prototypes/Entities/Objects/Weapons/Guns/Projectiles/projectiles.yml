@@ -149,8 +149,8 @@
     color: "#ff4300"
     radius: 2.0
     energy: 7.0
-  - type: IgniteOnCollide
-    fireStacks: 0.25
+  #- type: IgniteOnCollide # Starlight, no more ignition on incends
+  #  fireStacks: 0.25 # Starlight
 
 - type: entity
   id: BaseBulletAP

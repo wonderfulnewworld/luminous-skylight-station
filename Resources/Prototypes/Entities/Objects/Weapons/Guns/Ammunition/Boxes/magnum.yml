@@ -73,7 +73,7 @@
   id: MagazineBoxMagnumIncendiary
   parent: BaseMagazineBoxMagnum
   name: ammunition box (.45 magnum incendiary)
-  description: A cardboard box of .45 magnum rounds. Intended to hold self-igniting incendiary ammunition.
+  description: A cardboard box of .45 magnum rounds. Intended to hold incendiary ammunition that burns targets. # Starlight
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeMagnumIncendiary
