@@ -117,7 +117,7 @@ public sealed partial class ElectrolyzerSystem : EntitySystem
 
     private void UpdateAppearance(EntityUid uid)
     {
-        if (EntityManager.TryGetComponent<ElectrolyzerComponent>(uid, out var comp))
+        if (TryComp<ElectrolyzerComponent>(uid, out var comp))
         {
             _appearance.SetData(uid, ElectrolyzerVisuals.State,
                 comp.IsPowered ? ElectrolyzerState.On : ElectrolyzerState.Off);
@@ -173,7 +173,7 @@ public sealed partial class ElectrolyzerSystem : EntitySystem
                 electrolyzer.CurrentFuel = electrolyzer.PlasmaFuelConversion;
 
                 if (remaining <= 0)
-                EntityManager.QueueDeleteEntity(fuelEntity);
+                QueueDel(fuelEntity);
             }
         }
 
@@ -314,7 +314,7 @@ public sealed partial class ElectrolyzerSystem : EntitySystem
                     else
                     {
                         _stackSystem.SetCount((existingItem.Value, existingStack), total);
-                        EntityManager.QueueDeleteEntity(heldItem);
+                        QueueDel(heldItem);
                     }
 
                     return;

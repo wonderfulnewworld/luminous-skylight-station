@@ -1,10 +1,13 @@
 using Content.Shared.Tag;
 using Content.Shared.Tools.Systems;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared._Starlight.Antags.TerrorSpider.EntitySystems;
 
 public sealed partial class AcidVentSystem : EntitySystem
 {
+    private static readonly ProtoId<TagPrototype> GasVentTag = "GasVent";
+
     [Dependency] private TagSystem _tag = default!;
     [Dependency] private WeldableSystem _weldable = default!;
     public override void Initialize()
@@ -14,7 +17,7 @@ public sealed partial class AcidVentSystem : EntitySystem
 
     private void OnAcidVent(AcidVentEvent args)
     {
-        if (!_tag.HasTag(args.Target, "GasVent"))
+        if (!_tag.HasTag(args.Target, GasVentTag))
             return;
 
         args.Handled = true;

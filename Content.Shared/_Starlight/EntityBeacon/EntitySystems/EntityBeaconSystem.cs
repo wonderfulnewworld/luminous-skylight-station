@@ -68,7 +68,7 @@ public sealed partial class EntityBeaconSystem : EntitySystem
                 var entity = _random.Pick(component.EntitiesToSpawn);
                 component.CoordinatesToSpawn.Remove(coordinates);
 
-                EntityManager.PredictedSpawnAtPosition(entity, coordinates);
+                PredictedSpawnAtPosition(entity, coordinates);
             }
         }
     }

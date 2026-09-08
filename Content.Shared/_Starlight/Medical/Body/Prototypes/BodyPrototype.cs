@@ -16,7 +16,7 @@ public sealed partial class BodyPrototype : IPrototype
 
     private BodyPrototype() { }
 
-    public BodyPrototype(string id, string name, string root, Dictionary<string, BodyPrototypeSlot> slots)
+    internal void Initialize(string id, string name, string root, Dictionary<string, BodyPrototypeSlot> slots)
     {
         ID = id;
         Name = name;

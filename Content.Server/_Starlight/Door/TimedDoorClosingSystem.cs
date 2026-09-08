@@ -9,7 +9,7 @@ using Robust.Shared.Timing;
 
 namespace Content.Server._Starlight.Door;
 
-public sealed class TimedDoorClosingSystem : EntitySystem
+public sealed partial class TimedDoorClosingSystem : EntitySystem
 {
     [Dependency] private DoorSystem _door = default!;
     [Dependency] private EntityLookupSystem _entityLookup = default!;

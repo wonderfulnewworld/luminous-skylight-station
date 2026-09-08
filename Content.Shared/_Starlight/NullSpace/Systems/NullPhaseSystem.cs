@@ -19,6 +19,8 @@ namespace Content.Shared._Starlight.NullSpace.Systems;
 
 public sealed partial class NullSpacePhaseSystem : EntitySystem
 {
+    private static readonly EntProtoId NullPhaseAction = "NullPhaseAction";
+
     [Dependency] private SharedActionsSystem _actionsSystem = default!;
     [Dependency] private SharedPhysicsSystem _physics = default!;
     [Dependency] private SharedPopupSystem _popup = default!;
@@ -82,7 +84,7 @@ public sealed partial class NullSpacePhaseSystem : EntitySystem
     private void Toggle(EntityUid uid, NullPhaseComponent component, bool toggle)
     {
         if (toggle)
-            _actionsSystem.AddAction(uid, ref component.PhaseAction, "NullPhaseAction", uid);
+            _actionsSystem.AddAction(uid, ref component.PhaseAction, NullPhaseAction, uid);
         else
             _actionsSystem.RemoveAction(uid, component.PhaseAction);
     }

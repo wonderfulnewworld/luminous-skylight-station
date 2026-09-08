@@ -9,6 +9,7 @@ using Content.Shared.Inventory;
 using Content.Shared.Item;
 using Content.Shared.Item.ItemToggle.Components;
 using Content.Shared.Popups;
+using Content.Shared.Tag;
 using Content.Shared._Starlight.Medical.Surgery.Events;
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
@@ -21,6 +22,8 @@ namespace Content.Shared._Starlight.Medical.Surgery;
 // https://github.com/RMC-14/RMC-14
 public abstract partial class SharedSurgerySystem
 {
+    private static readonly ProtoId<TagPrototype> SurgeryCompatibleArmorTag = "SurgeryCompatibleArmor";
+
     [Dependency] private IRobustRandom _random = default!;
 
     // limb attachment blacklist, array because,,, future proofing.
@@ -121,7 +124,7 @@ public abstract partial class SharedSurgerySystem
             var tool = args.Tools.FirstOrDefault(x => HasComp(x, reg.Component.GetType()));
             if (tool == default) return;
 
-            var specificToolComp = EntityManager.GetComponents(tool)
+            var specificToolComp = AllComps(tool)
                 .OfType<ISurgeryToolComponent>();
 
             SoundSpecifier? endSound = null;
@@ -201,7 +204,7 @@ public abstract partial class SharedSurgerySystem
             while (enumerator.MoveNext(out var con))
             {
                 total++;
-                if (con.ContainedEntity != null && !_tag.HasTag(con.ContainedEntity.Value, "SurgeryCompatibleArmor"))
+                if (con.ContainedEntity != null && !_tag.HasTag(con.ContainedEntity.Value, SurgeryCompatibleArmorTag))
                     items++;
             }
 
@@ -301,7 +304,7 @@ public abstract partial class SharedSurgerySystem
                 var toolSpeed = 1f;
                 var toolSuccessRate = 1f;
                 SoundSpecifier? startSound = null;
-                var specificToolComp = EntityManager.GetComponents(tool)
+                var specificToolComp = AllComps(tool)
                     .OfType<ISurgeryToolComponent>();
 
                 foreach(var usedTool in specificToolComp)

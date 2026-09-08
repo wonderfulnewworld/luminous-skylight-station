@@ -13,7 +13,7 @@ using Robust.Shared.Utility;
 
 namespace Content.Client._Starlight.Arcade.Lancer;
 
-public sealed class LancerBoardControl : Control
+public sealed partial class LancerBoardControl : Control
 {
     private const float HexSize = 28f;
     private const float EffectDuration = 0.6f;
@@ -21,7 +21,7 @@ public sealed class LancerBoardControl : Control
     private static readonly ResPath UnitsRsi = new("_Starlight/Arcade/Lancer/lancer_units.rsi");
     private static readonly ResPath EffectsRsi = new("_Starlight/Arcade/Lancer/lancer_effects.rsi");
 
-    [Dependency] private readonly IResourceCache _resourceCache = default!;
+    [Dependency] private IResourceCache _resourceCache = default!;
 
     private LancerGameStateSnapshot? _snapshot;
     private LancerGridCoord? _hover;

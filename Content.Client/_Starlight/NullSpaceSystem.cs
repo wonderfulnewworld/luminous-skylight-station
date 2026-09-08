@@ -11,6 +11,8 @@ namespace Content.Client._Starlight;
 
 public sealed partial class NullSpaceSystem : SharedNullSpaceSystem
 {
+    private static readonly ProtoId<ShaderPrototype> NullSpaceShader = "NullSpaceShader";
+
     [Dependency] private IOverlayManager _overlayMan = default!;
     [Dependency] private ISharedPlayerManager _playerMan = default!;
     [Dependency] private IPrototypeManager _prototypeManager = default!;
@@ -32,7 +34,7 @@ public sealed partial class NullSpaceSystem : SharedNullSpaceSystem
         SubscribeLocalEvent<ShowNullSpaceComponent, LocalPlayerDetachedEvent>(OnPlayerDetached);
         SubscribeLocalEvent<ShowNullSpaceComponent, GotEquippedEvent>(GotEquippedEvent);
 
-        _overlay = new(_prototypeManager.Index<ShaderPrototype>("NullSpaceShader"));
+        _overlay = new(_prototypeManager.Index(NullSpaceShader));
     }
 
     private void OnInit(EntityUid uid, Component component, ComponentInit args)

@@ -18,7 +18,7 @@ namespace Content.Client._Starlight.Arcade.Lancer;
 /// Full-column overlay that throws dice with pseudo-physics on top of the Lancer board column.
 /// Attack dice and damage dice are separate waves with a short delay between them.
 /// </summary>
-public sealed class LancerDiceOverlayControl : Control
+public sealed partial class LancerDiceOverlayControl : Control
 {
     private const float D6Size = 64f;
     private const float D20Size = 96f;
@@ -37,8 +37,8 @@ public sealed class LancerDiceOverlayControl : Control
     private static readonly Color DiffTint = Color.FromHex("#CC8888");
     private static readonly Color DamageTint = Color.FromHex("#E8A040");
 
-    [Dependency] private readonly IResourceCache _resourceCache = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private IResourceCache _resourceCache = default!;
+    [Dependency] private IRobustRandom _random = default!;
 
     private readonly Queue<LancerArcadeMessages.LancerDiceRollMessage> _queue = new();
     private ActiveRoll? _active;

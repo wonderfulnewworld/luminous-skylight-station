@@ -9,6 +9,8 @@ namespace Content.Client.Overlays;
 
 public sealed partial class DarkenedVisionOverlay : Overlay
 {
+    private static readonly ProtoId<ShaderPrototype> CircleMaskShader = "CircleMask";
+
     [Dependency] private IPrototypeManager _prototypeManager = default!;
     [Dependency] private IPlayerManager _playerManager = default!;
     [Dependency] private IEntityManager _entityManager = default!;
@@ -23,7 +25,7 @@ public sealed partial class DarkenedVisionOverlay : Overlay
     public DarkenedVisionOverlay()
     {
         IoCManager.InjectDependencies(this);
-        _circleMaskShader = _prototypeManager.Index<ShaderPrototype>("CircleMask").InstanceUnique();
+        _circleMaskShader = _prototypeManager.Index(CircleMaskShader).InstanceUnique();
     }
     protected override bool BeforeDraw(in OverlayDrawArgs args)
     {

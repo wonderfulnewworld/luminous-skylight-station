@@ -8,6 +8,8 @@ using Content.Shared._Starlight.Abstract;
 namespace Content.Shared._Starlight.Antags.TerrorSpider.EntitySystems;
 public sealed partial class TerrorEggSystem : AccUpdateEntitySystem
 {
+    private static readonly ProtoId<DamageTypePrototype> BluntDamageType = "Blunt";
+
     [Dependency] private IRobustRandom _random = default!;
     [Dependency] private IPrototypeManager _prototypes = default!;
     [Dependency] private DamageableSystem _damageable = default!;
@@ -31,7 +33,7 @@ public sealed partial class TerrorEggSystem : AccUpdateEntitySystem
         foreach (var egg in _eggs)
         {
             egg.Value.Comp.Counter++;
-            _blunt ??= _prototypes.Index<DamageTypePrototype>("Blunt");
+            _blunt ??= _prototypes.Index(BluntDamageType);
             _damage ??= new(_blunt, 1);
             _damageable.TryChangeDamage(egg.Value.Owner, _damage, false);
             if (egg.Value.Comp.Counter >= 300)

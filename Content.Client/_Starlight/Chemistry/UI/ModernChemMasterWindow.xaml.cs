@@ -26,8 +26,8 @@ namespace Content.Client._Starlight.Chemistry.UI;
 [GenerateTypedNameReferences]
 public sealed partial class ModernChemMasterWindow : FancyWindow
 {
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly IEntityManager _entityManager = default!;
+    [Dependency] private IPrototypeManager _prototypeManager = default!;
+    [Dependency] private IEntityManager _entityManager = default!;
     public event Action<BaseButton.ButtonEventArgs, ReagentButton>? OnReagentButtonPressed;
     public event Action<BaseButton.ButtonEventArgs, ReagentId, FixedPoint2, bool>? OnCustomReagentButtonPressed;
     public event Action? OnToggleValveButtonPressed;

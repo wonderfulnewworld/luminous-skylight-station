@@ -31,6 +31,10 @@ namespace Content.Server._Starlight.Energy.Supermatter;
 
 public sealed partial class SupermatterSystem : AccUpdateEntitySystem
 {
+    private static readonly ProtoId<DamageGroupPrototype> BurnDamageGroup = "Burn";
+    private static readonly ProtoId<DamageGroupPrototype> BruteDamageGroup = "Brute";
+    private static readonly ProtoId<RadioChannelPrototype> EngineeringChannel = "Engineering";
+
     [Dependency] private AchievementSystem _achievements = default!;
     [Dependency] private DamageableSystem _damageable = default!;
     [Dependency] private AtmosphereSystem _atmosphere = default!;
@@ -74,7 +78,7 @@ public sealed partial class SupermatterSystem : AccUpdateEntitySystem
         if (TryComp<FixturesComponent>(args.User, out var fixture))
             damage = fixture.Fixtures.Select(x => x.Value.Density).Aggregate((i, p) => p + i) / 3;
 
-        _burn ??= _prototypes.Index<DamageGroupPrototype>("Burn");
+        _burn ??= _prototypes.Index(BurnDamageGroup);
         _damageable.TryChangeDamage(ent.Owner, new(_burn, damage), true);
 
         QueueDel(args.User);
@@ -98,7 +102,7 @@ public sealed partial class SupermatterSystem : AccUpdateEntitySystem
         if (TryComp<FixturesComponent>(args.OtherEntity, out var fixture))
             damage = fixture.Fixtures.Select(x => x.Value.Density).Aggregate((i, p) => p + i) / 3;
 
-        _burn ??= _prototypes.Index<DamageGroupPrototype>("Burn");
+        _burn ??= _prototypes.Index(BurnDamageGroup);
         _damageable.TryChangeDamage(ent.Owner, new(_burn, damage), true);
 
         QueueDel(args.OtherEntity);
@@ -158,7 +162,7 @@ public sealed partial class SupermatterSystem : AccUpdateEntitySystem
     {
         var currentDurability = (int)Math.Floor(supermatter.Comp.Durability.Float());
         var lastDurability = (int)Math.Floor(supermatter.Comp.LastSendedDurability.Float());
-        _engi ??= _prototypes.Index<RadioChannelPrototype>("Engineering");
+        _engi ??= _prototypes.Index(EngineeringChannel);
 
         if (Math.Abs(currentDurability - lastDurability) < 5)
             return;
@@ -275,7 +279,7 @@ public sealed partial class SupermatterSystem : AccUpdateEntitySystem
     {
         if (gas.Temperature <= Const.MaxTemperature) return;
         _audio.PlayPvs(_random.Pick(Const.AudioBurn), supermatter.Owner);
-        _burn ??= _prototypes.Index<DamageGroupPrototype>("Burn");
+        _burn ??= _prototypes.Index(BurnDamageGroup);
         DamageSpecifier damage = new(_burn, Const.MaxTemperature - gas.Temperature);
         _damageable.TryChangeDamage(supermatter.Owner, damage, true);
     }
@@ -284,7 +288,7 @@ public sealed partial class SupermatterSystem : AccUpdateEntitySystem
     {
         if (gas.Pressure >= Const.MinPressure && gas.Pressure <= Const.MaxPressure) return;
         _audio.PlayPvs(_random.Pick(Const.AudioCrack), supermatter.Owner);
-        _brute ??= _prototypes.Index<DamageGroupPrototype>("Brute");
+        _brute ??= _prototypes.Index(BruteDamageGroup);
         DamageSpecifier damage = new(_brute, Math.Max(Const.MinPressure - gas.Pressure, gas.Pressure - Const.MaxPressure) / 100);
         _damageable.TryChangeDamage(supermatter.Owner, damage, true);
     }

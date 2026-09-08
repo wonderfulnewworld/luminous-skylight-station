@@ -176,6 +176,8 @@ public sealed class BodyPrototypeSerializer : ITypeReader<BodyPrototype, Mapping
             slots.Add(slotId, slot);
         }
 
-        return new BodyPrototype(id, name, root, slots);
+        var prototype = instanceProvider?.Invoke() ?? BodyPrototype.StaticInstantiate();
+        prototype.Initialize(id, name, root, slots);
+        return prototype;
     }
 }

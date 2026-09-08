@@ -8,7 +8,7 @@ using Robust.Shared.Random;
 
 namespace Content.Server._Starlight.Shadekin;
 
-public sealed class DarkBreacherSystem : SharedDarkBreacherSystem
+public sealed partial class DarkBreacherSystem : SharedDarkBreacherSystem
 {
     [Dependency] private LinkedEntitySystem _link = default!;
 

@@ -23,6 +23,7 @@ using Content.Shared.Silicons.Borgs.Components;
 using Content.Shared.Station.Components;
 using Content.Shared.StatusEffectNew;
 using Robust.Shared.Player;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
@@ -30,6 +31,8 @@ namespace Content.Server._Starlight.GameTicking.Rules;
 
 public sealed partial class PsychicScreachRule : StationEventSystem<PsychicScreachRuleComponent>
 {
+    private static readonly EntProtoId IonStormRule = "IonStorm";
+
     [Dependency] private IRobustRandom _random = default!;
     [Dependency] private PoweredLightSystem _light = default!;
     [Dependency] private GameTicker _gameTicker = default!;
@@ -113,7 +116,7 @@ public sealed partial class PsychicScreachRule : StationEventSystem<PsychicScrea
         }
 
         // Trigger IonLaws // ! (MAKE SURE ITS SILENT!)
-        _gameTicker.StartGameRule("IonStorm");
+        _gameTicker.StartGameRule(IonStormRule);
 
         Timer.Spawn(TimeSpan.FromSeconds(10), () => {
             Audio.PlayGlobal(comp.Atmosphere2, allPlayersOnStation, true);
