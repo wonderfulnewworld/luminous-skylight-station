@@ -403,7 +403,7 @@
         min: 4
         max: 8 # Starlight end
   - type: DynamicRuleCost
-    cost: 200
+    cost: 100
 
 - type: entity
   parent: [ BaseXenoborgsRule, BaseRoundstartAntagRule]
