@@ -116,6 +116,7 @@
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: StrongMetallic
+  - type: SparksOnDamage # _Starfall
   - type: Destructible
     thresholds:
     - trigger:

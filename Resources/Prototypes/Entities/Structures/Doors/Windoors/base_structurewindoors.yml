@@ -85,6 +85,7 @@
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: Glass
+  - type: SparksOnDamage # _Starfall
   - type: ExaminableDamage
     messages: WindowMessages
   - type: RCDDeconstructable
@@ -180,11 +181,6 @@
       - DoorRemoteWhitelist
       # This tag is used by door remotes to allow or not a door remote to normally be able to interact with a door
       - BulletUnarmedCollide #Starlight -- Make bullet pre-arming not phase through windoors
-  # ES Start
-  - type: ESSparkOnHit
-    prob: 0.25
-    count: 2
-  # ES End
 
 - type: entity
   id: BaseSecureWindoor

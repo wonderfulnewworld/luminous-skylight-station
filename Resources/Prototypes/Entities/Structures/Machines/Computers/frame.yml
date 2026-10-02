@@ -27,6 +27,7 @@
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: Electronic
+  - type: SparksOnDamage # _Starfall
   - type: Destructible
     thresholds:
     - trigger:

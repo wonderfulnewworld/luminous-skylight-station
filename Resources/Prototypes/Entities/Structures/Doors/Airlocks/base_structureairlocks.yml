@@ -147,6 +147,7 @@
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: StrongMetallic
+  - type: SparksOnDamage # _Starfall
   - type: RCDDeconstructable
     cost: 6
     delay: 8
@@ -189,11 +190,6 @@
     - Airlocks
     - WirePanels
     - Networking
-  # ES START
-  - type: ESSparkOnHit
-    prob: 0.25
-    count: 2
-  # ES END
   placement:
     mode: SnapgridCenter
 
