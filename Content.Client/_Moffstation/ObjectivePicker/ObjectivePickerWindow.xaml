@@ -10,8 +10,8 @@
             </ScrollContainer>
         </PanelContainer>
         <BoxContainer Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5">
-            <RichTextLabel Name="SelectionTip" Margin="2" HorizontalAlignment="Center" Text="{Loc 'objective-picker-window-select-tip'}"/>
-            <RichTextLabel Name="TimeLeftTip" Margin="2" HorizontalAlignment="Center" Text="{Loc 'objective-picker-window-time-left'}"/>
+            <RichTextLabel Name="SelectionTip" Margin="2" HorizontalAlignment="Center"/>
+            <RichTextLabel Name="TimeLeftTip" Margin="2" HorizontalAlignment="Center"/>
             <BoxContainer Orientation="Horizontal">
                 <Button Name="RandomizeButton" SetHeight="30" HorizontalExpand="True" Margin="0 5 10 0" Text="{Loc 'objective-picker-window-random'}"/>
                 <Button Name="ClearButton" SetHeight="30" HorizontalExpand="True" Margin="10 5 0 0" Text="{Loc 'objective-picker-window-clear'}"/>

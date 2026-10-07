@@ -41,6 +41,8 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
 
         _mind.TryGetMind(_players.LocalSession, out var mindUid, out _);
 
+        SubmitButton.Disabled = true;
+        RandomizeButton.Disabled = true;
         PopulateObjectives(mindUid);
 
         SubmitButton.OnPressed += _ => OnSubmitted?.Invoke(SelectedObjectives, _entity.GetNetEntity(mindUid));
@@ -48,7 +50,9 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
 
         if (!_entity.TryGetComponent<PotentialObjectivesComponent>(mindUid, out var comp))
             return;
+        RandomizeButton.Disabled = comp.ObjectiveOptions.Count == 0;
         RandomizeButton.OnPressed += _ => OnRandomize?.Invoke(comp.ObjectiveOptions.Keys.ToHashSet(), comp.MaxChoices);
+        UpdateTimer();
     }
 
     private void PopulateObjectives(EntityUid mindUid)
@@ -65,7 +69,7 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
                 ToggleMode = true,
                 Pressed = SelectedObjectives.Contains(objective.Key),
                 Disabled = SelectedObjectives.Count >= potentialObjectivesComponent.MaxChoices &&
-                           !SelectedObjectives.Contains(objective.Key),
+                            !SelectedObjectives.Contains(objective.Key),
                 Children =
                 {
                     new BoxContainer
@@ -119,8 +123,12 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
     {
         _mind.TryGetMind(_players.LocalSession, out var mindUid, out _);
 
-        if (!_entity.TryGetComponent<PotentialObjectivesComponent>(mindUid, out var comp))
+        if (!_entity.TryGetComponent<PotentialObjectivesComponent>(mindUid, out var comp)
+            || comp.ObjectiveOptions.Count == 0)
+        {
+            Close();
             return;
+        }
 
         var timeLeft = comp.AutoSelectionTime - _timing.CurTime;
 

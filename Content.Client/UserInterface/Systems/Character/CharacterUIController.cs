@@ -182,45 +182,37 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
             _window.CharacterInfo.Objectives.AddChild(objectiveControl); //starlight
         }
 
-        // Starlight Start: Custom objective summary
-        switch (objectives.Count)
+        #region Starlight
+        // Custom objective summary
+        if (objectives.Count > 0)
         {
-            case > 0:
+            var button = new Button
             {
-                var button = new Button
-                {
-                    Text = Loc.GetString("custom-objective-button-text"),
-                    Margin = new Thickness(0, 10, 0, 10)
-                };
-                button.OnPressed += _ => _objective.OpenWindow();
+                Text = Loc.GetString("custom-objective-button-text"),
+                Margin = new Thickness(0, 10, 0, 10)
+            };
+            button.OnPressed += _ => _objective.OpenWindow();
 
-                _window.CharacterInfo.Objectives.AddChild(button);
-                break;
-            }
-        // Starlight End
+            _window.CharacterInfo.Objectives.AddChild(button);
+        }
         // Moffstation - Start - Objective Picker
-            case 0:
+        // Have to modify this for Starlight, since we have the Cards button too.
+        if (_ent.TryGetComponent<MindContainerComponent>(_player.LocalEntity, out var container)
+            && _ent.TryGetComponent<PotentialObjectivesComponent>(container.Mind, out var potentialObjectives)
+            && potentialObjectives.ObjectiveOptions.Count > 0)
+        {
+            var objectivePickerButton = new Button
             {
-                if (!_ent.TryGetComponent<MindContainerComponent>(_player.LocalEntity, out var container)
-                    || container.Mind is null)
-                    break;
+                Text = Loc.GetString("objective-picker-button"),
+                Margin = new Thickness(0, 10, 0, 10)
+            };
+            objectivePickerButton.OnPressed += _ => UIManager.GetUIController<ObjectivePickerUIController>().EnsureWindow();
+            objectivePickerButton.OnPressed += _ => _window.Close();
 
-                if (!_ent.HasComponent<PotentialObjectivesComponent>(container.Mind))
-                    break;
-
-                var objectivePickerButton = new Button
-                {
-                    Text = Loc.GetString("objective-picker-button"),
-                    Margin = new Thickness(0, 10, 0, 10)
-                };
-                objectivePickerButton.OnPressed += _ => UIManager.GetUIController<ObjectivePickerUIController>().EnsureWindow();
-                objectivePickerButton.OnPressed += _ => _window.Close();
-
-                _window.CharacterInfo.Objectives.AddChild(objectivePickerButton);
-                break;
-            }
+            _window.CharacterInfo.Objectives.AddChild(objectivePickerButton);
         }
         // Moffstation - End
+        #endregion
 
         if (briefing != null)
         {

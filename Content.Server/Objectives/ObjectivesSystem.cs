@@ -379,7 +379,12 @@ public sealed partial class ObjectivesSystem : SharedObjectivesSystem
     // Moffstation - Start - Objective Picker: This is rewritten to use our IEnumerable version for maintainability
     public EntityUid? GetRandomObjective(EntityUid mindId, MindComponent mind, ProtoId<WeightedRandomPrototype> objectiveGroupProto, float maxDifficulty)
     {
-        return GetRandomObjectives(mindId, mind, objectiveGroupProto, maxDifficulty).Single();
+        foreach (var objective in GetRandomObjectives(mindId, mind, objectiveGroupProto, maxDifficulty))
+        {
+            return objective;
+        }
+
+        return null;
     }
     // Moffstation - End
 

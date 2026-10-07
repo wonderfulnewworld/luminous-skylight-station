@@ -9,26 +9,22 @@ public sealed partial class PotentialObjectivesSystem : EntitySystem
 {
     [Dependency] private IRobustRandom _random = default!;
     [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private AntagRandomObjectivesSystem _antagObjectives = default!;
 
     public override void Update(float frameTime)
     {
         var query = EntityQueryEnumerator<PotentialObjectivesComponent>();
         while (query.MoveNext(out var uid, out var comp))
         {
-            if (_timing.CurTime < comp.AutoSelectionTime)
-                return;
+            if (_timing.CurTime < comp.AutoSelectionTime || comp.ObjectiveOptions.Count == 0)
+                continue;
 
             var objectives = comp.ObjectiveOptions.OrderBy(_ => _random.Next())
                 .Take(comp.MaxChoices)
                 .Select(it => it.Key)
                 .ToHashSet();
 
-            var ev = new ObjectivePickerSelected
-            {
-                MindId = GetNetEntity(uid),
-                SelectedObjectives = objectives,
-            };
-            RaiseLocalEvent(ev);
+            _antagObjectives.ApplySelectedObjectives(uid, objectives);
         }
     }
 }
