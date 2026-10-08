@@ -30,7 +30,7 @@ namespace Content.IntegrationTests.Tests.GameRules;
 
 public sealed partial class TraitorRuleTest
 {
-    private static readonly ProtoId<TagPrototype> SLBackgroundTag = "CivilianTraitBackground";
+    private static readonly ProtoId<TagPrototype> _sLBackgroundTag = "CivilianTraitBackground";
 
     private async Task SLTestObjectivePicker(EntityUid mind, EntityUid player)
     {
@@ -75,7 +75,7 @@ public sealed partial class TraitorRuleTest
                 OOCNotes = "OOC notes",
                 PersonalNotes = "Personal notes",
             });
-            Server.System<TagSystem>().AddTag(player, SLBackgroundTag);
+            Server.System<TagSystem>().AddTag(player, _sLBackgroundTag);
 
             foreignMind = Server.System<MindSystem>().CreateMind(null);
             foreignObjective = SEntMan.SpawnEntity(null, MapCoordinates.Nullspace);
@@ -149,14 +149,11 @@ public sealed partial class TraitorRuleTest
         });
 
         // An under-budget submission must leave the picker open and assign no offers.
-        await Client.WaitAssertion(() =>
+        await Client.WaitAssertion(() => Client.ResolveDependency<IEntityNetworkManager>().SendSystemNetworkMessage(new ObjectivePickerSelected
         {
-            Client.ResolveDependency<IEntityNetworkManager>().SendSystemNetworkMessage(new ObjectivePickerSelected
-            {
-                MindId = CEntMan.GetNetEntity(Client.System<SharedMindSystem>().GetMind(Client.User!.Value)!.Value),
-                SelectedObjectives = new() { retained },
-            });
-        });
+            MindId = CEntMan.GetNetEntity(Client.System<SharedMindSystem>().GetMind(Client.User!.Value)!.Value),
+            SelectedObjectives = new() { retained },
+        }));
         await Pair.RunTicksSync(5);
         await Server.WaitAssertion(() =>
         {
@@ -164,14 +161,11 @@ public sealed partial class TraitorRuleTest
             Assert.That(SEntMan.HasComponent<PotentialObjectivesComponent>(mind), Is.True);
         });
 
-        await Client.WaitAssertion(() =>
+        await Client.WaitAssertion(() => Client.ResolveDependency<IEntityNetworkManager>().SendSystemNetworkMessage(new ObjectivePickerMulligan
         {
-            Client.ResolveDependency<IEntityNetworkManager>().SendSystemNetworkMessage(new ObjectivePickerMulligan
-            {
-                MindId = CEntMan.GetNetEntity(Client.System<SharedMindSystem>().GetMind(Client.User!.Value)!.Value),
-                RetainedObjective = retained,
-            });
-        });
+            MindId = CEntMan.GetNetEntity(Client.System<SharedMindSystem>().GetMind(Client.User!.Value)!.Value),
+            RetainedObjective = retained,
+        }));
         await Pair.RunTicksSync(5);
         await Pair.RunUntilSynced();
         await Server.WaitAssertion(() =>
@@ -187,26 +181,20 @@ public sealed partial class TraitorRuleTest
         });
 
         // A second mulligan must leave the original reroll intact.
-        await Client.WaitAssertion(() =>
+        await Client.WaitAssertion(() => Client.ResolveDependency<IEntityNetworkManager>().SendSystemNetworkMessage(new ObjectivePickerMulligan
         {
-            Client.ResolveDependency<IEntityNetworkManager>().SendSystemNetworkMessage(new ObjectivePickerMulligan
-            {
-                MindId = CEntMan.GetNetEntity(Client.System<SharedMindSystem>().GetMind(Client.User!.Value)!.Value),
-                RetainedObjective = retained,
-            });
-        });
+            MindId = CEntMan.GetNetEntity(Client.System<SharedMindSystem>().GetMind(Client.User!.Value)!.Value),
+            RetainedObjective = retained,
+        }));
         await Pair.RunTicksSync(5);
         await Server.WaitAssertion(() => Assert.That(
             SEntMan.GetComponent<PotentialObjectivesComponent>(mind).ObjectiveOptions.Keys, Is.EquivalentTo(candidates.Keys)));
 
-        await Client.WaitAssertion(() =>
+        await Client.WaitAssertion(() => Client.ResolveDependency<IEntityNetworkManager>().SendSystemNetworkMessage(new ObjectivePickerSelected
         {
-            Client.ResolveDependency<IEntityNetworkManager>().SendSystemNetworkMessage(new ObjectivePickerSelected
-            {
-                MindId = CEntMan.GetNetEntity(Client.System<SharedMindSystem>().GetMind(Client.User!.Value)!.Value),
-                SelectedObjectives = selected,
-            });
-        });
+            MindId = CEntMan.GetNetEntity(Client.System<SharedMindSystem>().GetMind(Client.User!.Value)!.Value),
+            SelectedObjectives = selected,
+        }));
         await Pair.RunTicksSync(5);
         await Pair.RunUntilSynced();
 

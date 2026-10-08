@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using Content.IntegrationTests.Fixtures;
 using Content.Server._Moffstation.Objectives.Systems;
@@ -7,6 +6,7 @@ using Content.Server.Mind;
 using Content.Server._Starlight.Objectives.Components;
 using Content.Server.Objectives;
 using Content.Shared.Access.Components;
+using Content.Shared.Mind;
 using Content.Shared.Roles;
 using Content.Shared._Moffstation.Objectives;
 using Content.Shared.Objectives.Components;
@@ -20,11 +20,11 @@ namespace Content.IntegrationTests.Tests._Starlight.Objectives;
 public sealed class ObjectivePickerTest : GameTest
 {
     // Test-only prototypes are instance fields so production prototype validation does not index them.
-    private readonly EntProtoId Limited = "SLPickerTestLimited";
-    private readonly EntProtoId Plain = "SLPickerTestPlain";
-    private readonly EntProtoId Blacklist = "SLPickerTestBlacklist";
-    private readonly EntProtoId Survive = "SLPickerTestSurvive";
-    private static readonly ProtoId<DepartmentPrototype> Department = "Cargo";
+    private readonly EntProtoId _limited = "SLPickerTestLimited";
+    private readonly EntProtoId _plain = "SLPickerTestPlain";
+    private readonly EntProtoId _blacklist = "SLPickerTestBlacklist";
+    private readonly EntProtoId _survive = "SLPickerTestSurvive";
+    private static readonly ProtoId<DepartmentPrototype> _department = "Cargo";
 
     [TestPrototypes]
     private const string Prototypes = """
@@ -80,12 +80,11 @@ public sealed class ObjectivePickerTest : GameTest
     }
 
     [Test]
-    public async Task FirstConfirmedSelectionExhaustsLimitForOtherPickers()
-    {
+    public async Task FirstConfirmedSelectionExhaustsLimitForOtherPickers() =>
         await Server.WaitAssertion(() =>
         {
-            var first = Picker(Limited, Plain);
-            var second = Picker(Limited, Plain);
+            var first = Picker(_limited, _plain);
+            var second = Picker(_limited, _plain);
             var firstOffers = SEntMan.GetComponent<PotentialObjectivesComponent>(first);
             var secondOffers = SEntMan.GetComponent<PotentialObjectivesComponent>(second);
             var firstLimited = firstOffers.ObjectiveOptions.Keys.First();
@@ -93,40 +92,40 @@ public sealed class ObjectivePickerTest : GameTest
             var secondPlain = secondOffers.ObjectiveOptions.Keys.Last();
             var system = Server.System<AntagRandomObjectivesSystem>();
 
-            system.ApplySelectedObjectives(first, new[] { firstLimited });
+            system.ApplySelectedObjectives(first, [firstLimited]);
             Assert.That(secondOffers.UnavailableObjectives, Does.Contain(secondLimited));
-            system.ApplySelectedObjectives(second, new[] { secondLimited });
-            Assert.That(SEntMan.GetComponent<Content.Shared.Mind.MindComponent>(second).Objectives, Is.Empty);
-            system.ApplySelectedObjectives(second, new[] { secondPlain });
-            Assert.That(SEntMan.GetComponent<Content.Shared.Mind.MindComponent>(second).Objectives,
-                Is.EqualTo(new[] { SEntMan.GetEntity(secondPlain) }));
+            system.ApplySelectedObjectives(second, [secondLimited]);
+            Assert.That(SEntMan.GetComponent<MindComponent>(second).Objectives, Is.Empty);
+            system.ApplySelectedObjectives(second, [secondPlain]);
+            EntityUid[] expectedObjectives = [SEntMan.GetEntity(secondPlain)];
+            Assert.That(SEntMan.GetComponent<MindComponent>(second).Objectives,
+                Is.EqualTo(expectedObjectives));
 
             // A repeat submission before deferred removal must not re-add consumed objectives.
-            system.ApplySelectedObjectives(first, new[] { firstLimited });
-            Assert.That(SEntMan.GetComponent<Content.Shared.Mind.MindComponent>(first).Objectives.Count, Is.EqualTo(1));
-            Assert.That(firstOffers.ObjectiveOptions, Is.Empty);
+            system.ApplySelectedObjectives(first, [firstLimited]);
+            Assert.Multiple(() =>
+            {
+                Assert.That(SEntMan.GetComponent<MindComponent>(first).Objectives, Has.Count.EqualTo(1));
+                Assert.That(firstOffers.ObjectiveOptions, Is.Empty);
+            });
         });
-    }
 
     [Test]
-    public async Task BlacklistsAreSymmetricAndAConflictingBatchIsRejected()
-    {
+    public async Task BlacklistsAreSymmetricAndAConflictingBatchIsRejected() =>
         await Server.WaitAssertion(() =>
         {
-            var mind = Picker(Blacklist, Survive);
+            var mind = Picker(_blacklist, _survive);
             var offers = SEntMan.GetComponent<PotentialObjectivesComponent>(mind);
             var ids = offers.ObjectiveOptions.Keys.ToArray();
             Server.System<AntagRandomObjectivesSystem>().ApplySelectedObjectives(mind, ids);
-            Assert.That(SEntMan.GetComponent<Content.Shared.Mind.MindComponent>(mind).Objectives, Is.Empty);
+            Assert.That(SEntMan.GetComponent<MindComponent>(mind).Objectives, Is.Empty);
             Assert.That(offers.Conflicts[ids[0]], Does.Contain(ids[1]));
             Assert.That(offers.Conflicts[ids[1]], Does.Contain(ids[0]));
         });
-    }
 
     [Test]
     public async Task DepartmentIdGoalCountsNestedCrewCardsButNotOwnOrBlankCards()
-    {
-        await Server.WaitAssertion(() =>
+        => await Server.WaitAssertion(() =>
         {
             var minds = Server.System<MindSystem>();
             var mind = minds.CreateMind(null, "Thief");
@@ -141,7 +140,7 @@ public sealed class ObjectivePickerTest : GameTest
             EntityUid Card(string name)
             {
                 var card = SEntMan.SpawnEntity(null, MapCoordinates.Nullspace);
-                SEntMan.AddComponent(card, new IdCardComponent { FullName = name, JobDepartments = new() { Department } });
+                SEntMan.AddComponent(card, new IdCardComponent { FullName = name, JobDepartments = new() { _department } });
                 return card;
             }
 
@@ -152,7 +151,7 @@ public sealed class ObjectivePickerTest : GameTest
             var assigned = new ObjectiveAssignedEvent(mind, mind.Comp);
             SEntMan.EventBus.RaiseLocalEvent(goal, ref assigned);
             Assert.That(assigned.Cancelled, Is.False);
-            Assert.That(condition.Department, Is.EqualTo(Department));
+            Assert.That(condition.Department, Is.EqualTo(_department));
             Assert.That(condition.Count, Is.EqualTo(3));
 
             Assert.That(containers.Insert(Card("Thief"), contents), Is.True);
@@ -165,5 +164,4 @@ public sealed class ObjectivePickerTest : GameTest
             Assert.That(containers.Insert(cards[2], contents), Is.True);
             Assert.That(objectives.GetProgress(goal, mind), Is.EqualTo(1));
         });
-    }
 }
