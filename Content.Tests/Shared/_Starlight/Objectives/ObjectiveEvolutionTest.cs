@@ -22,7 +22,7 @@ public sealed class ObjectiveEvolutionTest
     }
 
     [Test]
-    public void DifficultyRankingRewardsMoreCompletedWorkAndIgnoresFreeGoals()
+    public void DifficultyRankingRewardsMoreCompletedWork()
     {
         var harder = new ObjectiveDifficultyScore().Add(7, true).Add(3, false).Add(0, true);
         var easier = new ObjectiveDifficultyScore().Add(6, true).Add(0, false);
