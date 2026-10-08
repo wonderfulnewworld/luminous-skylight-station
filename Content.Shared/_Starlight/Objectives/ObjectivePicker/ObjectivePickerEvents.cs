@@ -14,6 +14,7 @@ public sealed class ObjectivePickerReply : EntityEventArgs
 {
     public bool Accepted;
     public bool Finished;
+    public bool OpenPicker;
     public string? Message;
 }
 
@@ -28,4 +29,10 @@ public sealed class ObjectivePickerSelected : EntityEventArgs
 {
     public NetEntity MindId;
     public HashSet<NetEntity> SelectedObjectives = new();
+}
+
+[Serializable, NetSerializable]
+public sealed class ObjectivePickerRequestAdditional : EntityEventArgs
+{
+    public NetEntity MindId;
 }

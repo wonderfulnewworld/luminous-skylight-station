@@ -15,6 +15,7 @@ using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface;
 using Robust.Shared.Input.Binding;
 using Robust.Shared.Utility;
+using Robust.Shared.Timing;
 using static Robust.Client.UserInterface.Controls.BaseButton;
 
 namespace Content.Client._Starlight.Character.Info.UI;
@@ -29,6 +30,22 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
     [UISystemDependency] private readonly SpriteSystem _sprite = default!;
 
     private const int DescriptionWordLimit = 40;
+    private float _objectiveRefreshTimer;
+    private int _objectiveCount;
+
+    public override void FrameUpdate(FrameEventArgs args)
+    {
+        base.FrameUpdate(args);
+        if (_window is not { IsOpen: true })
+            return;
+        _objectiveRefreshTimer += args.DeltaSeconds;
+        if (_objectiveRefreshTimer < 1)
+            return;
+        _objectiveRefreshTimer = 0;
+        _window.AddObjectiveButtons(_objectiveCount,
+            _characterWindow.CanPickObjectives(_player.LocalEntity),
+            _characterWindow.CanPickMoreObjectives(_player.LocalEntity));
+    }
 
     private SLCharacterWindow? _window;
     private MenuButton? _characterButton => UIManager.GetActiveUIWidgetOrNull<GameTopMenuBar>()?.CharacterButton;
@@ -141,7 +158,9 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
         SLSetSelfCharacterInfo(entity);
 
         var canPickObjectives = _characterWindow.CanPickObjectives(_player.LocalEntity);
-        _window.AddObjectiveButtons(objectives.Sum(group => group.Value.Count), canPickObjectives);
+        _objectiveCount = objectives.Sum(group => group.Value.Count);
+        _window.AddObjectiveButtons(_objectiveCount, canPickObjectives,
+            _characterWindow.CanPickMoreObjectives(_player.LocalEntity));
 
         foreach (var (_, conditions) in objectives)
         {

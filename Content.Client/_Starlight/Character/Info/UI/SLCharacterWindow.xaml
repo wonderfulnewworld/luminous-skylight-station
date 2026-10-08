@@ -100,6 +100,10 @@
                                         Margin="2 2 2 0"
                                         VerticalExpand="False"
                                         VerticalAlignment="Top"/>
+                                <Button Name="CardsButton"
+                                        Access="Public"
+                                        Text="{Loc 'character-info-cards-button'}"
+                                        Margin="2 2 2 0"/>
                                 <Label Name="NoObjectivesLabel"
                                        Text="{Loc 'character-info-no-objectives'}"
                                        StyleClasses="LabelSubText"

@@ -116,7 +116,7 @@
 - type: entity
   parent: [BaseTraitorObjective, BaseTeachALessonObjective]
   id: TeachRandomHeadObjective
-  description: Ensure this head dies at least once this shift. They know what they did.
+  description: Ensure this high value person dies at least once this shift. They know what they did.
   components:
     - type: Objective
       # technically it's still possible for TeachRandomPersonObjective to roll a head but this is guaranteed, so higher difficulty
@@ -126,11 +126,9 @@
     - type: TargetObjective
       title: objective-condition-teach-lesson-title
     - type: PickRandomPerson
+      pool: !type:HighValueTargetsPool
+        includeCommand: true
       filters:
-      - !type:BodyMindFilter
-        whitelist:
-          components:
-          - CommandStaff
       - !type:TargetObjectiveMindFilter
         blacklist:
           components:

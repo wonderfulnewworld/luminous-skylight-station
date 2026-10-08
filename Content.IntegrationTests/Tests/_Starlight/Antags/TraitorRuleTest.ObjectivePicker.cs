@@ -111,6 +111,8 @@ public sealed partial class TraitorRuleTest
             Assert.That(SLFindControls<Button>(window.ObjectivesWrapper).Select(button => button.Text),
                 Does.Contain(Loc.GetString("objective-picker-button")),
                 "The empty Cards group must not hide the objective picker.");
+            Assert.That(window.CardsButton.Text, Is.EqualTo(Loc.GetString("character-info-cards-button")));
+            Assert.That(window.ObjectivesWrapper.Children.ElementAt(1), Is.SameAs(window.CardsButton));
 
             window.CharacterInfoTabs.CurrentTab = 1;
             window.Close();
@@ -206,6 +208,26 @@ public sealed partial class TraitorRuleTest
             {
                 Assert.That(SEntMan.EntityExists(unused.Value), Is.False, "Unused offers must be deleted.");
             }
+        });
+
+        await Server.WaitAssertion(() =>
+        {
+            var progress = SEntMan.GetComponent<ObjectivePickerProgressComponent>(mind);
+            progress.CanPickMore = true;
+            SEntMan.Dirty(mind, progress);
+        });
+        await Pair.RunTicksSync(5);
+        await Pair.RunUntilSynced();
+        await Client.WaitAssertion(() =>
+            ui.GetUIController<CharacterUIController>().OpenCharacterOverview());
+        await Pair.RunTicksSync(70);
+        await Client.WaitAssertion(() =>
+        {
+            var window = SLFindControls<SLCharacterWindow>(ui.RootControl).Single();
+            Assert.That(SLFindControls<Button>(window.ObjectivesWrapper).Select(button => button.Text),
+                Does.Contain(Loc.GetString("objective-picker-additional-button")));
+            Assert.That(window.ObjectivesWrapper.Children.ElementAt(1), Is.SameAs(window.CardsButton));
+            window.Close();
         });
     }
 

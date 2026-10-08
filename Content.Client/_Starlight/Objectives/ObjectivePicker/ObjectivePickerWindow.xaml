@@ -5,9 +5,16 @@
                       SetSize="600 525">
     <BoxContainer Orientation="Vertical" VerticalExpand="True">
         <PanelContainer StyleClasses="BackgroundDark" VerticalExpand="True" Margin="10 5 5 0">
-            <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
-                <BoxContainer Name="ObjectiveList" Orientation="Vertical" VerticalExpand="True"/>
-            </ScrollContainer>
+            <BoxContainer Orientation="Vertical" VerticalExpand="True">
+                <BoxContainer Orientation="Horizontal" Margin="8 5 8 5">
+                    <Label Text="{Loc 'objective-picker-column-objective'}" HorizontalExpand="True"/>
+                    <Label Text="{Loc 'objective-picker-column-difficulty'}" SetWidth="90"/>
+                </BoxContainer>
+                <PanelContainer StyleClasses="LowDivider"/>
+                <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
+                    <BoxContainer Name="ObjectiveList" Orientation="Vertical" VerticalExpand="True"/>
+                </ScrollContainer>
+            </BoxContainer>
         </PanelContainer>
         <BoxContainer Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5">
             <RichTextLabel Name="SelectionTip" Margin="2" HorizontalAlignment="Center"/>

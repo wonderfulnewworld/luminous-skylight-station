@@ -20,7 +20,7 @@ public sealed partial class AntagRandomObjectivesSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<AntagRandomObjectivesComponent, AfterAntagEntitySelectedEvent>(OnAntagSelected,
-            after: [typeof(AntagObjectivesSystem)]);
+            after: [typeof(AntagObjectivesSystem), typeof(Content.Server._Starlight.GameTicking.ChangelingRuleSystem)]);
         SubscribeNetworkEvent<ObjectivePickerSelected>(OnObjectivesSelected);
         SLInitializePicker();
     }

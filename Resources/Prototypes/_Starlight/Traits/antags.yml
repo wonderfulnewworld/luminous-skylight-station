@@ -1,0 +1,21 @@
+- type: trait
+  id: MarkedForDeath
+  name: trait-marked-for-death-name
+  description: trait-marked-for-death-description
+  category: Antags
+  cost: 0
+  effects:
+  - !type:AddCompsEffect
+    components:
+    - type: MarkedForDeath
+
+- type: trait
+  id: Unglorious
+  name: trait-unglorious-name
+  description: trait-unglorious-description
+  category: Antags
+  cost: 0
+  effects:
+  - !type:AddCompsEffect
+    components:
+    - type: Unglorious

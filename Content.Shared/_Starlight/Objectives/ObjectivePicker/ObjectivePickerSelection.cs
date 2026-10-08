@@ -18,7 +18,7 @@ public static class ObjectivePickerSelection
 
     public static bool Valid(PotentialObjectivesComponent offers, IReadOnlyCollection<NetEntity> selected)
     {
-        return selected.Count > 0 && selected.All(id => Available(offers, id) && Compatible(offers, id, selected)) &&
+        return (selected.Count > 0 || offers.MinimumDifficulty <= Tolerance) && selected.All(id => Available(offers, id) && Compatible(offers, id, selected)) &&
                Difficulty(offers, selected) + Tolerance >= offers.MinimumDifficulty;
     }
 
@@ -38,7 +38,7 @@ public static class ObjectivePickerSelection
         bool Search(int start, float difficulty)
         {
             if (difficulty + Tolerance >= offers.MinimumDifficulty)
-                return result.Count > 0;
+                return result.Count > 0 || offers.MinimumDifficulty <= Tolerance;
 
             var possible = difficulty;
             for (var i = start; i < candidates.Length; i++)

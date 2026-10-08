@@ -304,7 +304,7 @@
   description: Just make sure to get out alive and free.
   components:
   - type: Objective
-    difficulty: 0.5 # You're granted freedom to steal stuff, so you should get less actual objectives.
+    difficulty: 0
     icon:
       sprite: Structures/Furniture/chairs.rsi
       state: shuttle

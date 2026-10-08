@@ -132,9 +132,16 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
                                 new TextureRect { Texture = _sprite.Frame0(info.Icon), SetWidth = 32, SetHeight = 32 },
                                 new RichTextLabel
                                 {
-                                    Text = Loc.GetString("objective-picker-option", ("title", info.Title),
-                                        ("difficulty", offers.Difficulties.GetValueOrDefault(id))),
+                                    Text = info.Title,
                                     HorizontalExpand = true,
+                                    Margin = new Thickness(6, 0, 8, 0),
+                                },
+                                new Label
+                                {
+                                    Text = Loc.GetString("objective-picker-difficulty-value",
+                                        ("difficulty", offers.Difficulties.GetValueOrDefault(id))),
+                                    SetWidth = 90,
+                                    VerticalAlignment = VAlignment.Center,
                                 },
                             },
                         },
@@ -156,7 +163,9 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
                 ? "\n" + Loc.GetString("objective-picker-option-unavailable")
                 : conflict ? "\n" + Loc.GetString("objective-picker-option-conflict") : string.Empty);
         }
-        SelectionTip.Text = Loc.GetString("objective-picker-window-difficulty-tip",
+        SelectionTip.Text = offers.MinimumDifficulty <= ObjectivePickerSelection.Tolerance
+            ? Loc.GetString("objective-picker-window-optional-tip")
+            : Loc.GetString("objective-picker-window-difficulty-tip",
             ("selected", ObjectivePickerSelection.Difficulty(offers, SelectedObjectives)),
             ("minimum", offers.MinimumDifficulty));
         SubmitButton.Disabled = SLPending || !ObjectivePickerSelection.Valid(offers, SelectedObjectives);

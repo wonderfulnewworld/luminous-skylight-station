@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Shared._Starlight.Traits.Antags;
 using Content.Server.Antag;
 using Content.Server.Objectives.Components;
 using Content.Server._Starlight.Objectives.Components;
@@ -27,6 +28,7 @@ public sealed partial class AntagRandomObjectivesSystem
     private void SLInitializePicker()
     {
         SubscribeNetworkEvent<ObjectivePickerMulligan>(SLMulligan);
+        SubscribeNetworkEvent<ObjectivePickerRequestAdditional>(SLRequestAdditional);
         SubscribeLocalEvent<PotentialObjectivesComponent, ComponentShutdown>(SLPickerShutdown);
     }
 
@@ -36,17 +38,20 @@ public sealed partial class AntagRandomObjectivesSystem
             return;
 
         // Repeated selection events must not grant another forced objective or mulligan.
-        if (HasComp<PotentialObjectivesComponent>(mindId))
+        if (HasComp<ObjectivePickerConfigurationComponent>(mindId))
             return;
 
-        if (!float.IsFinite(rule.Comp.MaxDifficulty) || rule.Comp.MaxDifficulty <= 0)
+        if (!float.IsFinite(rule.Comp.MaxDifficulty) || rule.Comp.MaxDifficulty < 0)
         {
-            Log.Error($"Objective picker on {ToPrettyString(rule)} requires a finite, positive maxDifficulty.");
+            Log.Error($"Objective picker on {ToPrettyString(rule)} requires a finite, nonnegative maxDifficulty.");
             return;
         }
 
         var config = EnsureComp<ObjectivePickerConfigurationComponent>(mindId);
         config.PreferredOptions = Math.Max(1, rule.Comp.MaxOptions);
+        config.MinimumDifficulty = rule.Comp.MaxDifficulty;
+        config.SelectionDelay = rule.Comp.SelectionDelay;
+        EnsureComp<ObjectivePickerProgressComponent>(mindId);
         foreach (var set in rule.Comp.Sets)
         {
             if (_random.Prob(set.Prob))
@@ -95,7 +100,7 @@ public sealed partial class AntagRandomObjectivesSystem
             config.DeferredTargets.Clear();
             SLForceObjective(mindId, mind, new Dictionary<string, float>
             {
-                [SLSurviveObjective] = 1,
+                [SLSurviveObjective] = 3,
                 [SLAchieveObjective] = 1,
             }, counts);
             viable = SLFillOffers(mindId, mind, offers, config, counts);
@@ -142,17 +147,9 @@ public sealed partial class AntagRandomObjectivesSystem
     private EntityUid? SLForceTraitorObjective(EntityUid mindId, MindComponent mind,
         Dictionary<string, float> originalWeights, Dictionary<string, int> counts)
     {
-        // Use the existing nested pool's DAGD probability, including sub-traitors' zero chance.
-        var total = originalWeights.Values.Sum();
-        var dieChance = total > 0 ? originalWeights.GetValueOrDefault(SLDieObjective) / total : 0;
-        var forced = new Dictionary<string, float>
-        {
-            [SLSurviveObjective] = (1 - dieChance) / 2,
-            [SLAchieveObjective] = (1 - dieChance) / 2,
-        };
-        if (dieChance > 0)
-            forced[SLDieObjective] = dieChance;
-        return SLForceObjective(mindId, mind, forced, counts);
+        var allowGloriousDeath = originalWeights.GetValueOrDefault(SLDieObjective) > 0 &&
+            !(mind.OwnedEntity is { } body && HasComp<UngloriousComponent>(body));
+        return SLForceObjective(mindId, mind, TraitorForcedObjectiveWeights.Create(allowGloriousDeath), counts);
     }
 
     private EntityUid? SLForceObjective(EntityUid mindId, MindComponent mind, Dictionary<string, float> weights,
@@ -300,7 +297,7 @@ public sealed partial class AntagRandomObjectivesSystem
         if (deferred)
         {
             // Check that a target exists without assigning, naming, or marking anyone as a lesson target.
-            if (TryComp<PickRandomPersonComponent>(uid, out var pick) &&
+            if (!TryComp<PickRandomPersonComponent>(uid, out var pick) ||
                 _mind.PickFromPool(pick.Pool, pick.Filters, mindId) == null)
             {
                 Del(uid);
@@ -415,6 +412,8 @@ public sealed partial class AntagRandomObjectivesSystem
     {
         foreach (var key in ent.Comp.ObjectiveOptions.Keys)
             TryQueueDel(GetEntity(key));
-        RemCompDeferred<ObjectivePickerConfigurationComponent>(ent);
+        // Keep the configuration and completion ledger after confirming a batch.
+        if (TryComp<ObjectivePickerConfigurationComponent>(ent, out var config) && !config.Finished)
+            RemCompDeferred<ObjectivePickerConfigurationComponent>(ent);
     }
 }

@@ -2,10 +2,14 @@ using System.Linq;
 using Content.Client.CharacterInfo;
 using Content.Client.Gameplay;
 using Content.Shared._Starlight.Objectives.ObjectivePicker;
+using Content.Shared.Mind;
 using JetBrains.Annotations;
 using Robust.Client.UserInterface.Controllers;
 using Robust.Client.UserInterface;
+using Robust.Client.Player;
 using Robust.Shared.Random;
+using Robust.Shared.Timing;
+
 
 namespace Content.Client._Starlight.Objectives.ObjectivePicker;
 
@@ -18,9 +22,43 @@ public sealed partial class ObjectivePickerUIController : UIController, IOnState
     [UISystemDependency] private readonly CharacterInfoSystem _characterInfo = default!;
 
     private ObjectivePickerWindow? _window;
+    [Dependency] private IPlayerManager _players = default!;
+    private bool _additionalPending;
+    private bool _awaitingOffers;
+
+    public void OpenPicker()
+    {
+        var mindSystem = EntityManager.System<SharedMindSystem>();
+        if (!mindSystem.TryGetMind(_players.LocalSession, out var mind, out _))
+            return;
+        if (EntityManager.HasComponent<PotentialObjectivesComponent>(mind))
+        {
+            EnsureWindow();
+            return;
+        }
+        if (_additionalPending || _awaitingOffers ||
+            !EntityManager.TryGetComponent<ObjectivePickerProgressComponent>(mind, out var progress) || !progress.CanPickMore)
+            return;
+
+        _additionalPending = true;
+        _net.SendSystemNetworkMessage(new ObjectivePickerRequestAdditional { MindId = EntityManager.GetNetEntity(mind) });
+    }
+
+    public override void FrameUpdate(FrameEventArgs args)
+    {
+        base.FrameUpdate(args);
+        if (!_awaitingOffers || !EntityManager.System<SharedMindSystem>().TryGetMind(_players.LocalSession, out var mind, out _) ||
+            !EntityManager.HasComponent<PotentialObjectivesComponent>(mind))
+            return;
+        _awaitingOffers = false;
+        EnsureWindow();
+        _characterInfo.RequestCharacterInfo();
+    }
 
     public void OnStateExited(GameplayState state)
     {
+        _additionalPending = false;
+        _awaitingOffers = false;
         if (_window == null)
             return;
 
@@ -118,6 +156,12 @@ public sealed partial class ObjectivePickerUIController : UIController, IOnState
 
     private void SLOnReply(ObjectivePickerReply ev, EntitySessionEventArgs args)
     {
+        _additionalPending = false;
+        if (ev.Accepted && ev.OpenPicker)
+        {
+            _awaitingOffers = true;
+            return;
+        }
         if (ev.Accepted && ev.Finished)
         {
             _window?.Close();

@@ -664,7 +664,8 @@ public abstract partial class SharedMindSystem : EntitySystem
         if (_pickingMinds.Count == 0)
             return null;
 
-        return _random.Pick(_pickingMinds);
+        return pool is Content.Shared._Starlight.Objectives.Targeting.HighValueTargetsPool
+            ? SLPickHighValueTarget(_pickingMinds) : _random.Pick(_pickingMinds); // Starlight
     }
 
     /// <summary>

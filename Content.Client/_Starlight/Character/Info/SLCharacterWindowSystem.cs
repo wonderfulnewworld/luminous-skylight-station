@@ -69,6 +69,9 @@ public sealed partial class SLCharacterWindowSystem : EntitySystem
 
     public bool CanPickObjectives(EntityUid? entity) => _potentialObjectivesQuery.TryComp(GetMind(entity), out var potential) && potential.ObjectiveOptions.Count > 0;
 
+    public bool CanPickMoreObjectives(EntityUid? entity) =>
+        TryComp<ObjectivePickerProgressComponent>(GetMind(entity), out var progress) && progress.CanPickMore;
+
     private EntityUid? GetMind(EntityUid? entity) => _mindContainerQuery.TryComp(entity, out var container) ? container.Mind : null;
 
     public readonly record struct CharacterJobInfo(LocId Name, Texture Icon);

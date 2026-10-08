@@ -287,6 +287,7 @@ public sealed partial class ObjectivesSystem : SharedObjectivesSystem
             }
             // Starlight End
 
+            successRate = SLAppendDifficultySummary(mindId, mind, agentSummary, successRate); // Starlight
             agentSummaries.Add((agentSummary.ToString(), successRate, completedObjectives));
         }
 

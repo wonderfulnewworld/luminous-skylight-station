@@ -80,7 +80,8 @@
 - type: weightedRandom
   id: VampireObjectiveGroupKill
   weights:
-    VampireKillRandomPersonObjective: 1
+    VampirePickerKillObjective: 1
+    VampireKillRandomHeadObjective: 0.25
 
 - type: weightedRandom
   id: VampireObjectiveGroupDrain
@@ -117,3 +118,11 @@
     VampireObjectiveGroupSteal: 1
     VampireObjectiveGroupState: 1
     VampireObjectiveGroupKill: 0.35
+
+- type: weightedRandom
+  id: ChangelingObjectiveGroupCombat
+  weights:
+    ChangelingKillRandomPersonObjective: 1
+    ChangelingKillRandomHeadObjective: 1
+    ChangelingTeachRandomPersonObjective: 1
+    ChangelingTeachRandomHeadObjective: 1

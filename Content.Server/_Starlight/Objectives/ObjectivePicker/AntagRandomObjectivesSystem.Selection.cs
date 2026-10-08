@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Server.Objectives.Components;
 using Content.Shared.Mind;
 using Content.Shared.Objectives.Components;
 using Content.Shared._Starlight.Objectives.ObjectivePicker;
@@ -14,6 +15,7 @@ public sealed partial class AntagRandomObjectivesSystem
             return;
         _slNextAvailability = _timing.CurTime + TimeSpan.FromSeconds(1);
         SLRefreshPickers();
+        SLUpdateProgression();
     }
 
     private void SLRefreshPickers()
@@ -80,7 +82,7 @@ public sealed partial class AntagRandomObjectivesSystem
             initialized.Add(id);
             var assigned = new ObjectiveAssignedEvent(mindId, mind);
             RaiseLocalEvent(uid, ref assigned);
-            if (assigned.Cancelled)
+            if (assigned.Cancelled || !TryComp<TargetObjectiveComponent>(uid, out var target) || target.Target == null)
             {
                 success = false;
                 break;
@@ -122,6 +124,7 @@ public sealed partial class AntagRandomObjectivesSystem
 
         // Clear synchronously to make repeat submissions harmless before deferred removal.
         offers.ObjectiveOptions.Clear();
+        SLRecordConfirmedBatch(mindId, config, selected);
         config.Finished = true;
         Dirty(mindId, mind);
         RemCompDeferred<PotentialObjectivesComponent>(mindId);
@@ -196,6 +199,7 @@ public sealed partial class AntagRandomObjectivesSystem
         offers.Conflicts = rerolled.Conflicts;
         offers.UnavailableObjectives = rerolled.UnavailableObjectives;
         offers.MulliganUsed = true;
+        oldConfig.MulliganUsed = true;
         offers.RetainedObjective = retained;
         oldConfig.DeferredTargets = config.DeferredTargets;
         Dirty(mindId, offers);

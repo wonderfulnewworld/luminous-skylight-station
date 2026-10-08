@@ -1,0 +1,37 @@
+- type: !PartialOnly entity
+  id: KillRandomHeadObjective
+  description: We need this high value person gone. Make sure they do not make it to CentComm, even if they are dead.
+  components:
+  - type: PickRandomPerson
+    pool: !type:HighValueTargetsPool
+      includeCommand: true
+    filters: !Clear
+    - !type:TargetObjectiveMindFilter
+      blacklist:
+        components:
+        - KillPersonCondition
+
+- type: !PartialOnly entity
+  id: DieObjective
+  components:
+  - type: UngloriousRequirement
+  - type: Objective
+    difficulty: 0
+
+- type: !PartialOnly entity
+  id: EscapeShuttleObjective
+  components:
+  - type: Objective
+    difficulty: 0
+
+- type: !PartialOnly entity
+  id: EscapeThiefShuttleObjective
+  components:
+  - type: Objective
+    difficulty: 0
+
+- type: !PartialOnly entity
+  id: ChangelingSurviveObjective
+  components:
+  - type: Objective
+    difficulty: 0

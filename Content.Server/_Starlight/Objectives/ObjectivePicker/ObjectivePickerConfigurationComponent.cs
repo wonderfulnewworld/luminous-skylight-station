@@ -11,4 +11,10 @@ public sealed partial class ObjectivePickerConfigurationComponent : Component
     public int PreferredOptions;
     public HashSet<NetEntity> DeferredTargets = new();
     public bool Finished;
+    public float MinimumDifficulty;
+    public TimeSpan SelectionDelay;
+    public bool MulliganUsed;
+    public HashSet<EntityUid> CurrentBatch = new();
+    public HashSet<EntityUid> CompletedObjectives = new();
+    public bool BatchUnlocked;
 }
