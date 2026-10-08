@@ -19,7 +19,7 @@ public sealed partial class AntagRandomObjectivesComponent : Component
     public TimeSpan SelectionDelay = TimeSpan.FromMinutes(15);
 
     /// <summary>
-    /// The amount of options to present to the player
+    /// The preferred number of options; Starlight expands this to meet the difficulty budget.
     /// </summary>
     [DataField]
     public int MaxOptions = 8;
@@ -31,8 +31,8 @@ public sealed partial class AntagRandomObjectivesComponent : Component
     public int MinChoices = 2;
 
     /// <summary>
-    /// Kept for compatibility with the old version
+    /// Starlight: minimum selected difficulty; the offered pool must provide twice this amount.
     /// </summary>
     [DataField]
-    public float MaxDifficulty = float.MaxValue;
+    public float MaxDifficulty = 6; // Starlight: a finite default is required for the picker budget.
 }

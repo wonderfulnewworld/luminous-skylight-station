@@ -19,12 +19,10 @@ public sealed partial class PotentialObjectivesSystem : EntitySystem
             if (_timing.CurTime < comp.AutoSelectionTime || comp.ObjectiveOptions.Count == 0) // Starlight, skip consumed offers awaiting deferred removal.
                 continue;
 
-            var objectives = comp.ObjectiveOptions.OrderBy(_ => _random.Next())
-                .Take(comp.MaxChoices)
-                .Select(it => it.Key)
-                .ToHashSet();
-
-            _antagObjectives.ApplySelectedObjectives(uid, objectives);
+            #region Starlight
+            // Timeout must obey the same difficulty and compatibility rules as a player.
+            _antagObjectives.SLAutoSelect(uid, comp);
+            #endregion
         }
     }
 }

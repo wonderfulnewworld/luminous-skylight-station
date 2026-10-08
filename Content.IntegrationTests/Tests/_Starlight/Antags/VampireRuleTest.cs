@@ -14,6 +14,8 @@ using Content.Shared._Starlight.Antags.Vampires.Components;
 using Content.Shared._Starlight.Antags.Vampires.Components.Classes;
 using Content.Server._Starlight.GameTicking.Rules;
 using Content.Server._Starlight.GameTicking.Rules.Components;
+using Content.Server.Objectives.Components;
+using Content.Shared._Starlight.Objectives.ObjectivePicker;
 
 namespace Content.IntegrationTests.Tests._Starlight.Antags;
 [TestFixture]
@@ -46,6 +48,7 @@ public sealed class VampireRuleTest : GameTest
 
         // Look up the minimum player count for the game rule.
         var minPlayers = 1;
+        var maxDifficulty = 0f;
         await server.WaitAssertion(() =>
         {
             Assert.That(protoMan.TryIndex<EntityPrototype>(VampireGameRuleProtoId, out var gameRuleEnt),
@@ -54,10 +57,11 @@ public sealed class VampireRuleTest : GameTest
             Assert.That(gameRuleEnt.TryGetComponent<GameRuleComponent>(out var gameRule, compFact),
             $"Game rule entity {VampireGameRuleProtoId} does not have a GameRuleComponent!");
 
-            Assert.That(gameRuleEnt.TryGetComponent<AntagRandomObjectivesComponent>(out _, compFact),
+            Assert.That(gameRuleEnt.TryGetComponent<AntagRandomObjectivesComponent>(out var objectives, compFact),
             $"Game rule entity {VampireGameRuleProtoId} does not have an AntagRandomObjectivesComponent!");
 
             minPlayers = gameRule.MinPlayers;
+            maxDifficulty = objectives.MaxDifficulty;
         });
 
         // Initially in the lobby
@@ -127,10 +131,18 @@ public sealed class VampireRuleTest : GameTest
         Assert.That(ruleComp.VampireMinds.Contains(mind),
             "The player who opted in should be selected as vampire");
 
-        // Objectives are offered for selection before they are assigned.
+        // Fixed kill/drain goals are assigned; additional random goals wait for confirmation.
         Assert.That(entMan.TryGetComponent<MindComponent>(mind, out var mindComp));
-        Assert.That(mindComp.Objectives, Is.Empty, "Objectives must wait for the player's selection.");
+        Assert.That(mindComp.Objectives.Select(objective => entMan.GetComponent<MetaDataComponent>(objective).EntityPrototype?.ID),
+            Is.EquivalentTo(new[] { "VampireKillRandomPersonObjective", "VampireDrainObjective" }));
         Assert.That(entMan.TryGetComponent<PotentialObjectivesComponent>(mind, out var potential));
         Assert.That(potential.ObjectiveOptions, Is.Not.Empty, "No potential objectives offered!");
+        Assert.That(ObjectivePickerSelection.Difficulty(potential, potential.ObjectiveOptions.Keys),
+            Is.GreaterThanOrEqualTo(2 * maxDifficulty));
+        foreach (var objective in potential.ObjectiveOptions.Keys.Select(entMan.GetEntity))
+        {
+            if (entMan.TryGetComponent<TargetObjectiveComponent>(objective, out var target))
+                Assert.That(target.Target, Is.Null, "The additional kill target must wait for confirmation.");
+        }
     }
 }

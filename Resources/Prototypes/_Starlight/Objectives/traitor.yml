@@ -1,4 +1,4 @@
-﻿# Departmental abstracts
+# Departmental abstracts
 - type: entity
   abstract: true
   parent: BaseTraitorStealObjective
@@ -111,7 +111,7 @@
       - !type:TargetObjectiveMindFilter
         blacklist:
           components:
-          - TeachALessonTarget
+          - TeachALessonCondition
 
 - type: entity
   parent: [BaseTraitorObjective, BaseTeachALessonObjective]
@@ -134,7 +134,7 @@
       - !type:TargetObjectiveMindFilter
         blacklist:
           components:
-          - TeachALessonTarget # dont let mutiple teach someone.
+          - TeachALessonCondition # Don't assign multiple lessons for the same person.
 
 - type: entity
   parent: BaseRDStealObjective
@@ -356,7 +356,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 2
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -370,7 +370,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 2
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -383,7 +383,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 2
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -396,7 +396,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 1
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -411,7 +411,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 2
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -427,7 +427,7 @@
   description: You don't need to kill them, unless you want to. Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 1
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -440,7 +440,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 2
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -453,7 +453,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 1
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -466,7 +466,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 1
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -479,7 +479,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 1.5
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -491,7 +491,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 0.5
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -506,7 +506,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 1
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -521,7 +521,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 1
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -536,7 +536,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 1
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -551,7 +551,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 1
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -566,7 +566,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 1
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -582,7 +582,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 2
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -595,7 +595,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 2
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -608,7 +608,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 2
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -621,7 +621,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 2 # Rev metagame counterplay.
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -634,7 +634,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 0.5 # Easy, lets you slander people for fun.
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi
@@ -647,7 +647,7 @@
   description: Escape to CentComm after the shift, one of our agents will debrief you. Don't show up in cuffs.
   components:
     - type: Objective
-      difficulty: 2 # Doing this should take the majority of your shift, so it can be higher difficulty.
+      difficulty: 0
       unique: true
       icon:
         sprite: _Starlight/Interface/Misc/objective_icons.rsi

@@ -1,7 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using Content.Client._Moffstation.CharacterMenu;
+using Content.Client._Moffstation.ObjectivePicker;
 using Content.Server.Mind;
+using Content.Server.Objectives.Components;
+using Content.Server._Starlight.Objectives.Components;
+using Content.Server._Starlight.Objectives.ObjectivePicker;
+using Content.Shared._Starlight.Objectives.ObjectivePicker;
+using Content.Shared._Starlight.Character.Info;
+using Content.Shared._Starlight.CCVar;
+using Content.Shared.CCVar;
+using Content.Shared.Preferences;
+using Content.Shared.Objectives.Components;
 using Content.Shared._Moffstation.Objectives;
 using Content.Shared._Starlight.Character.Info.Components;
 using Content.Shared._Starlight.Railroading.Components;
@@ -13,6 +23,7 @@ using Robust.Shared.GameObjects;
 using Robust.Shared.Localization;
 using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Configuration;
 
 // ReSharper disable once CheckNamespace
 namespace Content.IntegrationTests.Tests.GameRules;
@@ -24,23 +35,46 @@ public sealed partial class TraitorRuleTest
     private async Task SLTestObjectivePicker(EntityUid mind, EntityUid player)
     {
         Dictionary<NetEntity, EntityUid> candidates = null;
+        HashSet<NetEntity> selected = null;
+        EntityUid forced = default;
         EntityUid foreignMind = default;
         EntityUid foreignObjective = default;
         NetEntity foreignMindNet = default;
         NetEntity foreignObjectiveNet = default;
         await Server.WaitAssertion(() =>
         {
-            Assert.That(SEntMan.GetComponent<MindComponent>(mind).Objectives, Is.Empty,
-                "Generating offers must not assign them to the mind.");
+            var mindComp = SEntMan.GetComponent<MindComponent>(mind);
+            Assert.That(mindComp.Objectives.Count, Is.EqualTo(1), "Only the forced objective is assigned before confirmation.");
+            forced = mindComp.Objectives.Single();
+            var offers = SEntMan.GetComponent<PotentialObjectivesComponent>(mind);
+            Assert.That(ObjectivePickerSelection.Difficulty(offers, offers.ObjectiveOptions.Keys),
+                Is.GreaterThanOrEqualTo(2 * offers.MinimumDifficulty));
+            var storyCount = offers.Difficulties.Count(pair => pair.Value == 0);
+            Assert.That(storyCount, Is.EqualTo(SEntMan.HasComponent<DieConditionComponent>(forced) ? 0 : 2));
+            foreach (var objective in offers.ObjectiveOptions.Keys.Select(SEntMan.GetEntity))
+            {
+                if ((SEntMan.HasComponent<KillPersonConditionComponent>(objective) ||
+                     SEntMan.HasComponent<TeachALessonConditionComponent>(objective)) &&
+                    SEntMan.TryGetComponent<TargetObjectiveComponent>(objective, out var target))
+                    Assert.That(target.Target, Is.Null, "Unconfirmed kill/lesson offers must not have targets.");
+            }
             candidates = SEntMan.GetComponent<PotentialObjectivesComponent>(mind).ObjectiveOptions.Keys
                 .ToDictionary(objective => objective, SEntMan.GetEntity);
 
             // Starlight always contributes a Cards group, even without an active card.
             SEntMan.EnsureComponent<RailroadableComponent>(player);
-            SEntMan.AddComponent(player, new CharacterDescriptionComponent { Description = "Physical description" }, true);
-            SEntMan.AddComponent(mind, new CharacterDescriptionComponent { Description = "Personality description" }, true);
-            SEntMan.AddComponent(mind, new RoleplayInfoComponent { OOCNotes = "OOC notes" }, true);
-            SEntMan.AddComponent(mind, new MindSecretsComponent { PersonalNotes = "Personal notes" }, true);
+            var config = Server.ResolveDependency<IConfigurationManager>();
+            config.SetCVar(CCVars.FlavorText, true);
+            config.SetCVar(StarlightCCVars.OOCNotes, true);
+            SEntMan.RemoveComponent<RoleplayInfoComponent>(mind);
+            SEntMan.RemoveComponent<MindSecretsComponent>(mind);
+            Server.System<SLSharedCharacterInfoSystem>().ApplyCharacterInfo(player, new HumanoidCharacterProfile
+            {
+                PhysicalDescription = "Physical description",
+                PersonalityDescription = "Personality description",
+                OOCNotes = "OOC notes",
+                PersonalNotes = "Personal notes",
+            });
             Server.System<TagSystem>().AddTag(player, SLBackgroundTag);
 
             foreignMind = Server.System<MindSystem>().CreateMind(null);
@@ -54,7 +88,7 @@ public sealed partial class TraitorRuleTest
         });
         await Pair.RunUntilSynced();
 
-        var selected = candidates.Keys.Take(1).ToHashSet();
+        var retained = candidates.Keys.First();
         var ui = Client.ResolveDependency<IUserInterfaceManager>();
         await Client.WaitAssertion(() =>
         {
@@ -87,6 +121,18 @@ public sealed partial class TraitorRuleTest
             Assert.That(window.CharacterInfoTabs.CurrentTab, Is.Zero);
             Assert.That(window.InfoOOC.OOCNotes.GetMessage(), Does.Contain("OOC notes"));
 
+            ui.GetUIController<ObjectivePickerUIController>().EnsureWindow();
+            var picker = SLFindControls<ObjectivePickerWindow>(ui.RootControl).Single();
+            var submit = SLFindControls<Button>(picker).Single(button => button.Name == "SubmitButton");
+            var mulligan = SLFindControls<Button>(picker).Single(button => button.Name == "MulliganButton");
+            Assert.That(submit.Disabled, Is.True);
+            Assert.That(mulligan.Disabled, Is.True);
+            picker.SelectedObjectives.Add(retained);
+            picker.UpdateState();
+            Assert.That(submit.Disabled, Is.True, "One under-budget objective cannot be submitted.");
+            Assert.That(mulligan.Disabled, Is.False, "Exactly one selection enables the mulligan.");
+            picker.Close();
+
             // A client must not be able to submit for another mind.
             Client.ResolveDependency<IEntityNetworkManager>().SendSystemNetworkMessage(new ObjectivePickerSelected
             {
@@ -99,8 +145,59 @@ public sealed partial class TraitorRuleTest
         await Server.WaitAssertion(() =>
         {
             Assert.That(SEntMan.GetComponent<MindComponent>(foreignMind).Objectives, Is.Empty);
-            Assert.That(SEntMan.GetComponent<MindComponent>(mind).Objectives, Is.Empty);
+            Assert.That(SEntMan.GetComponent<MindComponent>(mind).Objectives, Is.EqualTo(new[] { forced }));
         });
+
+        // An under-budget submission must leave the picker open and assign no offers.
+        await Client.WaitAssertion(() =>
+        {
+            Client.ResolveDependency<IEntityNetworkManager>().SendSystemNetworkMessage(new ObjectivePickerSelected
+            {
+                MindId = CEntMan.GetNetEntity(Client.System<SharedMindSystem>().GetMind(Client.User!.Value)!.Value),
+                SelectedObjectives = new() { retained },
+            });
+        });
+        await Pair.RunTicksSync(5);
+        await Server.WaitAssertion(() =>
+        {
+            Assert.That(SEntMan.GetComponent<MindComponent>(mind).Objectives, Is.EqualTo(new[] { forced }));
+            Assert.That(SEntMan.HasComponent<PotentialObjectivesComponent>(mind), Is.True);
+        });
+
+        await Client.WaitAssertion(() =>
+        {
+            Client.ResolveDependency<IEntityNetworkManager>().SendSystemNetworkMessage(new ObjectivePickerMulligan
+            {
+                MindId = CEntMan.GetNetEntity(Client.System<SharedMindSystem>().GetMind(Client.User!.Value)!.Value),
+                RetainedObjective = retained,
+            });
+        });
+        await Pair.RunTicksSync(5);
+        await Pair.RunUntilSynced();
+        await Server.WaitAssertion(() =>
+        {
+            var offers = SEntMan.GetComponent<PotentialObjectivesComponent>(mind);
+            Assert.That(offers.MulliganUsed, Is.True);
+            Assert.That(offers.ObjectiveOptions.Keys.Intersect(candidates.Keys), Is.EqualTo(new[] { retained }));
+            foreach (var unused in candidates.Where(pair => pair.Key != retained))
+                Assert.That(SEntMan.EntityExists(unused.Value), Is.False);
+            candidates = offers.ObjectiveOptions.Keys.ToDictionary(id => id, SEntMan.GetEntity);
+            Assert.That(ObjectivePickerSelection.TryComplete(offers, offers.ObjectiveOptions.Keys,
+                new[] { retained }, out selected), Is.True);
+        });
+
+        // A second mulligan must leave the original reroll intact.
+        await Client.WaitAssertion(() =>
+        {
+            Client.ResolveDependency<IEntityNetworkManager>().SendSystemNetworkMessage(new ObjectivePickerMulligan
+            {
+                MindId = CEntMan.GetNetEntity(Client.System<SharedMindSystem>().GetMind(Client.User!.Value)!.Value),
+                RetainedObjective = retained,
+            });
+        });
+        await Pair.RunTicksSync(5);
+        await Server.WaitAssertion(() => Assert.That(
+            SEntMan.GetComponent<PotentialObjectivesComponent>(mind).ObjectiveOptions.Keys, Is.EquivalentTo(candidates.Keys)));
 
         await Client.WaitAssertion(() =>
         {
@@ -116,7 +213,7 @@ public sealed partial class TraitorRuleTest
         await Server.WaitAssertion(() =>
         {
             Assert.That(SEntMan.GetComponent<MindComponent>(mind).Objectives,
-                Is.EquivalentTo(selected.Select(objective => candidates[objective])));
+                Is.EquivalentTo(selected.Select(objective => candidates[objective]).Append(forced)));
             Assert.That(SEntMan.HasComponent<PotentialObjectivesComponent>(mind), Is.False);
             foreach (var unused in candidates.Where(candidate => !selected.Contains(candidate.Key)))
             {
@@ -139,16 +236,22 @@ public sealed partial class TraitorRuleTest
             var futureObjective = SEntMan.SpawnEntity(null, MapCoordinates.Nullspace);
             expiredObjective = SEntMan.SpawnEntity(null, MapCoordinates.Nullspace);
 
+            SEntMan.AddComponent<ObjectiveComponent>(futureObjective);
+            SEntMan.AddComponent<ObjectiveComponent>(expiredObjective);
+            SEntMan.AddComponent<ObjectivePickerConfigurationComponent>(futureMind);
+            SEntMan.AddComponent<ObjectivePickerConfigurationComponent>(expiredMind);
             SEntMan.AddComponent(futureMind, new PotentialObjectivesComponent
             {
                 AutoSelectionDelay = TimeSpan.FromHours(1),
-                MaxChoices = 1,
+                MinimumDifficulty = 1,
+                Difficulties = new() { [SEntMan.GetNetEntity(futureObjective)] = 1 },
                 ObjectiveOptions = new() { [SEntMan.GetNetEntity(futureObjective)] = default },
             });
             SEntMan.AddComponent(expiredMind, new PotentialObjectivesComponent
             {
                 AutoSelectionDelay = TimeSpan.Zero,
-                MaxChoices = 1,
+                MinimumDifficulty = 1,
+                Difficulties = new() { [SEntMan.GetNetEntity(expiredObjective)] = 1 },
                 ObjectiveOptions = new() { [SEntMan.GetNetEntity(expiredObjective)] = default },
             });
         });

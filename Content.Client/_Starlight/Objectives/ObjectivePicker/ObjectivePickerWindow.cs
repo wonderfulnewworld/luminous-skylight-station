@@ -1,0 +1,129 @@
+using System.Linq;
+using Content.Shared._Moffstation.Objectives;
+using Content.Shared._Starlight.Objectives.ObjectivePicker;
+using Robust.Client.UserInterface.Controls;
+
+// ReSharper disable once CheckNamespace
+namespace Content.Client._Moffstation.ObjectivePicker;
+
+public sealed partial class ObjectivePickerWindow
+{
+    public event Action<NetEntity>? OnMulligan;
+    public bool SLPending { get; private set; }
+    public PotentialObjectivesComponent? SLOffers { get; private set; }
+    private readonly Dictionary<NetEntity, Button> _slButtons = new();
+    private bool _slSeenMulligan;
+
+    private void SLInitializePicker()
+    {
+        SubmitButton.Disabled = true;
+        RandomizeButton.Disabled = true;
+        MulliganButton.Disabled = true;
+        SubmitButton.OnPressed += args =>
+        {
+            if (_mind.TryGetMind(_players.LocalSession, out var uid, out _))
+                OnSubmitted?.Invoke(SelectedObjectives, _entity.GetNetEntity(uid));
+        };
+        ClearButton.OnPressed += _ => OnClear?.Invoke();
+        RandomizeButton.OnPressed += _ => OnRandomize?.Invoke();
+        MulliganButton.OnPressed += args =>
+        {
+            if (_mind.TryGetMind(_players.LocalSession, out var uid, out _))
+                OnMulligan?.Invoke(_entity.GetNetEntity(uid));
+        };
+        UpdateState();
+        UpdateTimer();
+    }
+
+    public void SLSetPending(bool pending, string? message = null)
+    {
+        SLPending = pending;
+        PickerFeedback.Text = message == null ? string.Empty : Loc.GetString(message);
+        UpdateState();
+    }
+
+    private void SLPopulateObjectives(EntityUid mind)
+    {
+        if (!_entity.TryGetComponent<PotentialObjectivesComponent>(mind, out var offers))
+            return;
+        SLOffers = offers;
+        if (offers.MulliganUsed && !_slSeenMulligan)
+        {
+            _slSeenMulligan = true;
+            SelectedObjectives.Clear();
+            if (offers.RetainedObjective is { } retained)
+                SelectedObjectives.Add(retained);
+        }
+        SelectedObjectives.RemoveWhere(id => !ObjectivePickerSelection.Available(offers, id));
+
+        if (!_slButtons.Keys.ToHashSet().SetEquals(offers.ObjectiveOptions.Keys))
+        {
+            ObjectiveList.Children.Clear();
+            _slButtons.Clear();
+            foreach (var (id, info) in offers.ObjectiveOptions)
+            {
+                var button = new Button
+                {
+                    ToggleMode = true,
+                    Children =
+                    {
+                        new BoxContainer
+                        {
+                            Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                            Children =
+                            {
+                                new TextureRect { Texture = _sprite.Frame0(info.Icon), SetWidth = 32, SetHeight = 32 },
+                                new RichTextLabel
+                                {
+                                    Text = Loc.GetString("objective-picker-option", ("title", info.Title),
+                                        ("difficulty", offers.Difficulties.GetValueOrDefault(id))),
+                                    HorizontalExpand = true,
+                                },
+                            },
+                        },
+                    },
+                };
+                button.OnPressed += _ => OnSelectedChange?.Invoke(id);
+                _slButtons[id] = button;
+                ObjectiveList.Children.Add(button);
+            }
+        }
+
+        foreach (var (id, button) in _slButtons)
+        {
+            var unavailable = !ObjectivePickerSelection.Available(offers, id);
+            var conflict = !ObjectivePickerSelection.Compatible(offers, id, SelectedObjectives);
+            button.Pressed = SelectedObjectives.Contains(id);
+            button.Disabled = SLPending || unavailable || conflict;
+            button.ToolTip = offers.ObjectiveOptions[id].Description + (unavailable
+                ? "\n" + Loc.GetString("objective-picker-option-unavailable")
+                : conflict ? "\n" + Loc.GetString("objective-picker-option-conflict") : string.Empty);
+        }
+        SelectionTip.Text = Loc.GetString("objective-picker-window-difficulty-tip",
+            ("selected", ObjectivePickerSelection.Difficulty(offers, SelectedObjectives)),
+            ("minimum", offers.MinimumDifficulty));
+        SubmitButton.Disabled = SLPending || !ObjectivePickerSelection.Valid(offers, SelectedObjectives);
+        ClearButton.Disabled = SLPending || SelectedObjectives.Count == 0;
+        RandomizeButton.Disabled = SLPending || offers.ObjectiveOptions.Count == 0;
+        MulliganButton.Disabled = SLPending || offers.MulliganUsed || SelectedObjectives.Count != 1;
+        MulliganButton.Text = Loc.GetString(offers.MulliganUsed
+            ? "objective-picker-window-mulligan-used" : "objective-picker-window-mulligan");
+        MulliganButton.ToolTip = Loc.GetString("objective-picker-window-mulligan-tip");
+    }
+
+    private void SLUpdateTimer()
+    {
+        if (!_mind.TryGetMind(_players.LocalSession, out var uid, out _) ||
+            !_entity.TryGetComponent<PotentialObjectivesComponent>(uid, out var offers))
+        {
+            if (IsOpen)
+                Close();
+            return;
+        }
+        SLPopulateObjectives(uid);
+        var left = offers.AutoSelectionTime - _timing.CurTime;
+        TimeLeftTip.Text = left <= TimeSpan.Zero
+            ? Loc.GetString("objective-picker-window-auto-selecting")
+            : Loc.GetString("objective-picker-window-time-left", ("time", left.ToString(@"mm\:ss")));
+    }
+}

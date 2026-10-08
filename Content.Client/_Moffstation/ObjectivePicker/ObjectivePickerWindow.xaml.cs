@@ -26,7 +26,7 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
 
     public event Action<NetEntity>? OnSelectedChange;
     public event Action<HashSet<NetEntity>, NetEntity>? OnSubmitted;
-    public event Action<HashSet<NetEntity>, int>? OnRandomize;
+    public event Action? OnRandomize; // Starlight, randomization uses the difficulty budget.
     public event Action? OnClear;
 
     public readonly HashSet<NetEntity> SelectedObjectives = [];
@@ -39,66 +39,10 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
         _mind = _entity.System<SharedMindSystem>();
         _sprite = _entity.System<SpriteSystem>();
 
-        _mind.TryGetMind(_players.LocalSession, out var mindUid, out _);
-
-        SubmitButton.Disabled = true; // Starlight, a picker without offers cannot submit or randomize.
-        RandomizeButton.Disabled = true; // Starlight
-        PopulateObjectives(mindUid);
-
-        SubmitButton.OnPressed += _ => OnSubmitted?.Invoke(SelectedObjectives, _entity.GetNetEntity(mindUid));
-        ClearButton.OnPressed += _ => OnClear?.Invoke();
-
-        if (!_entity.TryGetComponent<PotentialObjectivesComponent>(mindUid, out var comp))
-            return;
-        RandomizeButton.Disabled = comp.ObjectiveOptions.Count == 0; // Starlight, empty offers cannot be randomized.
-        RandomizeButton.OnPressed += _ => OnRandomize?.Invoke(comp.ObjectiveOptions.Keys.ToHashSet(), comp.MaxChoices);
-        UpdateTimer();
+        SLInitializePicker(); // Starlight
     }
 
-    private void PopulateObjectives(EntityUid mindUid)
-    {
-        ObjectiveList.Children.Clear();
-
-        if (!_entity.TryGetComponent<PotentialObjectivesComponent>(mindUid, out var potentialObjectivesComponent))
-            return;
-
-        foreach (var objective in potentialObjectivesComponent.ObjectiveOptions)
-        {
-            var button = new Button
-            {
-                ToggleMode = true,
-                Pressed = SelectedObjectives.Contains(objective.Key),
-                Disabled = SelectedObjectives.Count >= potentialObjectivesComponent.MaxChoices &&
-                            !SelectedObjectives.Contains(objective.Key),
-                Children =
-                {
-                    new BoxContainer
-                    {
-                        Orientation = BoxContainer.LayoutOrientation.Horizontal,
-                        Children =
-                        {
-                            new TextureRect { Texture = _sprite.Frame0(objective.Value.Icon) },
-                            new RichTextLabel
-                            {
-                                Text = objective.Value.Title,
-                                HorizontalAlignment = HAlignment.Left,
-                                HorizontalExpand = true,
-                            },
-                        },
-                    },
-                },
-            };
-            button.OnPressed += _ => OnSelectedChange?.Invoke(objective.Key);
-            ObjectiveList.Children.Add(button);
-        }
-
-        SelectionTip.Text = Loc.GetString("objective-picker-window-select-tip",
-            ("selected", SelectedObjectives.Count),
-            ("max", potentialObjectivesComponent.MaxChoices));
-
-        SubmitButton.Disabled = SelectedObjectives.Count > potentialObjectivesComponent.MaxChoices ||
-                                SelectedObjectives.Count < 1;
-    }
+    private void PopulateObjectives(EntityUid mindUid) => SLPopulateObjectives(mindUid); // Starlight
 
     protected override void FrameUpdate(FrameEventArgs args)
     {
@@ -119,27 +63,5 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
         PopulateObjectives(mindUid);
     }
 
-    private void UpdateTimer()
-    {
-        _mind.TryGetMind(_players.LocalSession, out var mindUid, out _);
-
-        // Starlight, close the picker after its offers have been consumed.
-        if (!_entity.TryGetComponent<PotentialObjectivesComponent>(mindUid, out var comp)
-            || comp.ObjectiveOptions.Count == 0)
-        {
-            Close();
-            return;
-        }
-
-        var timeLeft = comp.AutoSelectionTime - _timing.CurTime;
-
-        if (comp.AutoSelectionTime < _timing.CurTime)
-        {
-            Close();
-            return;
-        }
-
-        TimeLeftTip.Text = Loc.GetString("objective-picker-window-time-left",
-            ("time", timeLeft.ToString(@"mm\:ss")));
-    }
+    private void UpdateTimer() => SLUpdateTimer(); // Starlight
 }

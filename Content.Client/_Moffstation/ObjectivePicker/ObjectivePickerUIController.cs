@@ -40,50 +40,14 @@ public sealed partial class ObjectivePickerUIController : UIController, IOnState
         _window.OnSubmitted += OnSubmitted;
         _window.OnRandomize += OnRandomize;
         _window.OnClear += OnClear;
+        _window.OnMulligan += SLMulligan; // Starlight
     }
 
-    private void OnSelectedChange(NetEntity netEntity)
-    {
-        if (_window == null)
-            return;
+    private void OnSelectedChange(NetEntity netEntity) => SLToggleSelection(netEntity); // Starlight
 
-        if (!_window.SelectedObjectives.Remove(netEntity))
-            _window.SelectedObjectives.Add(netEntity);
-        _window.UpdateState();
-    }
+    private void OnSubmitted(HashSet<NetEntity> selectedObjectives, NetEntity mindId) => SLSubmit(selectedObjectives, mindId); // Starlight
 
-    private void OnSubmitted(HashSet<NetEntity> selectedObjectives, NetEntity mindId)
-    {
-        if (_window == null)
-            return;
-
-        var message = new ObjectivePickerSelected
-        {
-            MindId = mindId,
-            SelectedObjectives = selectedObjectives,
-        };
-        _net.SendSystemNetworkMessage(message);
-        _window.Close();
-        _characterInfo.RequestCharacterInfo(); // Moffstation - Character Menu Redesign
-    }
-
-    private void OnRandomize(HashSet<NetEntity> objectiveList, int pickCount)
-    {
-        if (_window == null)
-            return;
-
-        _window.SelectedObjectives.Clear();
-
-        #region Starlight
-        // Randomize without selecting the same objective twice.
-        var objectives = objectiveList.ToList();
-        for (var i = 0; i < pickCount && objectives.Count > 0; i++)
-        {
-            _window.SelectedObjectives.Add(_random.PickAndTake(objectives));
-        }
-        _window.UpdateState();
-        #endregion
-    }
+    private void OnRandomize() => SLRandomize(); // Starlight: no fixed pick count. // Starlight
 
     private void OnClear()
     {

@@ -16,10 +16,7 @@
     - VampireDrainObjective
   - type: AntagRandomObjectives
     sets:
-    - groups: VampireObjectiveGroupsStateOnly
-      maxPicks: 1
-    - groups: VampireObjectiveGroupsStealOnly
-      maxPicks: 1
+    - groups: VampireObjectiveGroupsSelector
     maxDifficulty: 10
   - type: DynamicRuleCost
     cost: 125
