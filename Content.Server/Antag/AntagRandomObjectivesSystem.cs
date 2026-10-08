@@ -1,3 +1,4 @@
+#region Moffstation
 // Reworked and moved to Moffstation Namespace
 /*
 using Content.Server.Antag.Components;
@@ -53,3 +54,4 @@ public sealed partial class AntagRandomObjectivesSystem : EntitySystem
     }
 }
 */
+#endregion

@@ -41,7 +41,7 @@ public sealed partial class AntagRandomObjectivesSystem : EntitySystem
             potentialObjectives.MaxChoices = _random.Next(ent.Comp.MinChoices, ent.Comp.MaxChoices + 1);
             potentialObjectives.MinChoices = ent.Comp.MinChoices;
             potentialObjectives.AutoSelectionDelay = ent.Comp.SelectionDelay;
-            // EnsureComp has already raised MapInit using the component's default delay.
+            // Starlight, MapInit has already used the default delay; apply the rule's configured delay.
             potentialObjectives.AutoSelectionTime = _timing.CurTime + ent.Comp.SelectionDelay;
         }
 
@@ -59,6 +59,8 @@ public sealed partial class AntagRandomObjectivesSystem : EntitySystem
             }
         }
 
+        #region Starlight
+        // Empty offers cannot be selected, and fewer offers reduce the selection limit.
         if (potentialObjectives.ObjectiveOptions.Count == 0)
         {
             RemCompDeferred<PotentialObjectivesComponent>(mindId);
@@ -67,11 +69,18 @@ public sealed partial class AntagRandomObjectivesSystem : EntitySystem
 
         potentialObjectives.MaxChoices = Math.Min(potentialObjectives.MaxChoices, potentialObjectives.ObjectiveOptions.Count);
         Dirty(mindId, potentialObjectives);
+        #endregion
     }
 
     private void OnObjectivesSelected(ObjectivePickerSelected ev, EntitySessionEventArgs args)
     {
-        ApplySelectedObjectives(GetEntity(ev.MindId), ev.SelectedObjectives);
+        #region Starlight
+        // A player may only submit objectives for their own mind.
+        if (!_mind.TryGetMind(args.SenderSession, out var mindId, out _) || GetNetEntity(mindId) != ev.MindId)
+            return;
+
+        ApplySelectedObjectives(mindId, ev.SelectedObjectives);
+        #endregion
     }
 
     public void ApplySelectedObjectives(EntityUid mindId, IEnumerable<NetEntity> selectedObjectives)
@@ -82,9 +91,14 @@ public sealed partial class AntagRandomObjectivesSystem : EntitySystem
         if (!TryComp<PotentialObjectivesComponent>(mindId, out var potentialObjectivesComp))
             return;
 
-        // Verify the objectives are actually in their component
-        var objectiveIds = potentialObjectivesComp.ObjectiveOptions.Keys.ToHashSet();
-        foreach (var objective in selectedObjectives)
+        #region Starlight
+        // Validate the selection and dispose of every unselected offer.
+        var selected = selectedObjectives.ToHashSet();
+        if (selected.Count == 0 || selected.Count > potentialObjectivesComp.MaxChoices ||
+            selected.Any(objective => !potentialObjectivesComp.ObjectiveOptions.ContainsKey(objective)))
+            return;
+
+        foreach (var objective in potentialObjectivesComp.ObjectiveOptions.Keys)
         {
             if (selected.Contains(objective))
             {
@@ -100,5 +114,6 @@ public sealed partial class AntagRandomObjectivesSystem : EntitySystem
         potentialObjectivesComp.ObjectiveOptions.Clear();
         Dirty(mindId, mindComp);
         RemCompDeferred<PotentialObjectivesComponent>(mindId);
+        #endregion
     }
 }

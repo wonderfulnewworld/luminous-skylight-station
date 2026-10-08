@@ -41,8 +41,8 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
 
         _mind.TryGetMind(_players.LocalSession, out var mindUid, out _);
 
-        SubmitButton.Disabled = true;
-        RandomizeButton.Disabled = true;
+        SubmitButton.Disabled = true; // Starlight, a picker without offers cannot submit or randomize.
+        RandomizeButton.Disabled = true; // Starlight
         PopulateObjectives(mindUid);
 
         SubmitButton.OnPressed += _ => OnSubmitted?.Invoke(SelectedObjectives, _entity.GetNetEntity(mindUid));
@@ -50,7 +50,7 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
 
         if (!_entity.TryGetComponent<PotentialObjectivesComponent>(mindUid, out var comp))
             return;
-        RandomizeButton.Disabled = comp.ObjectiveOptions.Count == 0;
+        RandomizeButton.Disabled = comp.ObjectiveOptions.Count == 0; // Starlight, empty offers cannot be randomized.
         RandomizeButton.OnPressed += _ => OnRandomize?.Invoke(comp.ObjectiveOptions.Keys.ToHashSet(), comp.MaxChoices);
         UpdateTimer();
     }
@@ -123,6 +123,7 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
     {
         _mind.TryGetMind(_players.LocalSession, out var mindUid, out _);
 
+        // Starlight, close the picker after its offers have been consumed.
         if (!_entity.TryGetComponent<PotentialObjectivesComponent>(mindUid, out var comp)
             || comp.ObjectiveOptions.Count == 0)
         {

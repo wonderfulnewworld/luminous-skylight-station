@@ -342,6 +342,7 @@ public sealed partial class ObjectivesSystem : SharedObjectivesSystem
         }
     }
 
+    #region Moffstation
     // Moffstation - Objective Picker - make sure to use our yield break implementation and take upstream changes
     public IEnumerable<EntityUid> GetRandomObjectives(EntityUid mindId, MindComponent mind, ProtoId<WeightedRandomPrototype> objectiveGroupProto, float maxDifficulty)
     {
@@ -372,19 +373,21 @@ public sealed partial class ObjectivesSystem : SharedObjectivesSystem
                     yield return objective.Value; // Moffstation - Objective Picker
             }
         }
-
-        // return null; // Moffstation - Objective Picker
     }
+    #endregion
 
     // Moffstation - Start - Objective Picker: This is rewritten to use our IEnumerable version for maintainability
     public EntityUid? GetRandomObjective(EntityUid mindId, MindComponent mind, ProtoId<WeightedRandomPrototype> objectiveGroupProto, float maxDifficulty)
     {
+        #region Starlight
+        // Stop after the first candidate; Single exhausts the offer generator.
         foreach (var objective in GetRandomObjectives(mindId, mind, objectiveGroupProto, maxDifficulty))
         {
             return objective;
         }
 
         return null;
+        #endregion
     }
     // Moffstation - End
 

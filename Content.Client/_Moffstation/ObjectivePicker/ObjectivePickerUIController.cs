@@ -74,12 +74,15 @@ public sealed partial class ObjectivePickerUIController : UIController, IOnState
 
         _window.SelectedObjectives.Clear();
 
+        #region Starlight
+        // Randomize without selecting the same objective twice.
         var objectives = objectiveList.ToList();
         for (var i = 0; i < pickCount && objectives.Count > 0; i++)
         {
             _window.SelectedObjectives.Add(_random.PickAndTake(objectives));
         }
         _window.UpdateState();
+        #endregion
     }
 
     private void OnClear()

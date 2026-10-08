@@ -19,7 +19,7 @@ using Robust.Shared.Prototypes;
 namespace Content.IntegrationTests.Tests.GameRules;
 
 [TestFixture]
-public sealed class TraitorRuleTest : GameTest
+public sealed partial class TraitorRuleTest : GameTest
 {
     private const string TraitorGameRuleProtoId = "Traitor";
     private const string TraitorAntagRoleName = "Traitor";
@@ -135,6 +135,8 @@ public sealed class TraitorRuleTest : GameTest
         Assert.That(entMan.TryGetComponent<PotentialObjectivesComponent>(mind, out var potentialObjectivesComp));
         Assert.That(potentialObjectivesComp!.ObjectiveOptions, Is.Not.Empty, "No potential objective options found!");
         // Moffstation - End
+
+        await SLTestObjectivePicker(mind, player); // Starlight
     }
 
     private static string FormatObjective(Entity<ObjectiveComponent> entity, IEntityManager entMan)

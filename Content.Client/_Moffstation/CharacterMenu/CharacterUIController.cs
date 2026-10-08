@@ -1,4 +1,4 @@
-using Content.Client._Starlight.UserInterface.Controls;
+using System.Linq;
 using Content.Client.CharacterInfo;
 using Content.Client.Gameplay;
 using Content.Client.Message;
@@ -29,7 +29,7 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
     private const int DescriptionWordLimit = 40;
 
     private MoffCharacterWindow? _window;
-    private MenuButton? CharacterButton => UIManager.GetActiveUIWidgetOrNull<UserInterface.Systems.MenuBar.Widgets.GameTopMenuBar>()?.CharacterButton;
+    private MenuButton? _characterButton => UIManager.GetActiveUIWidgetOrNull<UserInterface.Systems.MenuBar.Widgets.GameTopMenuBar>()?.CharacterButton;
 
     public void OnStateEntered(GameplayState state)
     {
@@ -42,6 +42,7 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
 
         _window.OnClose += DeactivateButton;
         _window.OnOpen += ActivateButton;
+        SLInitializeCharacterWindow(); // Starlight
 
         CommandBinds.Builder
             .Bind(ContentKeyFunctions.OpenCharacterMenu,
@@ -51,11 +52,8 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
 
     public void OnStateExited(GameplayState state)
     {
-        if (_window != null)
-        {
-            _window.Close();
-            _window = null;
-        }
+        _window?.Close();
+        _window = null;
 
         CommandBinds.Unregister<CharacterUIController>();
     }
@@ -74,33 +72,27 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
 
     public void UnloadButton()
     {
-        if (CharacterButton == null)
+        if (_characterButton == null)
         {
             return;
         }
 
-        CharacterButton.OnPressed -= CharacterButtonPressed;
+        _characterButton.OnPressed -= CharacterButtonPressed;
     }
 
     public void LoadButton()
     {
-        if (CharacterButton == null)
+        if (_characterButton == null)
         {
             return;
         }
 
-        CharacterButton.OnPressed += CharacterButtonPressed;
+        _characterButton.OnPressed += CharacterButtonPressed;
     }
 
-    private void DeactivateButton()
-    {
-        CharacterButton?.Pressed = false;
-    }
+    private void DeactivateButton() => _characterButton?.Pressed = false;
 
-    private void ActivateButton()
-    {
-        CharacterButton?.Pressed = true;
-    }
+    private void ActivateButton() => _characterButton?.Pressed = true;
 
     private void CharacterUpdated(CharacterInfoSystem.CharacterData data)
     {
@@ -109,18 +101,18 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
             return;
         }
 
-        var (entity, objectives, minds, briefing, jobId, entityName) = data; // Starlight - Collective Mind - Added minds variable.
+        var (entity, jobTitle, objectives, briefing, entityName) = data; // Starlight
 
         _window.SpriteView.SetEntity(entity);
 
         UpdateRoleType();
         _window.NameLabel.SetMarkup(Loc.GetString("character-info-name-format",
             ("name", FormattedMessage.EscapeText(entityName))));
-        var job = _characterWindow.GetJobInfo(jobId);
+        var job = _characterWindow.GetJobInfo(entity); // Starlight
         _window.JobContainer.Visible = job != null;
         if (job is { } jobInfo)
         {
-            _window.SubText.SetMarkup(Loc.GetString("character-info-job-format", ("job", Loc.GetString(jobInfo.Name))));
+            _window.SubText.SetMarkup(Loc.GetString("character-info-job-format", ("job", FormattedMessage.EscapeText(jobTitle)))); // Starlight
             _window.JobIcon.Texture = jobInfo.Icon;
         }
 
@@ -128,10 +120,10 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
         _window.CharacterInfo.Visible = profile != null;
         if (profile is { } profileInfo)
         {
-            _window.CharacterInfo.Text = Loc.GetString("character-info-details-format",
+            _window.CharacterInfo.SetMessage(Loc.GetString("character-info-details-format", // Starlight
                 ("gender", profileInfo.Gender),
                 ("age", profileInfo.Age),
-                ("species", Loc.GetString(profileInfo.Species)));
+                ("species", profileInfo.Species))); // Starlight, custom species name.
         }
 
         var description = _characterWindow.GetDescription(entity);
@@ -144,10 +136,10 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
 
         _window.Objectives.RemoveAllChildren();
         _window.Briefing.RemoveAllChildren();
-        _window.Minds.RemoveAllChildren(); // Starlight - Collective Mind
+        SLSetSelfCharacterInfo(entity); // Starlight
 
         var canPickObjectives = _characterWindow.CanPickObjectives(_player.LocalEntity);
-        _window.AddObjectiveButtons(objectives.Count, canPickObjectives);
+        _window.AddObjectiveButtons(objectives.Sum(group => group.Value.Count), canPickObjectives); // Starlight
 
         foreach (var (_, conditions) in objectives)
         {
@@ -156,30 +148,6 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
                 _window.Objectives.AddChild(new ObjectiveConditionsControl(condition, _sprite));
             }
         }
-
-        // Starlight - Start - Collective Mind
-        var collectiveMinds = _characterWindow.GetCollectiveMinds(minds);
-        if (collectiveMinds.Count > 0)
-        {
-            var mindsControl = new CharacterMindsControl
-            {
-                Orientation = BoxContainer.LayoutOrientation.Vertical,
-            };
-            var mindDescriptionMessage = new FormattedMessage();
-            mindDescriptionMessage.AddText("Available collective minds:");
-            foreach (var collectiveMind in collectiveMinds)
-            {
-                mindDescriptionMessage.AddText("\n");
-                mindDescriptionMessage.PushColor(collectiveMind.Color);
-                mindDescriptionMessage.AddText($"{Loc.GetString(collectiveMind.Name)}: +{collectiveMind.KeyCode}");
-                mindDescriptionMessage.AddText($" (Number {collectiveMind.MindId})");
-                mindDescriptionMessage.Pop();
-
-            }
-            mindsControl.Description.SetMessage(mindDescriptionMessage);
-            _window.Minds.AddChild(mindsControl); // Moffstation - Character Menu Redesign (fix: Minds was declared but never populated)
-        }
-        // Starlight - End
 
         if (briefing != null)
         {
@@ -213,12 +181,9 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
         SetRoleType(Loc.GetString(roleType.Name), roleType.Color);
     }
 
-    private void SetRoleType(string role, Color color)
-    {
-        _window!.RoleType.Text = Loc.GetString("character-info-role-type-format",
+    private void SetRoleType(string role, Color color) => _window!.RoleType.Text = Loc.GetString("character-info-role-type-format",
             ("color", color.ToHex()),
             ("role", role));
-    }
 
     private static string TruncateWords(string text, int wordLimit)
     {
@@ -230,20 +195,11 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
             ("description", string.Join(' ', words[..wordLimit])));
     }
 
-    private void CharacterDetached(EntityUid uid)
-    {
-        CloseWindow();
-    }
+    private void CharacterDetached(EntityUid uid) => CloseWindow();
 
-    private void CharacterButtonPressed(ButtonEventArgs args)
-    {
-        ToggleWindow();
-    }
+    private void CharacterButtonPressed(ButtonEventArgs args) => ToggleWindow();
 
-    private void CloseWindow()
-    {
-        _window?.Close();
-    }
+    private void CloseWindow() => _window?.Close();
 
     public void OpenWindow()
     {
@@ -255,7 +211,7 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
         if (_window.IsOpen)
             return;
 
-        CharacterButton?.SetClickPressed(true);
+        _characterButton?.SetClickPressed(true);
         _window.Open();
     }
 
@@ -264,7 +220,7 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
         if (_window == null)
             return;
 
-        CharacterButton?.SetClickPressed(!_window.IsOpen);
+        _characterButton?.SetClickPressed(!_window.IsOpen);
 
         if (_window.IsOpen)
         {

@@ -1,5 +1,5 @@
-// Moff - We stuffed this file into a crate and shipped it to our namespace
-// Take any upstream changes
+#region Moffstation
+// Character controller moved to the Moffstation namespace
 /*
 using System.Linq;
 using Content.Client._Moffstation.ObjectivePicker; // Moffstation
@@ -304,3 +304,4 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
     }
 }
 */
+#endregion

@@ -11,7 +11,6 @@ using Content.Shared.Whitelist;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Configuration;
-using Robust.Shared.Maths; // Moffstation - SubtypeColor
 using Robust.Shared.GameStates;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
@@ -257,7 +256,7 @@ public abstract partial class SharedRoleSystem : EntitySystem
     }
 
     // Moffstation - Start - SubtypeColor (added subtypeColor parameter)
-    public void SetRoleType(EntityUid mind, ProtoId<RoleTypePrototype> roleTypeId, LocId? subtype, Color? subtypeColor = null)
+    public void SetRoleType(EntityUid mind, ProtoId<RoleTypePrototype> roleTypeId, LocId? subtype, Color? subtypeColor = null) // Starlight, public
     // Moffstation - End
     {
         if (!TryComp<MindComponent>(mind, out var comp))

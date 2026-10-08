@@ -70,10 +70,6 @@
   components:
   - type: MindRole
     roleType: Silicon
-    # Moffstation - Start - Character menu UI rework
-    subtype: role-subtype-silicon
-    subtypeColor: '#6495ed'
-    # Moffstation - End
 
 - type: entity
   parent: [ BaseMindRoleAntag, MindRoleGhostRoleNeutral ]
@@ -84,10 +80,6 @@
     roleType: SiliconAntagonist
     antagPrototype: GenericSiliconAntagonist
     sortWeight: 30
-    # Moffstation - Start - Character menu UI rework
-    subtype: role-subtype-silicon
-    subtypeColor: '#c832e6'
-    # Moffstation - End
 
 - type: entity
   parent: [ BaseMindRoleAntag, MindRoleGhostRoleNeutral ]
@@ -117,12 +109,6 @@
   parent: BaseMindRole
   id: MindRoleJob
   name: Job Role
-  # Moffstation - Start - Character menu UI rework
-  components:
-  - type: RoleBriefing
-    briefing: crew-briefing
-  # Moffstation - End
-
   # JobPrototype is filled by SharedJobSystem
 
 # Silicon
@@ -133,10 +119,6 @@
   components:
   - type: MindRole
     roleType: Silicon
-    # Moffstation - Start - Character menu UI rework
-    subtype: role-subtype-silicon
-    subtypeColor: '#6495ed'
-    # Moffstation - End
   - type: SiliconBrainRole
 
 - type: entity
@@ -148,11 +130,7 @@
   - type: MindRole
     antagPrototype: SubvertedSilicon
     roleType: SiliconAntagonist
-    # Moffstation - Start - Character menu UI rework
-    # subtype: role-subtype-subverted
-    subtype: role-subtype-silicon
-    subtypeColor: '#c832e6'
-    # Moffstation - End
+    subtype: role-subtype-subverted
   - type: SubvertedSiliconRole
 
 # Dragon
@@ -164,11 +142,7 @@
   - type: MindRole
     antagPrototype: Dragon
     roleType: TeamAntagonist
-    # Moffstation - Start - Character menu UI rework
-    # subtype: role-subtype-dragon
-    subtype: role-subtype-dragon-faction
-    subtypeColor: '#2508ff'
-    # Moffstation - End
+    subtype: role-subtype-dragon
     exclusiveAntag: true
   - type: DragonRole
 
@@ -180,11 +154,7 @@
   components:
   - type: MindRole
     antagPrototype: SpaceNinja
-    # Moffstation - Start - Character menu UI rework
-    # subtype: role-subtype-ninja
-    subtype: role-subtype-faction-spider-clan
-    subtypeColor: '#33cc00'
-    # Moffstation - End
+    subtype: role-subtype-ninja
     exclusiveAntag: true
   - type: NinjaRole
 
@@ -196,7 +166,7 @@
   components:
   - type: MindRole
     antagPrototype: ParadoxClone
-  # subtype: role-subtype-paradox-clone # Moffstation
+    subtype: role-subtype-paradox-clone
   - type: ParadoxCloneRole
 
 # Nukies
@@ -207,11 +177,7 @@
   components:
   - type: MindRole
     roleType: TeamAntagonist
-    # Moffstation - Start - Character menu UI rework
-    # subtype: role-subtype-nukie
-    subtype: role-subtype-faction-syndicate-gorlex
-    subtypeColor: darkred
-    # Moffstation - End
+    subtype: role-subtype-nukie
     exclusiveAntag: true
     antagPrototype: Nukeops
   - type: NukeopsRole
@@ -239,10 +205,6 @@
   components:
   - type: MindRole
     roleType: SoloAntagonist
-    # Moffstation - Start - Character menu UI rework
-    subtype: role-subtype-faction-syndicate-gorlex
-    subtypeColor: darkred
-    # Moffstation - End
 
 # Revolutionaries
 - type: entity
@@ -254,11 +216,7 @@
     antagPrototype: HeadRev
     exclusiveAntag: true
     roleType: TeamAntagonist
-    # Moffstation - Start - Character menu UI rework
-    # subtype: role-subtype-head-revolutionary
-    subtype: role-subtype-faction-revolutionary
-    subtypeColor: '#ff1e00'
-    # Moffstation - End
+    subtype: role-subtype-head-revolutionary
   - type: RevolutionaryRole
 
 - type: entity
@@ -268,11 +226,7 @@
   components:
   - type: MindRole
     antagPrototype: Rev
-    # Moffstation - Start - Character menu UI rework
-    # subtype: role-subtype-revolutionary
-    subtype: role-subtype-faction-revolutionary
-    subtypeColor: '#ff1e00'
-    # Moffstation - End
+    subtype: role-subtype-revolutionary
 
 # Survivors (Wizard)
 - type: entity
@@ -294,11 +248,7 @@
   components:
   - type: MindRole
     antagPrototype: Thief
-    # Moffstation - Start - Character menu UI rework
-    # subtype: role-subtype-thief
-    subtype: role-type-free-agent-name
-    subtypeColor: '#ffff00'
-    # Moffstation - End
+    subtype: role-subtype-thief
   - type: ThiefRole
 
 # Traitors
@@ -310,11 +260,7 @@
   - type: MindRole
     antagPrototype: Traitor
     exclusiveAntag: true
-    # Moffstation - Start - Character menu UI rework
-    # subtype: role-subtype-traitor
-    subtype: role-subtype-faction-syndicate
-    subtypeColor: darkred
-    # Moffstation - End
+    subtype: role-subtype-traitor
   - type: TraitorRole
 
 - type: entity
@@ -332,11 +278,7 @@
   components:
   - type: MindRole
     roleType: TeamAntagonist
-    # Moffstation - Start - Character menu UI rework
-    # subtype: role-subtype-traitor-reinforcement
-    subtype: role-subtype-faction-syndicate
-    subtypeColor: darkred
-    # Moffstation - End
+    subtype: role-subtype-traitor-reinforcement
     antagPrototype: GenericTeamAntagonist
 
 # Wizards
@@ -348,11 +290,7 @@
   - type: MindRole
     antagPrototype: Wizard
     exclusiveAntag: true
-    # Moffstation - Start - Character menu UI rework
-    # subtype: role-subtype-wizard
-    subtype: role-subtype-faction-wizards
-    subtypeColor: turquoise
-    # Moffstation - End
+    subtype: role-subtype-wizard
   - type: WizardRole
 
 # Xenoborgs
@@ -365,11 +303,7 @@
     antagPrototype: MothershipCore
     exclusiveAntag: true
     roleType: Silicon
-    # Moffstation - Start - Character menu UI rework
-    # subtype: role-subtype-xenoborg-core
-    subtype: role-subtype-silicon
-    subtypeColor: darkblue
-    # Moffstation - End
+    subtype: role-subtype-xenoborg-core
   - type: XenoborgRole
 
 - type: entity
@@ -381,11 +315,7 @@
     antagPrototype: Xenoborg
     exclusiveAntag: true
     roleType: Silicon
-    # Moffstation - Start - Character menu UI rework
-    # subtype: role-subtype-xenoborg
-    subtype: role-subtype-silicon
-    subtypeColor: darkblue
-    # Moffstation - End
+    subtype: role-subtype-xenoborg
   - type: XenoborgRole
 
 # Zombie Squad
@@ -398,11 +328,7 @@
     antagPrototype: InitialInfected
     exclusiveAntag: true
     roleType: TeamAntagonist
-    # Moffstation - Start - Character menu UI rework
-    # subtype: role-subtype-initial-infected
-    subtype: role-subtype-faction-infected
-    subtypeColor: green
-    # Moffstation - End
+    subtype: role-subtype-initial-infected
   - type: InitialInfectedRole
 
 - type: entity
@@ -413,11 +339,7 @@
   - type: MindRole
     antagPrototype: Zombie
     exclusiveAntag: true
-    # Moffstation - Start - Character menu UI rework
-    # subtype: role-subtype-zombie
-    subtype: role-subtype-faction-infected
-    subtypeColor: green
-    # Moffstation - End
+    subtype: role-subtype-zombie
   - type: ZombieRole
 
 #TODO: Move the below to a _Starlight folder and add Upstream's Changeling
@@ -430,9 +352,5 @@
   components:
   - type: MindRole
     antagPrototype: Changeling
-    # Moffstation - Start - Character menu UI rework
-    # subtype: role-subtype-changeling # Starlight
-    subtype: role-subtype-faction-changeling
-    subtypeColor: '#FA2A55'
-    # Moffstation - End
+    subtype: role-subtype-changeling # Starlight
   - type: SLChangelingRole

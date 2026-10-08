@@ -1,6 +1,4 @@
-<!--
-Moff - I changed alot in this file. not worth commenting anything. Dont accept upstream changes
--->
+<!-- Moff - I changed alot in this file. not worth commenting anything. Dont accept upstream changes. -->
 <controls:ObjectiveConditionsControl
     xmlns="https://spacestation14.io"
     xmlns:cc="clr-namespace:Content.Client.UserInterface.Controls"
@@ -24,3 +22,4 @@ Moff - I changed alot in this file. not worth commenting anything. Dont accept u
         </BoxContainer>
     </LayoutContainer>
 </controls:ObjectiveConditionsControl>
+<!-- Moffstation - End -->

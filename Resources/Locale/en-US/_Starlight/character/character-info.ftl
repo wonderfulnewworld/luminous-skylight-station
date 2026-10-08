@@ -8,6 +8,7 @@ character-info-inspect-prompt = Open Character Menu
 character-info-ic = IC Info
 character-info-ooc = OOC Info
 character-info-objectives = Overview
+character-info-ic-ooc = IC / OOC Info
 character-info-background = Background
 character-info-background-label = Background:
 character-info-background-none = No background.

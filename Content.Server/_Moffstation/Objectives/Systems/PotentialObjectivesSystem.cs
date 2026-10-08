@@ -16,7 +16,7 @@ public sealed partial class PotentialObjectivesSystem : EntitySystem
         var query = EntityQueryEnumerator<PotentialObjectivesComponent>();
         while (query.MoveNext(out var uid, out var comp))
         {
-            if (_timing.CurTime < comp.AutoSelectionTime)
+            if (_timing.CurTime < comp.AutoSelectionTime || comp.ObjectiveOptions.Count == 0) // Starlight, skip consumed offers awaiting deferred removal.
                 continue;
 
             var objectives = comp.ObjectiveOptions.OrderBy(_ => _random.Next())

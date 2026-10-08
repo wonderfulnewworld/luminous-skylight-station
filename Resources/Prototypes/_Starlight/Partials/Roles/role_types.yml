@@ -1,0 +1,4 @@
+# Moffstation - Neutral faction color for the character menu.
+- type: !PartialOnly roleType
+  id: Neutral
+  color: LightBlue
