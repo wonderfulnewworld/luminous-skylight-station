@@ -1,6 +1,5 @@
 using System.Linq;
 using Content.IntegrationTests.Fixtures;
-using Content.Server._Moffstation.Objectives.Systems;
 using Content.Server._Starlight.Objectives.ObjectivePicker;
 using Content.Server.Mind;
 using Content.Server._Starlight.Objectives.Components;
@@ -8,7 +7,7 @@ using Content.Server.Objectives;
 using Content.Shared.Access.Components;
 using Content.Shared.Mind;
 using Content.Shared.Roles;
-using Content.Shared._Moffstation.Objectives;
+using Content.Shared._Starlight.Objectives.ObjectivePicker;
 using Content.Shared.Objectives.Components;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
@@ -31,34 +30,34 @@ public sealed class ObjectivePickerTest : GameTest
         - type: entity
           id: SLPickerTestPlain
           components:
-          - type: Objective
-            difficulty: 3
-            issuer: objective-issuer-syndicate
-            icon:
-              sprite: error.rsi
-              state: error
-          - type: FreeObjective
+            - type: Objective
+              difficulty: 3
+              issuer: objective-issuer-syndicate
+              icon:
+                sprite: error.rsi
+                state: error
+            - type: FreeObjective
 
         - type: entity
           parent: SLPickerTestPlain
           id: SLPickerTestLimited
           components:
-          - type: ObjectiveLimit
-            limit: 1
+            - type: ObjectiveLimit
+              limit: 1
 
         - type: entity
           parent: SLPickerTestPlain
           id: SLPickerTestBlacklist
           components:
-          - type: ObjectiveBlacklistRequirement
-            blacklist:
-              components: [SurviveCondition]
+            - type: ObjectiveBlacklistRequirement
+              blacklist:
+                components: [SurviveCondition]
 
         - type: entity
           parent: SLPickerTestPlain
           id: SLPickerTestSurvive
           components:
-          - type: SurviveCondition
+            - type: SurviveCondition
         """;
 
     public override PoolSettings PoolSettings => new() { Connected = false, Dirty = true };

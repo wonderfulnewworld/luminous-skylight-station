@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using Content.Client._Moffstation.CharacterMenu;
-using Content.Client._Moffstation.ObjectivePicker;
+using Content.Client._Starlight.Character.Info.UI;
+using Content.Client._Starlight.Objectives.ObjectivePicker;
 using Content.Server.Mind;
 using Content.Server.Objectives.Components;
 using Content.Server._Starlight.Objectives.Components;
@@ -12,7 +12,6 @@ using Content.Shared._Starlight.CCVar;
 using Content.Shared.CCVar;
 using Content.Shared.Preferences;
 using Content.Shared.Objectives.Components;
-using Content.Shared._Moffstation.Objectives;
 using Content.Shared._Starlight.Character.Info.Components;
 using Content.Shared._Starlight.Railroading.Components;
 using Content.Shared.Mind;
@@ -101,7 +100,7 @@ public sealed partial class TraitorRuleTest
 
         await Client.WaitAssertion(() =>
         {
-            var window = SLFindControls<MoffCharacterWindow>(ui.RootControl).Single();
+            var window = SLFindControls<SLCharacterWindow>(ui.RootControl).Single();
             Assert.That(window.CharacterInfoTabs.Children.Count, Is.EqualTo(2));
             Assert.That(window.CharacterInfoTabs.CurrentTab, Is.Zero);
             Assert.That(window.InfoIC.CharacterDesc.GetMessage(), Does.Contain("Physical description"));

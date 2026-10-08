@@ -1,9 +1,7 @@
 using Content.Shared.Objectives;
 using Robust.Shared.GameStates;
-using Robust.Shared.Network;
-using Robust.Shared.Serialization;
 
-namespace Content.Shared._Moffstation.Objectives;
+namespace Content.Shared._Starlight.Objectives.ObjectivePicker;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState, AutoGenerateComponentPause]
 public sealed partial class PotentialObjectivesComponent : Component
@@ -33,17 +31,22 @@ public sealed partial class PotentialObjectivesComponent : Component
     public int MinChoices = 1;
 
     public override bool SessionSpecific => true;
-}
 
-/// <summary>
-///     Clients listen for this event and when they get it, they open a popup so the player can fill out the objective summary.
-/// </summary>
-[Serializable, NetSerializable]
-public sealed class ObjectivePickerOpenMessage : EntityEventArgs;
+    [ViewVariables, AutoNetworkedField]
+    public float MinimumDifficulty;
 
-[Serializable, NetSerializable]
-public sealed class ObjectivePickerSelected : EntityEventArgs
-{
-    public NetEntity MindId;
-    public HashSet<NetEntity> SelectedObjectives = new();
+    [ViewVariables, AutoNetworkedField]
+    public Dictionary<NetEntity, float> Difficulties = new();
+
+    [ViewVariables, AutoNetworkedField]
+    public Dictionary<NetEntity, HashSet<NetEntity>> Conflicts = new();
+
+    [ViewVariables, AutoNetworkedField]
+    public HashSet<NetEntity> UnavailableObjectives = new();
+
+    [ViewVariables, AutoNetworkedField]
+    public bool MulliganUsed;
+
+    [ViewVariables, AutoNetworkedField]
+    public NetEntity? RetainedObjective;
 }

@@ -1,12 +1,9 @@
 using System.Linq;
-using Content.Server._Starlight.Objectives.ObjectivePicker;
-using Content.Shared._Moffstation.Objectives;
-using Content.Shared._Starlight.Objectives.ObjectivePicker;
 using Content.Shared.Mind;
 using Content.Shared.Objectives.Components;
+using Content.Shared._Starlight.Objectives.ObjectivePicker;
 
-// ReSharper disable once CheckNamespace
-namespace Content.Server._Moffstation.Objectives.Systems;
+namespace Content.Server._Starlight.Objectives.ObjectivePicker;
 
 public sealed partial class AntagRandomObjectivesSystem
 {

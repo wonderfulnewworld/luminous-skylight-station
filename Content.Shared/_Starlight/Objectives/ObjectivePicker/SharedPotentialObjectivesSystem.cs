@@ -1,8 +1,6 @@
-using System.Linq;
-using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
-namespace Content.Shared._Moffstation.Objectives;
+namespace Content.Shared._Starlight.Objectives.ObjectivePicker;
 
 /// <summary>
 /// This handles setting the Objective Autoselection Time, by adding the delay to the Current time.

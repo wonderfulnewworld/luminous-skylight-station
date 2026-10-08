@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Content.Shared._Moffstation.Objectives;
 using Content.Shared._Starlight.Objectives.ObjectivePicker;
 using NUnit.Framework;
 using Robust.Shared.GameObjects;

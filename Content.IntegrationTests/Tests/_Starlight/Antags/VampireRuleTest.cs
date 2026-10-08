@@ -1,7 +1,7 @@
 using System.Linq;
 using Content.IntegrationTests.Fixtures;
-using Content.Server._Moffstation.Objectives.Components;
-using Content.Shared._Moffstation.Objectives;
+using Content.Server._Starlight.Objectives.ObjectivePicker;
+using Content.Shared._Starlight.Objectives.ObjectivePicker;
 using Content.Server.GameTicking;
 using Content.Server.Mind;
 using Content.Server.Roles;
@@ -15,7 +15,6 @@ using Content.Shared._Starlight.Antags.Vampires.Components.Classes;
 using Content.Server._Starlight.GameTicking.Rules;
 using Content.Server._Starlight.GameTicking.Rules.Components;
 using Content.Server.Objectives.Components;
-using Content.Shared._Starlight.Objectives.ObjectivePicker;
 
 namespace Content.IntegrationTests.Tests._Starlight.Antags;
 [TestFixture]

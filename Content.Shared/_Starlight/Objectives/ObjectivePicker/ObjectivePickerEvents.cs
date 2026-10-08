@@ -16,3 +16,16 @@ public sealed class ObjectivePickerReply : EntityEventArgs
     public bool Finished;
     public string? Message;
 }
+
+/// <summary>
+///     Clients listen for this event and when they get it, they open a popup so the player can fill out the objective summary.
+/// </summary>
+[Serializable, NetSerializable]
+public sealed class ObjectivePickerOpenMessage : EntityEventArgs;
+
+[Serializable, NetSerializable]
+public sealed class ObjectivePickerSelected : EntityEventArgs
+{
+    public NetEntity MindId;
+    public HashSet<NetEntity> SelectedObjectives = new();
+}

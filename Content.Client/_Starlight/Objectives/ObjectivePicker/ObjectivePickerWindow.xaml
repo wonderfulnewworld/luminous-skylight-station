@@ -1,4 +1,3 @@
-<!-- Starlight, need to make this bigger. -->
 <controls:FancyWindow xmlns="https://spacestation14.io"
                       xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
                       Title="{Loc 'objective-picker-window-title'}"
@@ -12,7 +11,6 @@
         </PanelContainer>
         <BoxContainer Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5">
             <RichTextLabel Name="SelectionTip" Margin="2" HorizontalAlignment="Center"/>
-            <!-- Starlight, server feedback and mulligan reroll. -->
             <RichTextLabel Name="PickerFeedback" Margin="2" HorizontalAlignment="Center"/>
             <Button Name="MulliganButton" Margin="5" HorizontalExpand="True" Text="{Loc 'objective-picker-window-mulligan'}"/>
             <RichTextLabel Name="TimeLeftTip" Margin="2" HorizontalAlignment="Center"/>

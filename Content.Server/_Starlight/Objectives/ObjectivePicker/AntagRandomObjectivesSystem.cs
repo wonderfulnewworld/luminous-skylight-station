@@ -1,13 +1,12 @@
 using System.Linq;
-using Content.Server._Moffstation.Objectives.Components;
 using Content.Server.Antag;
 using Content.Server.Objectives;
-using Content.Shared._Moffstation.Objectives;
 using Content.Shared.Mind;
+using Content.Shared._Starlight.Objectives.ObjectivePicker;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
-namespace Content.Server._Moffstation.Objectives.Systems;
+namespace Content.Server._Starlight.Objectives.ObjectivePicker;
 
 public sealed partial class AntagRandomObjectivesSystem : EntitySystem
 {
@@ -21,9 +20,9 @@ public sealed partial class AntagRandomObjectivesSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<AntagRandomObjectivesComponent, AfterAntagEntitySelectedEvent>(OnAntagSelected,
-            after: [typeof(AntagObjectivesSystem)]); // Starlight: generate offers after fixed objectives.
+            after: [typeof(AntagObjectivesSystem)]);
         SubscribeNetworkEvent<ObjectivePickerSelected>(OnObjectivesSelected);
-        SLInitializePicker(); // Starlight
+        SLInitializePicker();
     }
 
     private void OnAntagSelected(Entity<AntagRandomObjectivesComponent> ent, ref AfterAntagEntitySelectedEvent args) => SLCreatePicker(ent, ref args);

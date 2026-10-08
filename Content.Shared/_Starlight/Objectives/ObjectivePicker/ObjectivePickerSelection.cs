@@ -1,5 +1,4 @@
 using System.Linq;
-using Content.Shared._Moffstation.Objectives;
 
 namespace Content.Shared._Starlight.Objectives.ObjectivePicker;
 

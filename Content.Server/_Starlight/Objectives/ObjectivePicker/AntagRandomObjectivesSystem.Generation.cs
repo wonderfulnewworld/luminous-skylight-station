@@ -1,22 +1,18 @@
 using System.Linq;
-using Content.Server._Moffstation.Objectives.Components;
-using Content.Server._Starlight.Objectives.Components;
-using Content.Server._Starlight.Objectives.ObjectivePicker;
 using Content.Server.Antag;
 using Content.Server.Objectives.Components;
-using Content.Shared._Moffstation.Objectives;
-using Content.Shared._Starlight.Objectives.ObjectivePicker;
+using Content.Server._Starlight.Objectives.Components;
 using Content.Shared.Mind;
-using Content.Shared.Objectives;
 using Content.Shared.Objectives.Components;
-using Content.Shared.Random;
+using Content.Shared.Objectives;
 using Content.Shared.Random.Helpers;
+using Content.Shared.Random;
 using Content.Shared.Whitelist;
+using Content.Shared._Starlight.Objectives.ObjectivePicker;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 
-// ReSharper disable once CheckNamespace
-namespace Content.Server._Moffstation.Objectives.Systems;
+namespace Content.Server._Starlight.Objectives.ObjectivePicker;
 
 public sealed partial class AntagRandomObjectivesSystem
 {

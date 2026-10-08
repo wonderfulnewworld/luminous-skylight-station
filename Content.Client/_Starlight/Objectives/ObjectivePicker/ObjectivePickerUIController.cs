@@ -1,12 +1,63 @@
 using System.Linq;
-using Content.Shared._Moffstation.Objectives;
+using Content.Client.CharacterInfo;
+using Content.Client.Gameplay;
 using Content.Shared._Starlight.Objectives.ObjectivePicker;
+using JetBrains.Annotations;
+using Robust.Client.UserInterface.Controllers;
+using Robust.Client.UserInterface;
+using Robust.Shared.Random;
 
-// ReSharper disable once CheckNamespace
-namespace Content.Client._Moffstation.ObjectivePicker;
+namespace Content.Client._Starlight.Objectives.ObjectivePicker;
 
-public sealed partial class ObjectivePickerUIController
+[UsedImplicitly]
+public sealed partial class ObjectivePickerUIController : UIController, IOnStateExited<GameplayState>
 {
+    [Dependency] private IEntityNetworkManager _net = default!;
+    [Dependency] private IRobustRandom _random = default!;
+
+    [UISystemDependency] private readonly CharacterInfoSystem _characterInfo = default!;
+
+    private ObjectivePickerWindow? _window;
+
+    public void OnStateExited(GameplayState state)
+    {
+        if (_window == null)
+            return;
+
+        _window.Close();
+        _window = null;
+    }
+
+    public void EnsureWindow()
+    {
+        if (_window is { Disposed: false })
+            return;
+
+        _window = UIManager.CreateWindow<ObjectivePickerWindow>();
+        _window.OpenCentered();
+        _window.OnClose += () => _window = null;
+        _window.OnSelectedChange += OnSelectedChange;
+        _window.OnSubmitted += OnSubmitted;
+        _window.OnRandomize += OnRandomize;
+        _window.OnClear += OnClear;
+        _window.OnMulligan += SLMulligan;
+    }
+
+    private void OnSelectedChange(NetEntity netEntity) => SLToggleSelection(netEntity);
+
+    private void OnSubmitted(HashSet<NetEntity> selectedObjectives, NetEntity mindId) => SLSubmit(selectedObjectives, mindId);
+
+    private void OnRandomize() => SLRandomize();
+
+    private void OnClear()
+    {
+        if (_window == null)
+            return;
+
+        _window.SelectedObjectives.Clear();
+        _window.UpdateState();
+    }
+
     public override void Initialize()
     {
         base.Initialize();
