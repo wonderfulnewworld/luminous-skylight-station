@@ -18,7 +18,6 @@ namespace Content.IntegrationTests.Tests._Starlight.Objectives;
 
 public sealed partial class ObjectivePickerTest : GameTest
 {
-    // Test-only prototypes are instance fields so production prototype validation does not index them.
     private readonly EntProtoId _limited = "SLPickerTestLimited";
     private readonly EntProtoId _plain = "SLPickerTestPlain";
     private readonly EntProtoId _blacklist = "SLPickerTestBlacklist";
@@ -28,56 +27,45 @@ public sealed partial class ObjectivePickerTest : GameTest
 
     [TestPrototypes]
     private const string Prototypes = """
-        -
-            type: entity
+        -   type: entity
             id: SLPickerTestPlain
             components:
-                -
-                    type: Objective
-                    difficulty: 3
-                    unique: false
-                    issuer: objective-issuer-syndicate
-                    icon:
-                        sprite: error.rsi
-                        state: error
-                -
-                    type: FreeObjective
+            -   type: Objective
+                difficulty: 3
+                unique: false
+                issuer: objective-issuer-syndicate
+                icon:
+                    sprite: error.rsi
+                    state: error
+            -   type: FreeObjective
 
-        -
-            type: entity
+        -   type: entity
             parent: SLPickerTestPlain
             id: SLPickerTestLimited
             components:
-                -
-                    type: ObjectiveLimit
-                    limit: 1
+            -   type: ObjectiveLimit
+                limit: 1
 
-        -
-            type: entity
+        -   type: entity
             parent: SLPickerTestPlain
             id: SLPickerTestBlacklist
             components:
-                -
-                    type: ObjectiveBlacklistRequirement
-                    blacklist:
-                        components: [SurviveCondition]
+            -   type: ObjectiveBlacklistRequirement
+                blacklist:
+                    components: [SurviveCondition]
 
-        -
-            type: entity
+        -   type: entity
             parent: SLPickerTestPlain
             id: SLPickerTestSurvive
             components:
-                -
-                    type: SurviveCondition
+            -   type: SurviveCondition
 
-        -
-            type: entity
+        -   type: entity
             parent: SLPickerTestPlain
             id: SLPickerTestFree
             components:
-                -
-                    type: Objective
-                    difficulty: 0
+            -   type: Objective
+                difficulty: 0
         """;
 
     public override PoolSettings PoolSettings => new() { Connected = false, Dirty = true };

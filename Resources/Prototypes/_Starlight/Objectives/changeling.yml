@@ -171,6 +171,8 @@
   - type: TargetObjective
     title: objective-condition-kill-person-title
   - type: PickRandomPerson
+    pool: !type:WeightedAlivePool
+      weightHighValue: true
     filters:
     - !type:TargetObjectiveMindFilter
       blacklist:
@@ -212,6 +214,8 @@
   - type: TargetObjective
     title: objective-condition-teach-lesson-title
   - type: PickRandomPerson
+    pool: !type:WeightedAlivePool
+      weightHighValue: true
     filters:
     - !type:TargetObjectiveMindFilter
       blacklist:

@@ -25,13 +25,8 @@
     difficulty: 0
 
 - type: !PartialOnly entity
-  id: EscapeThiefShuttleObjective
+  id: KillRandomPersonObjective
   components:
-  - type: Objective
-    difficulty: 0
-
-- type: !PartialOnly entity
-  id: ChangelingSurviveObjective
-  components:
-  - type: Objective
-    difficulty: 0
+  - type: PickRandomPerson
+    pool: !type:WeightedAlivePool
+      weightHighValue: true

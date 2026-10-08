@@ -94,6 +94,8 @@ public sealed partial class ObjectivesSystem : SharedObjectivesSystem
             }
         }
 
+        SLCollectPickerSummaries(summaries); // Starlight
+
         // convert the data into summary text
         foreach (var (agent, summary) in summaries)
         {

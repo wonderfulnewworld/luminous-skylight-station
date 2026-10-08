@@ -124,27 +124,8 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
                     ToggleMode = true,
                     Children =
                     {
-                        new BoxContainer
-                        {
-                            Orientation = BoxContainer.LayoutOrientation.Horizontal,
-                            Children =
-                            {
-                                new TextureRect { Texture = _sprite.Frame0(info.Icon), SetWidth = 32, SetHeight = 32 },
-                                new RichTextLabel
-                                {
-                                    Text = info.Title,
-                                    HorizontalExpand = true,
-                                    Margin = new Thickness(6, 0, 8, 0),
-                                },
-                                new Label
-                                {
-                                    Text = Loc.GetString("objective-picker-difficulty-value",
-                                        ("difficulty", offers.Difficulties.GetValueOrDefault(id))),
-                                    SetWidth = 90,
-                                    VerticalAlignment = VAlignment.Center,
-                                },
-                            },
-                        },
+                        new ObjectivePickerRow(_sprite.Frame0(info.Icon), info.Title,
+                            offers.Difficulties.GetValueOrDefault(id)),
                     },
                 };
                 button.OnPressed += _ => OnSelectedChange?.Invoke(id);
@@ -166,8 +147,8 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
         SelectionTip.Text = offers.MinimumDifficulty <= ObjectivePickerSelection.Tolerance
             ? Loc.GetString("objective-picker-window-optional-tip")
             : Loc.GetString("objective-picker-window-difficulty-tip",
-            ("selected", ObjectivePickerSelection.Difficulty(offers, SelectedObjectives)),
-            ("minimum", offers.MinimumDifficulty));
+            ("selected", ObjectiveDifficultyDisplay.Format(ObjectivePickerSelection.Difficulty(offers, SelectedObjectives))),
+            ("minimum", ObjectiveDifficultyDisplay.Format(offers.MinimumDifficulty)));
         SubmitButton.Disabled = SLPending || !ObjectivePickerSelection.Valid(offers, SelectedObjectives);
         ClearButton.Disabled = SLPending || SelectedObjectives.Count == 0;
         RandomizeButton.Disabled = SLPending || offers.ObjectiveOptions.Count == 0;

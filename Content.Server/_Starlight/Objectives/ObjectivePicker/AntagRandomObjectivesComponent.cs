@@ -40,8 +40,8 @@ public sealed partial class AntagRandomObjectivesComponent : Component
     [DataField("forcedObjectiveGroup")]
     public ProtoId<WeightedRandomPrototype>? SLForcedObjectiveGroup;
 
-    [DataField("traitorForcedObjectives")]
-    public bool SLTraitorForcedObjectives;
+    [DataField("traitorForcedObjectiveGroup")]
+    public ProtoId<WeightedRandomPrototype>? SLTraitorForcedObjectiveGroup;
 
     [DataField("storyObjectiveGroup")]
     public ProtoId<WeightedRandomPrototype>? SLStoryObjectiveGroup;

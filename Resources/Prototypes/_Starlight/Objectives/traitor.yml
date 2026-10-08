@@ -106,6 +106,8 @@
     - type: TargetObjective
       title: objective-condition-teach-lesson-title
     - type: PickRandomPerson
+      pool: !type:WeightedAlivePool
+        weightHighValue: true
       filters:
       # Can't have multiple objectives to teach the same person.
       - !type:TargetObjectiveMindFilter

@@ -2,7 +2,7 @@
   id: MarkedForDeath
   name: trait-marked-for-death-name
   description: trait-marked-for-death-description
-  category: Antags
+  category: AntagTraits
   cost: 0
   effects:
   - !type:AddCompsEffect
@@ -13,7 +13,7 @@
   id: Unglorious
   name: trait-unglorious-name
   description: trait-unglorious-description
-  category: Antags
+  category: AntagTraits
   cost: 0
   effects:
   - !type:AddCompsEffect

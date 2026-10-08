@@ -30,5 +30,5 @@ objective-picker-column-difficulty = Difficulty
 objective-picker-additional-button = Choose More Objectives...
 objective-picker-additional-rejected = Additional objectives are not available yet, or no compatible objectives remain.
 objective-picker-window-optional-tip = Objectives are optional. Select any you want, or confirm with none selected.
-objectives-round-end-difficulty = Selected Difficulty: {$selected}. Completed Difficulty: {$completed} ({ NUMBER($percentage, maximumFractionDigits: 1) }%).
+objectives-round-end-difficulty = Selected Difficulty: {$selected}. Completed Difficulty: {$completed} ({$percentage}%).
 objective-picker-difficulty-value = {$difficulty}

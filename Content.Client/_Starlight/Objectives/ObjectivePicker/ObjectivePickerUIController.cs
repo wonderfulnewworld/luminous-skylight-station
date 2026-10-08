@@ -10,7 +10,6 @@ using Robust.Client.Player;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
-
 namespace Content.Client._Starlight.Objectives.ObjectivePicker;
 
 [UsedImplicitly]

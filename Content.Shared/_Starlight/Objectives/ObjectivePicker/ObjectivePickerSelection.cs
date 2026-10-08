@@ -2,7 +2,9 @@ using System.Linq;
 
 namespace Content.Shared._Starlight.Objectives.ObjectivePicker;
 
-/// <summary>Shared validation and completion search for manual, random, and timeout selections.</summary>
+/// <summary>
+/// Shared validation and completion search for manual, random, and timeout selections.
+/// </summary>
 public static class ObjectivePickerSelection
 {
     public const float Tolerance = 0.0001f;

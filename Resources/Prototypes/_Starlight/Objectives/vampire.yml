@@ -160,6 +160,8 @@
   - type: TargetObjective
     title: objective-condition-kill-person-title
   - type: PickRandomPerson
+    pool: !type:WeightedAlivePool
+      weightHighValue: true
     filters:
     - !type:TargetObjectiveMindFilter
       blacklist:

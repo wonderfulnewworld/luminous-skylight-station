@@ -20,9 +20,7 @@ public sealed partial class AntagRandomObjectivesSystem
     [Dependency] private EntityWhitelistSystem _slWhitelist = default!;
     [Dependency] private IPrototypeManager _slPrototypes = default!;
 
-    private static readonly EntProtoId SLDieObjective = "DieObjective";
-    private static readonly EntProtoId SLSurviveObjective = "EscapeShuttleObjective";
-    private static readonly EntProtoId SLAchieveObjective = "TraitorAchieveObjectivesObjective";
+    private static readonly EntProtoId _sLDieObjective = "DieObjective";
     private TimeSpan _slNextAvailability;
 
     private void SLInitializePicker()
@@ -48,6 +46,7 @@ public sealed partial class AntagRandomObjectivesSystem
         }
 
         var config = EnsureComp<ObjectivePickerConfigurationComponent>(mindId);
+        config.Rule = rule.Owner;
         config.PreferredOptions = Math.Max(1, rule.Comp.MaxOptions);
         config.MinimumDifficulty = rule.Comp.MaxDifficulty;
         config.SelectionDelay = rule.Comp.SelectionDelay;
@@ -60,8 +59,17 @@ public sealed partial class AntagRandomObjectivesSystem
 
         var counts = SLObjectiveCounts(mindId);
         EntityUid? forcedTraitor = null;
-        if (rule.Comp.SLTraitorForcedObjectives)
-            forcedTraitor = SLForceTraitorObjective(mindId, mind, config.Weights, counts);
+        var traitorForcedWeights = new Dictionary<string, float>();
+        if (rule.Comp.SLTraitorForcedObjectiveGroup is { } traitorGroup)
+        {
+            SLFlattenWeights(traitorGroup, traitorForcedWeights);
+            if (config.Weights.GetValueOrDefault(_sLDieObjective) <= 0 ||
+                (mind.OwnedEntity is { } body && HasComp<UngloriousComponent>(body)))
+                traitorForcedWeights.Remove(_sLDieObjective);
+            forcedTraitor = SLForceObjective(mindId, mind, traitorForcedWeights, counts);
+            foreach (var prototype in traitorForcedWeights.Keys)
+                config.Weights.Remove(prototype);
+        }
 
         if (rule.Comp.SLForcedObjectiveGroup is { } forcedGroup)
         {
@@ -87,7 +95,7 @@ public sealed partial class AntagRandomObjectivesSystem
         offers.AutoSelectionDelay = rule.Comp.SelectionDelay;
         offers.AutoSelectionTime = _timing.CurTime + rule.Comp.SelectionDelay;
         var viable = SLFillOffers(mindId, mind, offers, config, counts);
-        if (!viable && forcedTraitor is { } dagd && Prototype(dagd)?.ID == SLDieObjective.Id)
+        if (!viable && forcedTraitor is { } dagd && Prototype(dagd)?.ID == _sLDieObjective.Id)
         {
             // DAGD is ineligible when the compatible combat pool cannot supply the required budget.
             // Preserve its configured rarity whenever eligible; otherwise choose a viable forced goal.
@@ -98,11 +106,8 @@ public sealed partial class AntagRandomObjectivesSystem
             offers.ObjectiveOptions.Clear();
             offers.Difficulties.Clear();
             config.DeferredTargets.Clear();
-            SLForceObjective(mindId, mind, new Dictionary<string, float>
-            {
-                [SLSurviveObjective] = 3,
-                [SLAchieveObjective] = 1,
-            }, counts);
+            traitorForcedWeights.Remove(_sLDieObjective);
+            SLForceObjective(mindId, mind, traitorForcedWeights, counts);
             viable = SLFillOffers(mindId, mind, offers, config, counts);
         }
         if (!viable)
@@ -142,14 +147,6 @@ public sealed partial class AntagRandomObjectivesSystem
         }
 
         path.Remove(groupId);
-    }
-
-    private EntityUid? SLForceTraitorObjective(EntityUid mindId, MindComponent mind,
-        Dictionary<string, float> originalWeights, Dictionary<string, int> counts)
-    {
-        var allowGloriousDeath = originalWeights.GetValueOrDefault(SLDieObjective) > 0 &&
-            !(mind.OwnedEntity is { } body && HasComp<UngloriousComponent>(body));
-        return SLForceObjective(mindId, mind, TraitorForcedObjectiveWeights.Create(allowGloriousDeath), counts);
     }
 
     private EntityUid? SLForceObjective(EntityUid mindId, MindComponent mind, Dictionary<string, float> weights,
@@ -202,7 +199,7 @@ public sealed partial class AntagRandomObjectivesSystem
             .Select(proto => proto.TryComp<ObjectiveComponent>(out var objective, EntityManager.ComponentFactory)
                 ? objective.Difficulty : 0).Where(difficulty => difficulty > 0).DefaultIfEmpty(1).Min();
         var attempts = Math.Max(config.Weights.Count * 4,
-            (int) Math.Ceiling(2 * offers.MinimumDifficulty / smallest) + config.PreferredOptions * 8);
+            (int) Math.Ceiling(2 * offers.MinimumDifficulty / smallest) + (config.PreferredOptions * 8));
         while (attempts-- > 0)
         {
             SLUpdateOfferState(mindId, mind, offers, counts);
@@ -351,14 +348,14 @@ public sealed partial class AntagRandomObjectivesSystem
 
     private bool SLCompatible(EntityUid first, EntityUid second)
     {
-        if (TryComp<ObjectiveBlacklistRequirementComponent>(first, out var a) &&
-            _slWhitelist.IsWhitelistPass(a.Blacklist, second) ||
-            TryComp<ObjectiveBlacklistRequirementComponent>(second, out var b) &&
-            _slWhitelist.IsWhitelistPass(b.Blacklist, first))
+        if ((TryComp<ObjectiveBlacklistRequirementComponent>(first, out var a) &&
+            _slWhitelist.IsWhitelistPass(a.Blacklist, second)) ||
+            (TryComp<ObjectiveBlacklistRequirementComponent>(second, out var b) &&
+            _slWhitelist.IsWhitelistPass(b.Blacklist, first)))
             return false;
 
         return Prototype(first)?.ID != Prototype(second)?.ID ||
-               !Comp<ObjectiveComponent>(first).Unique && !Comp<ObjectiveComponent>(second).Unique;
+               (!Comp<ObjectiveComponent>(first).Unique && !Comp<ObjectiveComponent>(second).Unique);
     }
 
     private Dictionary<string, int> SLObjectiveCounts(EntityUid exceptMind)
@@ -376,11 +373,8 @@ public sealed partial class AntagRandomObjectivesSystem
         return counts;
     }
 
-    private bool SLWithinLimit(EntityUid uid, Dictionary<string, int> counts)
-    {
-        return !TryComp<ObjectiveLimitComponent>(uid, out var limit) ||
-               Prototype(uid) is { } prototype && counts.GetValueOrDefault(prototype.ID) < limit.Limit;
-    }
+    private bool SLWithinLimit(EntityUid uid, Dictionary<string, int> counts) => !TryComp<ObjectiveLimitComponent>(uid, out var limit) ||
+               (Prototype(uid) is { } prototype && counts.GetValueOrDefault(prototype.ID) < limit.Limit);
 
     private void SLUpdateOfferState(EntityUid mindId, MindComponent mind, PotentialObjectivesComponent offers,
         Dictionary<string, int> counts)

@@ -38,7 +38,7 @@ public sealed partial class AntagRandomObjectivesSystem
                     config.CompletedObjectives.Add(objective);
             }
             var completed = config.CurrentBatch.Count(config.CompletedObjectives.Contains);
-            if (completed * 4 < config.CurrentBatch.Count * 3)
+            if (completed * 5 < config.CurrentBatch.Count * 3)
                 continue;
 
             config.BatchUnlocked = true;

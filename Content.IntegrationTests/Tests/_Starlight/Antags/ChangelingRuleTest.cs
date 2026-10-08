@@ -7,9 +7,7 @@ using Content.Server.Objectives.Components;
 using Content.Server.Roles;
 using Content.Server._Starlight.Objectives.ObjectivePicker;
 using Content.Shared.Antag;
-using Content.Shared.Mind;
 using Content.Shared.Objectives.Components;
-using Content.Shared.Roles;
 using Content.Shared.Roles.Components;
 using Content.Shared._Starlight.Objectives.ObjectivePicker;
 using Content.Shared._Starlight.Objectives.Targeting;
@@ -36,6 +34,7 @@ public sealed class ChangelingRuleTest : GameTest
         EntityUid mindId = default;
         await Server.WaitAssertion(() =>
         {
+            // Check the player and target are spawned.
             var body = SEntMan.SpawnEntity(_human, MapCoordinates.Nullspace);
             var mind = Server.System<MindSystem>().CreateMind(ServerSession!.UserId);
             mindId = mind;
@@ -45,17 +44,20 @@ public sealed class ChangelingRuleTest : GameTest
             Server.System<MindSystem>().TransferTo(targetMind, target);
             SEntMan.AddComponent<MarkedForDeathComponent>(target);
 
+            // Give the player a crew briefing before making them a changeling.
             var roles = Server.System<RoleSystem>();
             roles.MindAddJobRole(mind, jobPrototype: "Assistant", silent: true);
             Assert.That(roles.MindHasRole<JobRoleComponent>(mind, out var crew), Is.True);
             SEntMan.EnsureComponent<RoleBriefingComponent>(crew.Value.Owner).Briefing = "Generic crew briefing";
             roles.MindAddRole(mind, _role, silent: true);
 
+            // Add the game rule and make the player a changeling.
             var rule = SEntMan.SpawnEntity(_rule, MapCoordinates.Nullspace);
             var ev = new AfterAntagEntitySelectedEvent(ServerSession, body,
                 (rule, SEntMan.GetComponent<AntagSelectionComponent>(rule)), SProtoMan.Index(_specifier));
             SEntMan.EventBus.RaiseLocalEvent(rule, ref ev);
 
+            // Fixed goals are assigned; additional random goals wait for confirmation.
             var offers = SEntMan.GetComponent<PotentialObjectivesComponent>(mind);
             Assert.That(offers.MinimumDifficulty, Is.Zero);
             Assert.That(offers.ObjectiveOptions, Has.Count.EqualTo(4));
@@ -68,13 +70,16 @@ public sealed class ChangelingRuleTest : GameTest
                         Is.TypeOf<HighValueTargetsPool>());
             }
             Assert.That(mind.Comp.Objectives.All(uid => SEntMan.GetComponent<ObjectiveComponent>(uid).Difficulty == 0), Is.True);
+            // Check that the player has the correct changeling briefing.
             Assert.That(roles.MindGetBriefing(mind), Is.EqualTo(Loc.GetString("changeling-role-greeting",
                 ("name", SEntMan.GetComponent<MetaDataComponent>(body).EntityName))));
 
+            // The player can decline all optional combat goals.
             Server.System<AntagRandomObjectivesSystem>().ApplySelectedObjectives(mind, []);
             Assert.That(SEntMan.GetComponent<ObjectivePickerConfigurationComponent>(mind).Finished, Is.True);
         });
         await Pair.RunTicksSync(5);
+        // Check that confirming an empty selection closes the picker without unlocking more goals.
         await Server.WaitAssertion(() =>
         {
             Assert.That(SEntMan.HasComponent<PotentialObjectivesComponent>(mindId), Is.False);

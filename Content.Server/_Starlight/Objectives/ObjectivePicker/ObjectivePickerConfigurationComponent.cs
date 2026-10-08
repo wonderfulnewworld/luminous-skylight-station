@@ -6,6 +6,7 @@ namespace Content.Server._Starlight.Objectives.ObjectivePicker;
 [RegisterComponent]
 public sealed partial class ObjectivePickerConfigurationComponent : Component
 {
+    public EntityUid? Rule;
     public Dictionary<string, float> Weights = new();
     public Dictionary<string, float> StoryWeights = new();
     public int PreferredOptions;
