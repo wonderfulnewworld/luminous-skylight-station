@@ -9,7 +9,9 @@ namespace Content.Server.Objectives;
 
 public sealed partial class ObjectivesSystem
 {
-    /// <summary>Keep picker participants visible even after their game rule stops being active.</summary>
+    /// <summary>
+    /// Keep picker participants visible even after their game rule stops being active.
+    /// </summary>
     private void SLCollectPickerSummaries(Dictionary<string, Dictionary<string, List<(EntityUid, string)>>> summaries)
     {
         var listed = summaries.Values.SelectMany(groups => groups.Values).SelectMany(minds => minds)

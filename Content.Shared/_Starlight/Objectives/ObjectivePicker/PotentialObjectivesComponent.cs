@@ -44,6 +44,18 @@ public sealed partial class PotentialObjectivesComponent : Component
     [ViewVariables, AutoNetworkedField]
     public HashSet<NetEntity> UnavailableObjectives = new();
 
+    /// <summary>
+    /// Anonymous candidate tokens for deferred targets. These never identify a mind or character.
+    /// </summary>
+    [ViewVariables, AutoNetworkedField]
+    public Dictionary<NetEntity, HashSet<int>> TargetPools = new();
+
+    /// <summary>
+    /// Objectives whose target filters forbid sharing the same target.
+    /// </summary>
+    [ViewVariables, AutoNetworkedField]
+    public Dictionary<NetEntity, HashSet<NetEntity>> TargetConflicts = new();
+
     [ViewVariables, AutoNetworkedField]
     public bool MulliganUsed;
 

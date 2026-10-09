@@ -3,7 +3,9 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server._Starlight.Objectives.Components;
 
-/// <summary>Possess several named crew ID cards from one populated department.</summary>
+/// <summary>
+/// Possess several named crew ID cards from one populated department.
+/// </summary>
 [RegisterComponent]
 public sealed partial class DepartmentIdStealConditionComponent : Component
 {

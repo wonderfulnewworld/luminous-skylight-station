@@ -149,6 +149,8 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
             : Loc.GetString("objective-picker-window-difficulty-tip",
             ("selected", ObjectiveDifficultyDisplay.Format(ObjectivePickerSelection.Difficulty(offers, SelectedObjectives))),
             ("minimum", ObjectiveDifficultyDisplay.Format(offers.MinimumDifficulty)));
+        if (ObjectivePickerSelection.CanSelectUnderBudget(offers))
+            SelectionTip.Text += "\n" + Loc.GetString("objective-picker-under-budget-tip");
         SubmitButton.Disabled = SLPending || !ObjectivePickerSelection.Valid(offers, SelectedObjectives);
         ClearButton.Disabled = SLPending || SelectedObjectives.Count == 0;
         RandomizeButton.Disabled = SLPending || offers.ObjectiveOptions.Count == 0;

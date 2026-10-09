@@ -32,3 +32,8 @@ objective-picker-additional-rejected = Additional objectives are not available y
 objective-picker-window-optional-tip = Objectives are optional. Select any you want, or confirm with none selected.
 objectives-round-end-difficulty = Selected Difficulty: {$selected}. Completed Difficulty: {$completed} ({$percentage}%).
 objective-picker-difficulty-value = {$difficulty}
+
+objective-picker-hidden-help-progress = Help a fellow traitor achieve their objectives.
+objective-picker-hidden-help-alive = Keep a fellow traitor alive.
+objective-picker-under-budget-tip = The remaining options cannot meet the required Difficulty. You may confirm a smaller selection.
+objective-condition-escape-identity-eliminate-title = Escape alive and unrestrained disguised as {$targetName}, {CAPITALIZE($job)}, and prevent them from reaching CentComm.

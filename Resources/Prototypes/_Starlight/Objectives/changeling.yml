@@ -33,7 +33,7 @@
 - type: entity
   parent: BaseChangelingObjective
   id: EscapeIdentityObjective
-  description: I need to escape on the evacuation shuttle. Undercover.
+  description: Escape alive and unrestrained on the evacuation shuttle disguised as this person. Make sure the original does not reach CentComm.
   components:
     - type: Objective
       difficulty: 0
@@ -42,7 +42,7 @@
         state: blink
     - type: ImpersonateCondition
     - type: TargetObjective
-      title: objective-condition-escape-identity-title
+      title: objective-condition-escape-identity-eliminate-title
     - type: PickRandomPerson
       filters: # Far Horizons - Only pick absorbable
       - !type:BodyMindFilter

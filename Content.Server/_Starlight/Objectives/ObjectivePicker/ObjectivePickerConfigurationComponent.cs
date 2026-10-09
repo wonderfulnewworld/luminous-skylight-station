@@ -11,6 +11,7 @@ public sealed partial class ObjectivePickerConfigurationComponent : Component
     public Dictionary<string, float> StoryWeights = new();
     public int PreferredOptions;
     public HashSet<NetEntity> DeferredTargets = new();
+    public Dictionary<int, EntityUid> TargetTokens = new();
     public bool Finished;
     public float MinimumDifficulty;
     public TimeSpan SelectionDelay;

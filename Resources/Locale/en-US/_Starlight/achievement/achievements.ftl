@@ -160,3 +160,13 @@ achievement-category-milestones = Milestones
 achievement-category-onboarding = Onboarding
 achievement-category-special = Special
 achievement-category-vampire = Vampire
+
+achievement-elite-contractor-name = Elite Contractor
+achievement-elite-contractor-description = Complete at least 15 Difficulty as a Traitor in a single round.
+achievement-master-thief-name = Master Thief
+achievement-master-thief-description = Complete at least 10 Difficulty as a Thief in a single round.
+achievement-first-kindred-name = First Kindred
+achievement-first-kindred-description = Complete at least 10 Difficulty as a Vampire in a single round.
+achievement-enemy-unknown-name = Enemy Unknown
+achievement-enemy-unknown-description = Complete at least 10 Difficulty as a Changeling in a single round.
+achievement-category-antagonists = Antagonists

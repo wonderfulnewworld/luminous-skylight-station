@@ -1,6 +1,8 @@
 using System.Linq;
 using Content.Shared._Starlight.Traits.Antags;
 using Content.Server.Antag;
+using Content.Server.Mind.Filters;
+using Content.Server.Objectives.Systems;
 using Content.Server.Objectives.Components;
 using Content.Server._Starlight.Objectives.Components;
 using Content.Shared.Mind;
@@ -19,6 +21,7 @@ public sealed partial class AntagRandomObjectivesSystem
 {
     [Dependency] private EntityWhitelistSystem _slWhitelist = default!;
     [Dependency] private IPrototypeManager _slPrototypes = default!;
+    [Dependency] private TargetObjectiveSystem _slTarget = default!;
 
     private static readonly EntProtoId _sLDieObjective = "DieObjective";
     private TimeSpan _slNextAvailability;
@@ -91,7 +94,8 @@ public sealed partial class AntagRandomObjectivesSystem
             config.Weights.Remove(prototype);
 
         var offers = EnsureComp<PotentialObjectivesComponent>(mindId);
-        offers.MinimumDifficulty = rule.Comp.MaxDifficulty;
+        config.MinimumDifficulty = SLGetPickerDifficulty(rule.Comp.MaxDifficulty, mind);
+        offers.MinimumDifficulty = config.MinimumDifficulty;
         offers.AutoSelectionDelay = rule.Comp.SelectionDelay;
         offers.AutoSelectionTime = _timing.CurTime + rule.Comp.SelectionDelay;
         var viable = SLFillOffers(mindId, mind, offers, config, counts);
@@ -108,6 +112,8 @@ public sealed partial class AntagRandomObjectivesSystem
             config.DeferredTargets.Clear();
             traitorForcedWeights.Remove(_sLDieObjective);
             SLForceObjective(mindId, mind, traitorForcedWeights, counts);
+            config.MinimumDifficulty = SLGetPickerDifficulty(rule.Comp.MaxDifficulty, mind);
+            offers.MinimumDifficulty = config.MinimumDifficulty;
             viable = SLFillOffers(mindId, mind, offers, config, counts);
         }
         if (!viable)
@@ -202,7 +208,7 @@ public sealed partial class AntagRandomObjectivesSystem
             (int) Math.Ceiling(2 * offers.MinimumDifficulty / smallest) + (config.PreferredOptions * 8));
         while (attempts-- > 0)
         {
-            SLUpdateOfferState(mindId, mind, offers, counts);
+            SLUpdateOfferState(mindId, mind, offers, counts, config);
             if (SLOffersViable(offers, retained) &&
                 offers.Difficulties.Count(pair => pair.Value > 0 && ObjectivePickerSelection.Available(offers, pair.Key))
                 >= config.PreferredOptions)
@@ -260,7 +266,7 @@ public sealed partial class AntagRandomObjectivesSystem
             storyCount++;
         }
 
-        SLUpdateOfferState(mindId, mind, offers, counts);
+        SLUpdateOfferState(mindId, mind, offers, counts, config);
         return SLOffersViable(offers, retained);
     }
 
@@ -290,10 +296,11 @@ public sealed partial class AntagRandomObjectivesSystem
         }
 
         deferred = HasComp<TargetObjectiveComponent>(uid) &&
-                   (HasComp<KillPersonConditionComponent>(uid) || HasComp<TeachALessonConditionComponent>(uid));
+                   (HasComp<KillPersonConditionComponent>(uid) || HasComp<TeachALessonConditionComponent>(uid) ||
+                    HasComp<HelpProgressConditionComponent>(uid) || HasComp<KeepAliveConditionComponent>(uid));
         if (deferred)
         {
-            // Check that a target exists without assigning, naming, or marking anyone as a lesson target.
+            // Check eligibility without assigning a target or revealing their identity.
             if (!TryComp<PickRandomPersonComponent>(uid, out var pick) ||
                 _mind.PickFromPool(pick.Pool, pick.Filters, mindId) == null)
             {
@@ -325,9 +332,11 @@ public sealed partial class AntagRandomObjectivesSystem
         {
             var lesson = HasComp<TeachALessonConditionComponent>(uid);
             var head = Prototype(uid)?.ID.EndsWith("HeadObjective") == true;
-            info = new ObjectiveInfo(Loc.GetString(lesson
-                    ? head ? "objective-picker-hidden-lesson-head" : "objective-picker-hidden-lesson"
-                    : head ? "objective-picker-hidden-kill-head" : "objective-picker-hidden-kill"),
+            var title = HasComp<HelpProgressConditionComponent>(uid) ? "objective-picker-hidden-help-progress"
+                : HasComp<KeepAliveConditionComponent>(uid) ? "objective-picker-hidden-help-alive"
+                : lesson ? head ? "objective-picker-hidden-lesson-head" : "objective-picker-hidden-lesson"
+                : head ? "objective-picker-hidden-kill-head" : "objective-picker-hidden-kill";
+            info = new ObjectiveInfo(Loc.GetString(title),
                 Loc.GetString("objective-picker-hidden-target-description"), icon, 0);
         }
         else
@@ -377,17 +386,49 @@ public sealed partial class AntagRandomObjectivesSystem
                (Prototype(uid) is { } prototype && counts.GetValueOrDefault(prototype.ID) < limit.Limit);
 
     private void SLUpdateOfferState(EntityUid mindId, MindComponent mind, PotentialObjectivesComponent offers,
-        Dictionary<string, int> counts)
+        Dictionary<string, int> counts, ObjectivePickerConfigurationComponent? config = null)
     {
         var unavailable = new HashSet<NetEntity>();
         var conflicts = offers.ObjectiveOptions.Keys.ToDictionary(id => id, _ => new HashSet<NetEntity>());
         var keys = offers.ObjectiveOptions.Keys.ToArray();
+        var targetPools = new Dictionary<NetEntity, HashSet<int>>();
+        var targetConflicts = new Dictionary<NetEntity, HashSet<NetEntity>>();
+        var tokens = new Dictionary<EntityUid, int>();
+        if (config == null)
+            TryComp<ObjectivePickerConfigurationComponent>(mindId, out config);
+        config?.TargetTokens.Clear();
         for (var i = 0; i < keys.Length; i++)
         {
             var uid = GetEntity(keys[i]);
             if (!Exists(uid) || !SLWithinLimit(uid, counts) ||
                 !_objectives.CanBeAssigned(uid, mindId, mind) || mind.Objectives.Any(other => !SLCompatible(uid, other)))
                 unavailable.Add(keys[i]);
+
+            if (config?.DeferredTargets.Contains(keys[i]) == true &&
+                TryComp<PickRandomPersonComponent>(uid, out var pick))
+            {
+                var candidates = new HashSet<Entity<MindComponent>>();
+                var poolSource = pick.Pool;
+                poolSource.FindMinds(candidates, mindId, EntityManager, _mind);
+                _mind.FilterMinds(candidates, pick.Filters, mindId);
+                var pool = new HashSet<int>();
+                foreach (var candidate in candidates)
+                {
+                    if (!tokens.TryGetValue(candidate.Owner, out var token))
+                    {
+                        token = tokens.Count;
+                        tokens[candidate.Owner] = token;
+                        config.TargetTokens[token] = candidate.Owner;
+                    }
+                    pool.Add(token);
+                }
+                targetPools[keys[i]] = pool;
+                targetConflicts[keys[i]] = keys.Where(other => other != keys[i] && Exists(GetEntity(other)) &&
+                    pick.Filters.OfType<TargetObjectiveMindFilter>().Any(filter =>
+                        _slWhitelist.IsWhitelistPassOrNull(filter.Blacklist, GetEntity(other)))).ToHashSet();
+                if (pool.Count == 0)
+                    unavailable.Add(keys[i]);
+            }
 
             for (var j = 0; j < i; j++)
             {
@@ -400,6 +441,29 @@ public sealed partial class AntagRandomObjectivesSystem
         }
         offers.UnavailableObjectives = unavailable;
         offers.Conflicts = conflicts;
+        offers.TargetPools = targetPools;
+        offers.TargetConflicts = targetConflicts;
+    }
+
+    /// <summary>
+    /// Applies any assigned objectives' YAML modifiers to the base picker budget.
+    /// </summary>
+    public float SLGetPickerDifficulty(float baseDifficulty, MindComponent mind)
+    {
+        var difficulty = baseDifficulty;
+        foreach (var objective in mind.Objectives)
+        {
+            if (!TryComp<ObjectivePickerDifficultyModifierComponent>(objective, out var modifier))
+                continue;
+            if (!float.IsFinite(modifier.Multiplier) || modifier.Multiplier < 0 ||
+                !float.IsFinite(difficulty * modifier.Multiplier))
+            {
+                Log.Error($"Invalid objective picker difficulty multiplier on {ToPrettyString(objective)}.");
+                continue;
+            }
+            difficulty *= modifier.Multiplier;
+        }
+        return difficulty;
     }
 
     private void SLPickerShutdown(Entity<PotentialObjectivesComponent> ent, ref ComponentShutdown args)

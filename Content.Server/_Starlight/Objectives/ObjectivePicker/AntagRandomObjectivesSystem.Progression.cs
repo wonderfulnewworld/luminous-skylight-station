@@ -77,7 +77,8 @@ public sealed partial class AntagRandomObjectivesSystem
             MulliganUsed = config.MulliganUsed,
         };
         config.DeferredTargets.Clear();
-        if (!SLFillOffers(mindId, mind, offers, config, SLObjectiveCounts(mindId)))
+        SLFillOffers(mindId, mind, offers, config, SLObjectiveCounts(mindId));
+        if (!offers.ObjectiveOptions.Keys.Any(id => ObjectivePickerSelection.Available(offers, id)))
         {
             foreach (var id in offers.ObjectiveOptions.Keys)
                 TryQueueDel(GetEntity(id));

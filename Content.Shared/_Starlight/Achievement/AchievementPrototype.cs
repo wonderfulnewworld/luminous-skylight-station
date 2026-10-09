@@ -31,6 +31,12 @@ public sealed partial class AchievementPrototype : IPrototype
     [DataField]
     public List<AchievementRequirement> Requirements { get; private set; } = [];
 
+    /// <summary>
+    /// Optional single-round completed difficulty requirement for an antagonist mind role.
+    /// </summary>
+    [DataField]
+    public DifficultyAntagAchievementRequirement? DifficultyAntag { get; private set; }
+
     [DataField]
     public List<AchievementReward> Rewards { get; private set; } = [];
 
@@ -42,6 +48,20 @@ public sealed partial class AchievementPrototype : IPrototype
     public bool AreRequirementsMet(Func<string, bool, double> progressResolver)
         => Requirements.Count > 0
            && Requirements.All(r => progressResolver(r.ProgressType, r.PerRound) >= r.RequiredProgress);
+}
+
+/// <summary>
+/// Awards an achievement for completed positive-difficulty objectives in one round.
+/// Role descendants also qualify, allowing sleeper/reinforcement variants to use the same rule.
+/// </summary>
+[DataDefinition]
+public sealed partial class DifficultyAntagAchievementRequirement
+{
+    [DataField(required: true)]
+    public EntProtoId Role { get; private set; }
+
+    [DataField(required: true)]
+    public float RequiredDifficulty { get; private set; }
 }
 
 [DataDefinition]

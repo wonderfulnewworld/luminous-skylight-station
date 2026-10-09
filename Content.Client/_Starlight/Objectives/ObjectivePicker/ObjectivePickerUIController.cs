@@ -130,7 +130,7 @@ public sealed partial class ObjectivePickerUIController : UIController, IOnState
         if (_window == null || _window.SLPending || _window.SLOffers is not { } offers)
             return;
         var order = offers.ObjectiveOptions.Keys.OrderBy(_ => _random.Next()).ToArray();
-        if (!ObjectivePickerSelection.TryComplete(offers, order, Array.Empty<NetEntity>(), out var selected))
+        if (!ObjectivePickerSelection.TrySelect(offers, order, Array.Empty<NetEntity>(), out var selected))
             return;
         _window.SelectedObjectives.Clear();
         _window.SelectedObjectives.UnionWith(selected);

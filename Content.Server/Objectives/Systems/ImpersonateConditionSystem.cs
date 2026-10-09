@@ -59,7 +59,7 @@ public sealed partial class ImpersonateConditionSystem : EntitySystem
     // copypasta from escape shittle objective. eh.
     private void OnGetProgress(EntityUid uid, ImpersonateConditionComponent comp, ref ObjectiveGetProgressEvent args)
     {
-        args.Progress = GetProgress(args.Mind, comp);
+        args.Progress = SLGetImpersonationProgress(uid, args.Mind, comp); // Starlight: also eliminate the identity's owner.
     }
 
     public float GetProgress(MindComponent mind, ImpersonateConditionComponent comp)
