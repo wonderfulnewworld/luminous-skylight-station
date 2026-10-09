@@ -169,4 +169,6 @@ achievement-first-kindred-name = First Kindred
 achievement-first-kindred-description = Complete at least 10 Difficulty as a Vampire in a single round.
 achievement-enemy-unknown-name = Enemy Unknown
 achievement-enemy-unknown-description = Complete at least 10 Difficulty as a Changeling in a single round.
+achievement-theory-of-objectivity-name = Theory of Objectivity
+achievement-theory-of-objectivity-description = Obtain Elite Contractor, Phantom Thief, First Kindred, and Enemy Unknown.
 achievement-category-antagonists = Antagonists

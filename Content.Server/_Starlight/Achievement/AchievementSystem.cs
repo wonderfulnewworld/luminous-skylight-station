@@ -170,15 +170,45 @@ public sealed partial class AchievementSystem : EntitySystem
         if (await HasAchievementUnlockedAsync(session, achievementId))
             return false;
 
+        if (_prototypeManager.TryIndex<AchievementPrototype>(achievementId, out var achievement))
+        {
+            foreach (var required in achievement.RequiredAchievements)
+            {
+                if (!await HasAchievementUnlockedAsync(session, required.Id))
+                    return false;
+            }
+        }
+
         var result = await UnlockAchievement(session, achievementId, characterName);
         if (result)
         {
             _achievementRewards.GrantRewards(session, achievementId);
             _nullLinkPlayers.SendAchievementNotification(session.UserId, achievementId);
             _nullLinkPlayers.SendAchievementList(session.UserId);
+            await CheckPrerequisiteAchievementsAsync(session, characterName);
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Awards achievements whose prerequisites and any ordinary progress requirements are met.
+    /// </summary>
+    public async ValueTask CheckPrerequisiteAchievementsAsync(ICommonSession session, string? characterName = null)
+    {
+        foreach (var achievement in _prototypeManager.EnumeratePrototypes<AchievementPrototype>())
+        {
+            if (achievement.RequiredAchievements.Count == 0 || achievement.DifficultyAntag != null)
+                continue;
+
+            if (achievement.Requirements.Count > 0
+                && !achievement.AreRequirementsMet((type, perRound) => perRound
+                    ? GetRoundProgress(session.UserId, type)
+                    : GetProgress(session, type)))
+                continue;
+
+            await TryUnlockAchievementAsync(session, achievement.ID, characterName);
+        }
     }
 
     public async ValueTask<bool> TryLockAchievementAsync(ICommonSession session, string achievementId)
@@ -309,18 +339,8 @@ public sealed partial class AchievementSystem : EntitySystem
         switch (e.NewStatus)
         {
             case SessionStatus.Connected:
-                QueueAchievementHydration(e.Session);
-                break;
             case SessionStatus.InGame:
-                if (_nullLinkPlayers.TryGetPlayerData(e.Session.UserId, out var playerData)
-                    && playerData.AchievementCacheHydrated)
-                {
-                    _nullLinkPlayers.SendAchievementList(e.Session.UserId);
-                }
-                else
-                {
-                    QueueAchievementHydration(e.Session);
-                }
+                QueueAchievementHydration(e.Session);
                 break;
             case SessionStatus.Disconnected:
                 _achievementFetchInFlight.Remove(e.Session.UserId);
@@ -996,6 +1016,9 @@ public sealed partial class AchievementSystem : EntitySystem
         if (_nullLinkPlayers.TryGetPlayerData(session.UserId, out var playerData)
             && playerData.AchievementCacheHydrated)
         {
+            CheckPrerequisiteAchievementsAsync(session)
+                .AsTask()
+                .FireAndForget();
             _nullLinkPlayers.SendAchievementList(session.UserId);
             return;
         }
@@ -1026,6 +1049,7 @@ public sealed partial class AchievementSystem : EntitySystem
 
         if (playerData.AchievementCacheHydrated)
         {
+            await CheckPrerequisiteAchievementsAsync(playerData.Session);
             _nullLinkPlayers.SendAchievementList(userId);
             return;
         }

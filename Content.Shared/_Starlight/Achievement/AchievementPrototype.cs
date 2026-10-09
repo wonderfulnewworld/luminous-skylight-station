@@ -32,6 +32,12 @@ public sealed partial class AchievementPrototype : IPrototype
     public List<AchievementRequirement> Requirements { get; private set; } = [];
 
     /// <summary>
+    /// Achievements that must already be unlocked before this achievement can be awarded.
+    /// </summary>
+    [DataField]
+    public List<ProtoId<AchievementPrototype>> RequiredAchievements { get; private set; } = [];
+
+    /// <summary>
     /// Optional single-round completed difficulty requirement for an antagonist mind role.
     /// </summary>
     [DataField]

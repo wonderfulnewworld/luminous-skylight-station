@@ -49,3 +49,18 @@
   difficultyAntag:
     role: MindRoleChangeling
     requiredDifficulty: 10
+
+- type: achievement
+  id: theory_of_objectivity
+  name: achievement-theory-of-objectivity-name
+  description: achievement-theory-of-objectivity-description
+  category: antagonists
+  showProgress: false
+  icon:
+    sprite: _Starlight/Interface/Achievements/icons.rsi
+    state: theoryOfEverything
+  requiredAchievements:
+  - elite_contractor
+  - phantom_thief
+  - first_kindred
+  - enemy_unknown
