@@ -49,10 +49,10 @@ public sealed partial class SLCharacterWindowSystem : EntitySystem
         if (!_humanoidProfileQuery.TryComp(entity, out var profile))
             return null;
 
-        return new CharacterProfileInfo(profile.Gender, profile.Age, SLGetSpeciesName(profile));
+        return new CharacterProfileInfo(profile.Gender, profile.Age, GetSpeciesName(profile));
     }
 
-    public string? GetDescription(EntityUid entity) => SLGetCharacterDescription(entity) ??
+    public string? GetDescription(EntityUid entity) => GetCharacterDescription(entity) ??
             (_detailExaminableQuery.TryComp(entity, out var description) ? description.Content : null);
 
     public CharacterRoleTypeInfo? GetRoleType(EntityUid? entity)
@@ -94,11 +94,11 @@ public sealed partial class SLCharacterWindowSystem : EntitySystem
         SubscribeNetworkEvent<OpenCharacterMenuEvent>(OnOpenCharacterMenu);
     }
 
-    private string SLGetSpeciesName(HumanoidAppearanceComponent profile) => string.IsNullOrWhiteSpace(profile.CustomSpecieName)
+    private string GetSpeciesName(HumanoidAppearanceComponent profile) => string.IsNullOrWhiteSpace(profile.CustomSpecieName)
             ? Loc.GetString(ProtoMan.Index(profile.Species).Name)
             : profile.CustomSpecieName;
 
-    private string? SLGetCharacterDescription(EntityUid entity)
+    private string? GetCharacterDescription(EntityUid entity)
     {
         if (!TryComp<CharacterDescriptionComponent>(entity, out var description) ||
             string.IsNullOrWhiteSpace(description.Description))

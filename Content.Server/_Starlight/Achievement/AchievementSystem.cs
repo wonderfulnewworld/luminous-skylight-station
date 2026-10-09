@@ -41,6 +41,7 @@ using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.NukeOps;
 using Content.Shared.Nutrition.Components;
+using Content.Shared.Objectives.Components;
 using Content.Shared.Power.EntitySystems;
 using Content.Shared.Power.Components;
 using Content.Shared.PowerCell;
@@ -69,6 +70,7 @@ using Content.Shared._Starlight.Revolutionary.Components;
 using Content.Shared._Starlight.Store.Events;
 using Content.Server._Starlight.Roles;
 using Content.Shared._Starlight.Medical.HealthAnalyzer;
+using Content.Shared._Starlight.Objectives.ObjectivePicker;
 
 namespace Content.Server._Starlight.Achievement;
 
@@ -628,6 +630,8 @@ public sealed partial class AchievementSystem : EntitySystem
 
     private void OnRoundEndText(RoundEndTextAppendEvent ev)
     {
+        CheckDifficultyAntagAchievements();
+
         foreach (var session in _playerManager.Sessions)
         {
             if (!_mind.TryGetMind(session.UserId, out Entity<MindComponent>? mindEnt)
@@ -701,6 +705,42 @@ public sealed partial class AchievementSystem : EntitySystem
     #endregion
 
     #region Helpers
+
+    private void CheckDifficultyAntagAchievements()
+    {
+        var query = EntityQueryEnumerator<MindComponent>();
+        while (query.MoveNext(out var uid, out var mind))
+        {
+            if ((mind.OriginalOwnerUserId ?? mind.UserId) is not { } player ||
+                !_playerManager.TryGetSessionById(player, out var session))
+                continue;
+
+            foreach (var achievement in GetEligibleDifficultyAntagAchievements((uid, mind)))
+                QueueUnlockAchievement(session, achievement.ID, mind.CharacterName);
+        }
+    }
+
+    /// <summary>
+    /// Returns the configured antagonist difficulty awards earned by this mind in the current round.
+    /// </summary>
+    public IEnumerable<AchievementPrototype> GetEligibleDifficultyAntagAchievements(Entity<MindComponent> mind)
+    {
+        var score = new ObjectiveDifficultyScore();
+        foreach (var objective in mind.Comp.Objectives)
+        {
+            if (TryComp<ObjectiveComponent>(objective, out var comp))
+                score = score.Add(comp.Difficulty, _objectives.IsCompleted(objective, mind));
+        }
+
+        var roles = mind.Comp.MindRoleContainer.ContainedEntities.Select(uid => Prototype(uid))
+            .OfType<EntityPrototype>().SelectMany(role =>
+                _prototypeManager.EnumerateParents<EntityPrototype>(role.ID, includeSelf: true))
+            .Select(role => role.ID).ToHashSet();
+        return _prototypeManager.EnumeratePrototypes<AchievementPrototype>().Where(achievement =>
+            achievement.DifficultyAntag is { } requirement && roles.Contains(requirement.Role.Id) &&
+            float.IsFinite(requirement.RequiredDifficulty) && requirement.RequiredDifficulty > 0 &&
+            score.Completed + ObjectivePickerSelection.Tolerance >= requirement.RequiredDifficulty);
+    }
 
     private void QueueUnlockAchievement(ICommonSession session, string achievementId, string? characterName = null)
     {

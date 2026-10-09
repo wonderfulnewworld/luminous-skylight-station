@@ -39,10 +39,8 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
         _mind = _entity.System<SharedMindSystem>();
         _sprite = _entity.System<SpriteSystem>();
 
-        SLInitializePicker();
+        InitializePicker();
     }
-
-    private void PopulateObjectives(EntityUid mindUid) => SLPopulateObjectives(mindUid);
 
     protected override void FrameUpdate(FrameEventArgs args)
     {
@@ -63,15 +61,13 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
         PopulateObjectives(mindUid);
     }
 
-    private void UpdateTimer() => SLUpdateTimer();
-
     public event Action<NetEntity>? OnMulligan;
-    public bool SLPending { get; private set; }
-    public PotentialObjectivesComponent? SLOffers { get; private set; }
+    public bool Pending { get; private set; }
+    public PotentialObjectivesComponent? Offers { get; private set; }
     private readonly Dictionary<NetEntity, Button> _slButtons = new();
     private bool _slSeenMulligan;
 
-    private void SLInitializePicker()
+    private void InitializePicker()
     {
         SubmitButton.Disabled = true;
         RandomizeButton.Disabled = true;
@@ -92,18 +88,18 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
         UpdateTimer();
     }
 
-    public void SLSetPending(bool pending, string? message = null)
+    public void SetPending(bool pending, string? message = null)
     {
-        SLPending = pending;
+        Pending = pending;
         PickerFeedback.Text = message == null ? string.Empty : Loc.GetString(message);
         UpdateState();
     }
 
-    private void SLPopulateObjectives(EntityUid mind)
+    private void PopulateObjectives(EntityUid mind)
     {
         if (!_entity.TryGetComponent<PotentialObjectivesComponent>(mind, out var offers))
             return;
-        SLOffers = offers;
+        Offers = offers;
         if (offers.MulliganUsed && !_slSeenMulligan)
         {
             _slSeenMulligan = true;
@@ -139,7 +135,7 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
             var unavailable = !ObjectivePickerSelection.Available(offers, id);
             var conflict = !ObjectivePickerSelection.Compatible(offers, id, SelectedObjectives);
             button.Pressed = SelectedObjectives.Contains(id);
-            button.Disabled = SLPending || unavailable || conflict;
+            button.Disabled = Pending || unavailable || conflict;
             button.ToolTip = offers.ObjectiveOptions[id].Description + (unavailable
                 ? "\n" + Loc.GetString("objective-picker-option-unavailable")
                 : conflict ? "\n" + Loc.GetString("objective-picker-option-conflict") : string.Empty);
@@ -151,16 +147,16 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
             ("minimum", ObjectiveDifficultyDisplay.Format(offers.MinimumDifficulty)));
         if (ObjectivePickerSelection.CanSelectUnderBudget(offers))
             SelectionTip.Text += "\n" + Loc.GetString("objective-picker-under-budget-tip");
-        SubmitButton.Disabled = SLPending || !ObjectivePickerSelection.Valid(offers, SelectedObjectives);
-        ClearButton.Disabled = SLPending || SelectedObjectives.Count == 0;
-        RandomizeButton.Disabled = SLPending || offers.ObjectiveOptions.Count == 0;
-        MulliganButton.Disabled = SLPending || offers.MulliganUsed || SelectedObjectives.Count != 1;
+        SubmitButton.Disabled = Pending || !ObjectivePickerSelection.Valid(offers, SelectedObjectives);
+        ClearButton.Disabled = Pending || SelectedObjectives.Count == 0;
+        RandomizeButton.Disabled = Pending || offers.ObjectiveOptions.Count == 0;
+        MulliganButton.Disabled = Pending || offers.MulliganUsed || SelectedObjectives.Count != 1;
         MulliganButton.Text = Loc.GetString(offers.MulliganUsed
             ? "objective-picker-window-mulligan-used" : "objective-picker-window-mulligan");
         MulliganButton.ToolTip = Loc.GetString("objective-picker-window-mulligan-tip");
     }
 
-    private void SLUpdateTimer()
+    private void UpdateTimer()
     {
         if (!_mind.TryGetMind(_players.LocalSession, out var uid, out _) ||
             !_entity.TryGetComponent<PotentialObjectivesComponent>(uid, out var offers))
@@ -169,7 +165,7 @@ public sealed partial class ObjectivePickerWindow : FancyWindow
                 Close();
             return;
         }
-        SLPopulateObjectives(uid);
+        PopulateObjectives(uid);
         var left = offers.AutoSelectionTime - _timing.CurTime;
         TimeLeftTip.Text = left <= TimeSpan.Zero
             ? Loc.GetString("objective-picker-window-auto-selecting")

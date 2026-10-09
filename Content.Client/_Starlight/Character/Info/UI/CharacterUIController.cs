@@ -61,7 +61,7 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
 
         _window.OnClose += DeactivateButton;
         _window.OnOpen += ActivateButton;
-        SLInitializeCharacterWindow();
+        InitializeCharacterWindow();
 
         CommandBinds.Builder
             .Bind(ContentKeyFunctions.OpenCharacterMenu,
@@ -155,7 +155,7 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
 
         _window.Objectives.RemoveAllChildren();
         _window.Briefing.RemoveAllChildren();
-        SLSetSelfCharacterInfo(entity);
+        SetSelfCharacterInfo(entity);
 
         var canPickObjectives = _characterWindow.CanPickObjectives(_player.LocalEntity);
         _objectiveCount = objectives.Sum(group => group.Value.Count);
@@ -296,21 +296,21 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
         OpenWindow();
     }
 
-    private void SLInitializeCharacterWindow()
+    private void InitializeCharacterWindow()
     {
         if (_window == null)
             return;
 
-        _window.OnClose += SLClearSelfCharacterInfo;
-        _window.OnOpen += SLRefreshSelfCharacterInfo;
+        _window.OnClose += ClearSelfCharacterInfo;
+        _window.OnOpen += RefreshSelfCharacterInfo;
     }
 
-    private void SLRefreshSelfCharacterInfo()
+    private void RefreshSelfCharacterInfo()
     {
-        SLSetSelfCharacterInfo(_player.LocalEntity);
+        SetSelfCharacterInfo(_player.LocalEntity);
     }
 
-    private void SLClearSelfCharacterInfo()
+    private void ClearSelfCharacterInfo()
     {
         if (_window == null)
             return;
@@ -319,14 +319,14 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
         _window.InfoBackground.ClearCharacter();
     }
 
-    private void SLSetSelfCharacterInfo(EntityUid? ent)
+    private void SetSelfCharacterInfo(EntityUid? ent)
     {
         if (_window == null)
             return;
 
         if (!ent.HasValue || !_window.IsOpen)
         {
-            SLClearSelfCharacterInfo();
+            ClearSelfCharacterInfo();
             return;
         }
 

@@ -12,9 +12,9 @@
     requiredDifficulty: 15
 
 - type: achievement
-  id: master_thief
-  name: achievement-master-thief-name
-  description: achievement-master-thief-description
+  id: phantom_thief
+  name: achievement-phantom-thief-name
+  description: achievement-phantom-thief-description
   category: antagonists
   showProgress: false
   icon:

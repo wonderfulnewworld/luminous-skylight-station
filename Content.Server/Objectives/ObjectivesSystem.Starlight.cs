@@ -12,7 +12,7 @@ public sealed partial class ObjectivesSystem
     /// <summary>
     /// Keep picker participants visible even after their game rule stops being active.
     /// </summary>
-    private void SLCollectPickerSummaries(Dictionary<string, Dictionary<string, List<(EntityUid, string)>>> summaries)
+    private void CollectPickerSummaries(Dictionary<string, Dictionary<string, List<(EntityUid, string)>>> summaries)
     {
         var listed = summaries.Values.SelectMany(groups => groups.Values).SelectMany(minds => minds)
             .Select(identity => identity.Item1).ToHashSet();
@@ -35,7 +35,7 @@ public sealed partial class ObjectivesSystem
         }
     }
 
-    private float SLAppendDifficultySummary(EntityUid mindId, MindComponent mind,
+    private float AppendDifficultySummary(EntityUid mindId, MindComponent mind,
         System.Text.StringBuilder summary, float legacyRate)
     {
         if (!HasComp<ObjectivePickerConfigurationComponent>(mindId))

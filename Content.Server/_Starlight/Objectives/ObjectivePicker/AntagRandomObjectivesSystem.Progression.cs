@@ -7,7 +7,7 @@ namespace Content.Server._Starlight.Objectives.ObjectivePicker;
 
 public sealed partial class AntagRandomObjectivesSystem
 {
-    private void SLRecordConfirmedBatch(EntityUid mindId, ObjectivePickerConfigurationComponent config,
+    private void RecordConfirmedBatch(EntityUid mindId, ObjectivePickerConfigurationComponent config,
         IEnumerable<NetEntity> selected)
     {
         config.CurrentBatch.Clear();
@@ -24,7 +24,7 @@ public sealed partial class AntagRandomObjectivesSystem
         Dirty(mindId, progress);
     }
 
-    private void SLUpdateProgression()
+    private void UpdateProgression()
     {
         var query = EntityQueryEnumerator<MindComponent, ObjectivePickerConfigurationComponent>();
         while (query.MoveNext(out var uid, out var mind, out var config))
@@ -48,12 +48,12 @@ public sealed partial class AntagRandomObjectivesSystem
         }
     }
 
-    private void SLRequestAdditional(ObjectivePickerRequestAdditional ev, EntitySessionEventArgs args)
+    private void OnRequestAdditionalObjectives(ObjectivePickerRequestAdditional ev, EntitySessionEventArgs args)
     {
         if (!_mind.TryGetMind(args.SenderSession, out var mindId, out var mind) || GetNetEntity(mindId) != ev.MindId)
             return;
 
-        var accepted = SLTryAdditional(mindId, mind);
+        var accepted = TryCreateAdditionalPicker(mindId, mind);
         RaiseNetworkEvent(new ObjectivePickerReply
         {
             Accepted = accepted,
@@ -62,7 +62,7 @@ public sealed partial class AntagRandomObjectivesSystem
         }, args.SenderSession);
     }
 
-    private bool SLTryAdditional(EntityUid mindId, MindComponent mind)
+    private bool TryCreateAdditionalPicker(EntityUid mindId, MindComponent mind)
     {
         if (HasComp<PotentialObjectivesComponent>(mindId) ||
             !TryComp<ObjectivePickerProgressComponent>(mindId, out var progress) || !progress.CanPickMore ||
@@ -77,7 +77,7 @@ public sealed partial class AntagRandomObjectivesSystem
             MulliganUsed = config.MulliganUsed,
         };
         config.DeferredTargets.Clear();
-        SLFillOffers(mindId, mind, offers, config, SLObjectiveCounts(mindId));
+        FillOffers(mindId, mind, offers, config, CountAssignedObjectives(mindId));
         if (!offers.ObjectiveOptions.Keys.Any(id => ObjectivePickerSelection.Available(offers, id)))
         {
             foreach (var id in offers.ObjectiveOptions.Keys)

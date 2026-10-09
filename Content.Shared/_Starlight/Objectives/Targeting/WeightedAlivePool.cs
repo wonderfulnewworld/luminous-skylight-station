@@ -13,7 +13,10 @@ public sealed partial class WeightedAlivePool : IMindPool
 
     public void FindMinds(HashSet<Entity<MindComponent>> minds, EntityUid? exclude,
         IEntityManager entMan, SharedMindSystem mindSys)
-        => mindSys.AddAliveHumans(minds, exclude);
+    {
+        mindSys.AddAliveHumans(minds, exclude);
+        mindSys.AddObjectiveTargetNonHumanoids(minds, exclude);
+    }
 
     public int Weight(Entity<MindComponent> mind, IEntityManager entMan)
         => WeightHighValue && HighValueTargetsPool.IsHighValue(mind, entMan)

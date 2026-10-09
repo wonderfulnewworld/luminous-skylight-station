@@ -26,14 +26,14 @@ public sealed partial class AntagRandomObjectivesSystem
     private static readonly EntProtoId _sLDieObjective = "DieObjective";
     private TimeSpan _slNextAvailability;
 
-    private void SLInitializePicker()
+    private void InitializePicker()
     {
-        SubscribeNetworkEvent<ObjectivePickerMulligan>(SLMulligan);
-        SubscribeNetworkEvent<ObjectivePickerRequestAdditional>(SLRequestAdditional);
-        SubscribeLocalEvent<PotentialObjectivesComponent, ComponentShutdown>(SLPickerShutdown);
+        SubscribeNetworkEvent<ObjectivePickerMulligan>(OnMulligan);
+        SubscribeNetworkEvent<ObjectivePickerRequestAdditional>(OnRequestAdditionalObjectives);
+        SubscribeLocalEvent<PotentialObjectivesComponent, ComponentShutdown>(OnPickerShutdown);
     }
 
-    private void SLCreatePicker(Entity<AntagRandomObjectivesComponent> rule, ref AfterAntagEntitySelectedEvent args)
+    private void CreatePicker(Entity<AntagRandomObjectivesComponent> rule, ref AfterAntagEntitySelectedEvent args)
     {
         if (args.Session == null || !_mind.TryGetMind(args.Session, out var mindId, out var mind))
             return;
@@ -57,48 +57,48 @@ public sealed partial class AntagRandomObjectivesSystem
         foreach (var set in rule.Comp.Sets)
         {
             if (_random.Prob(set.Prob))
-                SLFlattenWeights(set.Groups, config.Weights);
+                FlattenWeights(set.Groups, config.Weights);
         }
 
-        var counts = SLObjectiveCounts(mindId);
+        var counts = CountAssignedObjectives(mindId);
         EntityUid? forcedTraitor = null;
         var traitorForcedWeights = new Dictionary<string, float>();
-        if (rule.Comp.SLTraitorForcedObjectiveGroup is { } traitorGroup)
+        if (rule.Comp.TraitorForcedObjectiveGroup is { } traitorGroup)
         {
-            SLFlattenWeights(traitorGroup, traitorForcedWeights);
+            FlattenWeights(traitorGroup, traitorForcedWeights);
             if (config.Weights.GetValueOrDefault(_sLDieObjective) <= 0 ||
                 (mind.OwnedEntity is { } body && HasComp<UngloriousComponent>(body)))
                 traitorForcedWeights.Remove(_sLDieObjective);
-            forcedTraitor = SLForceObjective(mindId, mind, traitorForcedWeights, counts);
+            forcedTraitor = ForceObjective(mindId, mind, traitorForcedWeights, counts);
             foreach (var prototype in traitorForcedWeights.Keys)
                 config.Weights.Remove(prototype);
         }
 
-        if (rule.Comp.SLForcedObjectiveGroup is { } forcedGroup)
+        if (rule.Comp.ForcedObjectiveGroup is { } forcedGroup)
         {
             var forced = new Dictionary<string, float>();
-            SLFlattenWeights(forcedGroup, forced);
-            SLForceObjective(mindId, mind, forced, counts);
+            FlattenWeights(forcedGroup, forced);
+            ForceObjective(mindId, mind, forced, counts);
             foreach (var prototype in forced.Keys)
                 config.Weights.Remove(prototype);
         }
 
-        if (rule.Comp.SLStoryObjectiveGroup is { } storyGroup)
+        if (rule.Comp.StoryObjectiveGroup is { } storyGroup)
         {
-            SLFlattenWeights(storyGroup, config.StoryWeights);
+            FlattenWeights(storyGroup, config.StoryWeights);
             foreach (var prototype in config.StoryWeights.Keys)
                 config.Weights.Remove(prototype);
         }
 
-        foreach (var prototype in rule.Comp.SLExcludedObjectives)
+        foreach (var prototype in rule.Comp.ExcludedObjectives)
             config.Weights.Remove(prototype);
 
         var offers = EnsureComp<PotentialObjectivesComponent>(mindId);
-        config.MinimumDifficulty = SLGetPickerDifficulty(rule.Comp.MaxDifficulty, mind);
+        config.MinimumDifficulty = GetPickerDifficulty(rule.Comp.MaxDifficulty, mind);
         offers.MinimumDifficulty = config.MinimumDifficulty;
         offers.AutoSelectionDelay = rule.Comp.SelectionDelay;
         offers.AutoSelectionTime = _timing.CurTime + rule.Comp.SelectionDelay;
-        var viable = SLFillOffers(mindId, mind, offers, config, counts);
+        var viable = FillOffers(mindId, mind, offers, config, counts);
         if (!viable && forcedTraitor is { } dagd && Prototype(dagd)?.ID == _sLDieObjective.Id)
         {
             // DAGD is ineligible when the compatible combat pool cannot supply the required budget.
@@ -111,10 +111,10 @@ public sealed partial class AntagRandomObjectivesSystem
             offers.Difficulties.Clear();
             config.DeferredTargets.Clear();
             traitorForcedWeights.Remove(_sLDieObjective);
-            SLForceObjective(mindId, mind, traitorForcedWeights, counts);
-            config.MinimumDifficulty = SLGetPickerDifficulty(rule.Comp.MaxDifficulty, mind);
+            ForceObjective(mindId, mind, traitorForcedWeights, counts);
+            config.MinimumDifficulty = GetPickerDifficulty(rule.Comp.MaxDifficulty, mind);
             offers.MinimumDifficulty = config.MinimumDifficulty;
-            viable = SLFillOffers(mindId, mind, offers, config, counts);
+            viable = FillOffers(mindId, mind, offers, config, counts);
         }
         if (!viable)
             Log.Error($"No viable objective pool for {ToPrettyString(mindId)} at difficulty {offers.MinimumDifficulty}; awaiting eligible offers.");
@@ -125,7 +125,7 @@ public sealed partial class AntagRandomObjectivesSystem
     /// <summary>
     /// Preserve each nested category's probability rather than giving large categories extra weight.
     /// </summary>
-    private void SLFlattenWeights(string groupId, Dictionary<string, float> result,
+    private void FlattenWeights(string groupId, Dictionary<string, float> result,
         float weight = 1, HashSet<string>? path = null)
     {
         path ??= new HashSet<string>();
@@ -143,7 +143,7 @@ public sealed partial class AntagRandomObjectivesSystem
                 foreach (var (id, value) in group.Weights)
                 {
                     if (value > 0)
-                        SLFlattenWeights(id, result, weight * value / total, path);
+                        FlattenWeights(id, result, weight * value / total, path);
                 }
             }
         }
@@ -155,13 +155,13 @@ public sealed partial class AntagRandomObjectivesSystem
         path.Remove(groupId);
     }
 
-    private EntityUid? SLForceObjective(EntityUid mindId, MindComponent mind, Dictionary<string, float> weights,
+    private EntityUid? ForceObjective(EntityUid mindId, MindComponent mind, Dictionary<string, float> weights,
         Dictionary<string, int> counts)
     {
         var candidates = new Dictionary<string, float>(weights);
         while (_random.TryPickAndTake(candidates, out var prototype))
         {
-            if (!SLCreateOffer(mindId, mind, prototype, counts, out var objective, out var deferred))
+            if (!CreateOffer(mindId, mind, prototype, counts, out var objective, out var deferred))
                 continue;
 
             if (deferred)
@@ -188,7 +188,7 @@ public sealed partial class AntagRandomObjectivesSystem
     /// Preferred option count is a starting point. Grow the pool until it has twice the budget and a
     /// compatible selection meeting the budget. Story goals are added separately and cost zero.
     /// </summary>
-    private bool SLFillOffers(EntityUid mindId, MindComponent mind, PotentialObjectivesComponent offers,
+    private bool FillOffers(EntityUid mindId, MindComponent mind, PotentialObjectivesComponent offers,
         ObjectivePickerConfigurationComponent config, Dictionary<string, int> counts, NetEntity? retained = null)
     {
         var candidates = new Dictionary<string, float>(config.Weights);
@@ -208,8 +208,8 @@ public sealed partial class AntagRandomObjectivesSystem
             (int) Math.Ceiling(2 * offers.MinimumDifficulty / smallest) + (config.PreferredOptions * 8));
         while (attempts-- > 0)
         {
-            SLUpdateOfferState(mindId, mind, offers, counts, config);
-            if (SLOffersViable(offers, retained) &&
+            UpdateOfferState(mindId, mind, offers, counts, config);
+            if (OffersViable(offers, retained) &&
                 offers.Difficulties.Count(pair => pair.Value > 0 && ObjectivePickerSelection.Available(offers, pair.Key))
                 >= config.PreferredOptions)
                 break;
@@ -219,7 +219,7 @@ public sealed partial class AntagRandomObjectivesSystem
             if (!_random.TryPickAndTake(candidates, out var prototype))
                 break;
 
-            if (!SLCreateOffer(mindId, mind, prototype, counts, out var uid, out var deferred))
+            if (!CreateOffer(mindId, mind, prototype, counts, out var uid, out var deferred))
             {
                 repeatable.Remove(prototype);
                 continue;
@@ -244,7 +244,7 @@ public sealed partial class AntagRandomObjectivesSystem
                 repeatable[prototype] = config.Weights[prototype];
             }
 
-            SLAddOffer(mindId, mind, offers, config, uid, deferred);
+            AddOffer(mindId, mind, offers, config, uid, deferred);
         }
 
         var stories = new Dictionary<string, float>(config.StoryWeights);
@@ -260,17 +260,17 @@ public sealed partial class AntagRandomObjectivesSystem
 
         while (storyCount < 2 && _random.TryPickAndTake(stories, out var prototype))
         {
-            if (!SLCreateOffer(mindId, mind, prototype, counts, out var uid, out var deferred))
+            if (!CreateOffer(mindId, mind, prototype, counts, out var uid, out var deferred))
                 continue;
-            SLAddOffer(mindId, mind, offers, config, uid, deferred);
+            AddOffer(mindId, mind, offers, config, uid, deferred);
             storyCount++;
         }
 
-        SLUpdateOfferState(mindId, mind, offers, counts, config);
-        return SLOffersViable(offers, retained);
+        UpdateOfferState(mindId, mind, offers, counts, config);
+        return OffersViable(offers, retained);
     }
 
-    private static bool SLOffersViable(PotentialObjectivesComponent offers, NetEntity? retained = null)
+    private static bool OffersViable(PotentialObjectivesComponent offers, NetEntity? retained = null)
     {
         var available = offers.ObjectiveOptions.Keys.Where(id => ObjectivePickerSelection.Available(offers, id)).ToArray();
         return ObjectivePickerSelection.Difficulty(offers, available) + ObjectivePickerSelection.Tolerance
@@ -279,7 +279,7 @@ public sealed partial class AntagRandomObjectivesSystem
                    retained is { } id ? new[] { id } : Array.Empty<NetEntity>(), out _);
     }
 
-    private bool SLCreateOffer(EntityUid mindId, MindComponent mind, string prototype,
+    private bool CreateOffer(EntityUid mindId, MindComponent mind, string prototype,
         Dictionary<string, int> counts, out EntityUid uid, out bool deferred)
     {
         uid = default;
@@ -289,7 +289,7 @@ public sealed partial class AntagRandomObjectivesSystem
         uid = created;
 
         if (!_objectives.CanBeAssigned(uid, mindId, mind) ||
-            !SLWithinLimit(uid, counts) || mind.Objectives.Any(other => !SLCompatible(created, other)))
+            !WithinObjectiveLimit(uid, counts) || mind.Objectives.Any(other => !AreObjectivesCompatible(created, other)))
         {
             Del(uid);
             return false;
@@ -322,7 +322,7 @@ public sealed partial class AntagRandomObjectivesSystem
         return true;
     }
 
-    private void SLAddOffer(EntityUid mindId, MindComponent mind, PotentialObjectivesComponent offers,
+    private void AddOffer(EntityUid mindId, MindComponent mind, PotentialObjectivesComponent offers,
         ObjectivePickerConfigurationComponent config, EntityUid uid, bool deferred)
     {
         var objective = Comp<ObjectiveComponent>(uid);
@@ -355,7 +355,7 @@ public sealed partial class AntagRandomObjectivesSystem
             config.DeferredTargets.Add(netId);
     }
 
-    private bool SLCompatible(EntityUid first, EntityUid second)
+    private bool AreObjectivesCompatible(EntityUid first, EntityUid second)
     {
         if ((TryComp<ObjectiveBlacklistRequirementComponent>(first, out var a) &&
             _slWhitelist.IsWhitelistPass(a.Blacklist, second)) ||
@@ -367,7 +367,7 @@ public sealed partial class AntagRandomObjectivesSystem
                (!Comp<ObjectiveComponent>(first).Unique && !Comp<ObjectiveComponent>(second).Unique);
     }
 
-    private Dictionary<string, int> SLObjectiveCounts(EntityUid exceptMind)
+    private Dictionary<string, int> CountAssignedObjectives(EntityUid exceptMind)
     {
         var counts = new Dictionary<string, int>();
         var query = EntityQueryEnumerator<MindComponent>();
@@ -382,10 +382,10 @@ public sealed partial class AntagRandomObjectivesSystem
         return counts;
     }
 
-    private bool SLWithinLimit(EntityUid uid, Dictionary<string, int> counts) => !TryComp<ObjectiveLimitComponent>(uid, out var limit) ||
+    private bool WithinObjectiveLimit(EntityUid uid, Dictionary<string, int> counts) => !TryComp<ObjectiveLimitComponent>(uid, out var limit) ||
                (Prototype(uid) is { } prototype && counts.GetValueOrDefault(prototype.ID) < limit.Limit);
 
-    private void SLUpdateOfferState(EntityUid mindId, MindComponent mind, PotentialObjectivesComponent offers,
+    private void UpdateOfferState(EntityUid mindId, MindComponent mind, PotentialObjectivesComponent offers,
         Dictionary<string, int> counts, ObjectivePickerConfigurationComponent? config = null)
     {
         var unavailable = new HashSet<NetEntity>();
@@ -400,8 +400,8 @@ public sealed partial class AntagRandomObjectivesSystem
         for (var i = 0; i < keys.Length; i++)
         {
             var uid = GetEntity(keys[i]);
-            if (!Exists(uid) || !SLWithinLimit(uid, counts) ||
-                !_objectives.CanBeAssigned(uid, mindId, mind) || mind.Objectives.Any(other => !SLCompatible(uid, other)))
+            if (!Exists(uid) || !WithinObjectiveLimit(uid, counts) ||
+                !_objectives.CanBeAssigned(uid, mindId, mind) || mind.Objectives.Any(other => !AreObjectivesCompatible(uid, other)))
                 unavailable.Add(keys[i]);
 
             if (config?.DeferredTargets.Contains(keys[i]) == true &&
@@ -432,7 +432,7 @@ public sealed partial class AntagRandomObjectivesSystem
 
             for (var j = 0; j < i; j++)
             {
-                if (!Exists(uid) || !Exists(GetEntity(keys[j])) || !SLCompatible(uid, GetEntity(keys[j])))
+                if (!Exists(uid) || !Exists(GetEntity(keys[j])) || !AreObjectivesCompatible(uid, GetEntity(keys[j])))
                 {
                     conflicts[keys[i]].Add(keys[j]);
                     conflicts[keys[j]].Add(keys[i]);
@@ -448,12 +448,12 @@ public sealed partial class AntagRandomObjectivesSystem
     /// <summary>
     /// Applies any assigned objectives' YAML modifiers to the base picker budget.
     /// </summary>
-    public float SLGetPickerDifficulty(float baseDifficulty, MindComponent mind)
+    public float GetPickerDifficulty(float baseDifficulty, MindComponent mind)
     {
         var difficulty = baseDifficulty;
         foreach (var objective in mind.Objectives)
         {
-            if (!TryComp<ObjectivePickerDifficultyModifierComponent>(objective, out var modifier))
+            if (!TryComp<DifficultyModifierComponent>(objective, out var modifier))
                 continue;
             if (!float.IsFinite(modifier.Multiplier) || modifier.Multiplier < 0 ||
                 !float.IsFinite(difficulty * modifier.Multiplier))
@@ -466,7 +466,7 @@ public sealed partial class AntagRandomObjectivesSystem
         return difficulty;
     }
 
-    private void SLPickerShutdown(Entity<PotentialObjectivesComponent> ent, ref ComponentShutdown args)
+    private void OnPickerShutdown(Entity<PotentialObjectivesComponent> ent, ref ComponentShutdown args)
     {
         foreach (var key in ent.Comp.ObjectiveOptions.Keys)
             TryQueueDel(GetEntity(key));

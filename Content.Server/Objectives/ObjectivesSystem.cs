@@ -94,7 +94,7 @@ public sealed partial class ObjectivesSystem : SharedObjectivesSystem
             }
         }
 
-        SLCollectPickerSummaries(summaries); // Starlight
+        CollectPickerSummaries(summaries); // Starlight
 
         // convert the data into summary text
         foreach (var (agent, summary) in summaries)
@@ -289,7 +289,7 @@ public sealed partial class ObjectivesSystem : SharedObjectivesSystem
             }
             // Starlight End
 
-            successRate = SLAppendDifficultySummary(mindId, mind, agentSummary, successRate); // Starlight
+            successRate = AppendDifficultySummary(mindId, mind, agentSummary, successRate); // Starlight
             agentSummaries.Add((agentSummary.ToString(), successRate, completedObjectives));
         }
 

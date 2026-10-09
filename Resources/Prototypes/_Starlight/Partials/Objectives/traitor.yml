@@ -14,7 +14,7 @@
 - type: !PartialOnly entity
   id: DieObjective
   components:
-  - type: ObjectivePickerDifficultyModifier
+  - type: DifficultyModifier
     multiplier: 0.5
   - type: UngloriousRequirement
   - type: Objective

@@ -15,11 +15,11 @@ public sealed partial class AntagRandomObjectivesSystem
         if (_timing.CurTime < _slNextAvailability)
             return;
         _slNextAvailability = _timing.CurTime + TimeSpan.FromSeconds(1);
-        SLRefreshPickers();
-        SLUpdateProgression();
+        RefreshPickers();
+        UpdateProgression();
     }
 
-    private void SLRefreshPickers()
+    private void RefreshPickers()
     {
         var query = EntityQueryEnumerator<PotentialObjectivesComponent, MindComponent, ObjectivePickerConfigurationComponent>();
         while (query.MoveNext(out var uid, out var offers, out var mind, out var config))
@@ -29,11 +29,11 @@ public sealed partial class AntagRandomObjectivesSystem
             var previous = offers.UnavailableObjectives;
             var targetPools = offers.TargetPools;
             var count = offers.ObjectiveOptions.Count;
-            var counts = SLObjectiveCounts(uid);
-            SLUpdateOfferState(uid, mind, offers, counts);
+            var counts = CountAssignedObjectives(uid);
+            UpdateOfferState(uid, mind, offers, counts);
             // Keep depleted cards visible and disabled, but supply replacements so a late chooser can finish.
-            if (!SLOffersViable(offers))
-                SLFillOffers(uid, mind, offers, config, counts);
+            if (!OffersViable(offers))
+                FillOffers(uid, mind, offers, config, counts);
             if (!previous.SetEquals(offers.UnavailableObjectives) || count != offers.ObjectiveOptions.Count ||
                 targetPools.Count != offers.TargetPools.Count || targetPools.Any(pair =>
                     !offers.TargetPools.TryGetValue(pair.Key, out var pool) || !pair.Value.SetEquals(pool)))
@@ -41,12 +41,12 @@ public sealed partial class AntagRandomObjectivesSystem
         }
     }
 
-    private void SLSubmitObjectives(ObjectivePickerSelected ev, EntitySessionEventArgs args)
+    private void OnObjectivesSelected(ObjectivePickerSelected ev, EntitySessionEventArgs args)
     {
         if (!_mind.TryGetMind(args.SenderSession, out var mindId, out _) || GetNetEntity(mindId) != ev.MindId)
             return;
 
-        var accepted = SLApplySelectedObjectives(mindId, ev.SelectedObjectives);
+        var accepted = TryApplySelectedObjectives(mindId, ev.SelectedObjectives);
         RaiseNetworkEvent(new ObjectivePickerReply
         {
             Accepted = accepted,
@@ -55,13 +55,13 @@ public sealed partial class AntagRandomObjectivesSystem
         }, args.SenderSession);
     }
 
-    private bool SLApplySelectedObjectives(EntityUid mindId, HashSet<NetEntity> selected, bool timeout = false)
+    private bool TryApplySelectedObjectives(EntityUid mindId, HashSet<NetEntity> selected, bool timeout = false)
     {
         if (!TryComp<MindComponent>(mindId, out var mind) ||
             !TryComp<PotentialObjectivesComponent>(mindId, out var offers) || offers.ObjectiveOptions.Count == 0)
             return false;
 
-        SLUpdateOfferState(mindId, mind, offers, SLObjectiveCounts(mindId));
+        UpdateOfferState(mindId, mind, offers, CountAssignedObjectives(mindId));
         Dirty(mindId, offers);
         if (!ObjectivePickerSelection.Valid(offers, selected, timeout))
             return false;
@@ -71,7 +71,7 @@ public sealed partial class AntagRandomObjectivesSystem
         if (!TryComp<ObjectivePickerConfigurationComponent>(mindId, out var config) || config.Finished)
             return false;
         if (!ObjectivePickerSelection.TryAssignTargets(offers, selected, out var targets,
-                id => SLTargetOrder(offers, config, id)))
+                id => GetTargetOrder(offers, config, id)))
             return false;
         var initialized = new List<NetEntity>();
         var temporary = new List<EntityUid>();
@@ -108,13 +108,13 @@ public sealed partial class AntagRandomObjectivesSystem
             {
                 var uid = GetEntity(id);
                 var prototype = Prototype(uid)?.ID;
-                SLRemoveOffer(offers, config, id);
+                RemoveOffer(offers, config, id);
                 Del(uid);
-                if (prototype != null && SLCreateOffer(mindId, mind, prototype, SLObjectiveCounts(mindId),
+                if (prototype != null && CreateOffer(mindId, mind, prototype, CountAssignedObjectives(mindId),
                         out var replacement, out var deferred))
-                    SLAddOffer(mindId, mind, offers, config, replacement, deferred);
+                    AddOffer(mindId, mind, offers, config, replacement, deferred);
             }
-            SLFillOffers(mindId, mind, offers, config, SLObjectiveCounts(mindId));
+            FillOffers(mindId, mind, offers, config, CountAssignedObjectives(mindId));
             Dirty(mindId, offers);
             return false;
         }
@@ -132,32 +132,32 @@ public sealed partial class AntagRandomObjectivesSystem
 
         // Clear synchronously to make repeat submissions harmless before deferred removal.
         offers.ObjectiveOptions.Clear();
-        SLRecordConfirmedBatch(mindId, config, selected);
+        RecordConfirmedBatch(mindId, config, selected);
         config.Finished = true;
         Dirty(mindId, mind);
         RemCompDeferred<PotentialObjectivesComponent>(mindId);
-        SLRefreshPickers();
+        RefreshPickers();
         return true;
     }
 
-    public void SLAutoSelect(EntityUid mindId, PotentialObjectivesComponent offers)
+    public void AutoSelectObjectives(EntityUid mindId, PotentialObjectivesComponent offers)
     {
         if (!TryComp<MindComponent>(mindId, out var mind))
             return;
-        SLUpdateOfferState(mindId, mind, offers, SLObjectiveCounts(mindId));
+        UpdateOfferState(mindId, mind, offers, CountAssignedObjectives(mindId));
         var order = offers.ObjectiveOptions.Keys.OrderBy(_ => _random.Next()).ToArray();
         var retained = offers.RetainedObjective is { } id && ObjectivePickerSelection.Available(offers, id)
             ? new[] { id } : Array.Empty<NetEntity>();
         if (ObjectivePickerSelection.TrySelect(offers, order, retained, out var selected, ignoreMulligan: true))
-            SLApplySelectedObjectives(mindId, selected, timeout: true);
+            TryApplySelectedObjectives(mindId, selected, timeout: true);
     }
 
-    private void SLMulligan(ObjectivePickerMulligan ev, EntitySessionEventArgs args)
+    private void OnMulligan(ObjectivePickerMulligan ev, EntitySessionEventArgs args)
     {
         if (!_mind.TryGetMind(args.SenderSession, out var mindId, out var mind) || GetNetEntity(mindId) != ev.MindId)
             return;
 
-        var accepted = SLTryMulligan(mindId, mind, ev.RetainedObjective);
+        var accepted = TryMulligan(mindId, mind, ev.RetainedObjective);
         RaiseNetworkEvent(new ObjectivePickerReply
         {
             Accepted = accepted,
@@ -166,14 +166,14 @@ public sealed partial class AntagRandomObjectivesSystem
         }, args.SenderSession);
     }
 
-    private bool SLTryMulligan(EntityUid mindId, MindComponent mind, NetEntity retained)
+    private bool TryMulligan(EntityUid mindId, MindComponent mind, NetEntity retained)
     {
         if (!TryComp<PotentialObjectivesComponent>(mindId, out var offers) || offers.MulliganUsed ||
             !TryComp<ObjectivePickerConfigurationComponent>(mindId, out var oldConfig))
             return false;
 
-        var counts = SLObjectiveCounts(mindId);
-        SLUpdateOfferState(mindId, mind, offers, counts);
+        var counts = CountAssignedObjectives(mindId);
+        UpdateOfferState(mindId, mind, offers, counts);
         if (!ObjectivePickerSelection.Available(offers, retained))
             return false;
 
@@ -192,7 +192,7 @@ public sealed partial class AntagRandomObjectivesSystem
         if (oldConfig.DeferredTargets.Contains(retained))
             config.DeferredTargets.Add(retained);
 
-        SLFillOffers(mindId, mind, rerolled, config, counts, retained);
+        FillOffers(mindId, mind, rerolled, config, counts, retained);
         if (!rerolled.ObjectiveOptions.Keys.Any(id => ObjectivePickerSelection.Available(rerolled, id)))
         {
             foreach (var id in rerolled.ObjectiveOptions.Keys.Where(id => id != retained))
@@ -217,7 +217,7 @@ public sealed partial class AntagRandomObjectivesSystem
         return true;
     }
 
-    private IEnumerable<int> SLTargetOrder(PotentialObjectivesComponent offers,
+    private IEnumerable<int> GetTargetOrder(PotentialObjectivesComponent offers,
         ObjectivePickerConfigurationComponent config, NetEntity id)
     {
         var pick = Comp<PickRandomPersonComponent>(GetEntity(id));
@@ -230,7 +230,7 @@ public sealed partial class AntagRandomObjectivesSystem
         }).ToArray();
     }
 
-    private static void SLRemoveOffer(PotentialObjectivesComponent offers,
+    private static void RemoveOffer(PotentialObjectivesComponent offers,
         ObjectivePickerConfigurationComponent config, NetEntity id)
     {
         offers.ObjectiveOptions.Remove(id);

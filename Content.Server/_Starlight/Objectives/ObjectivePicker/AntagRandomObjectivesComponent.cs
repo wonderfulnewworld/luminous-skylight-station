@@ -38,14 +38,14 @@ public sealed partial class AntagRandomObjectivesComponent : Component
     public float MaxDifficulty = 6;
 
     [DataField("forcedObjectiveGroup")]
-    public ProtoId<WeightedRandomPrototype>? SLForcedObjectiveGroup;
+    public ProtoId<WeightedRandomPrototype>? ForcedObjectiveGroup;
 
     [DataField("traitorForcedObjectiveGroup")]
-    public ProtoId<WeightedRandomPrototype>? SLTraitorForcedObjectiveGroup;
+    public ProtoId<WeightedRandomPrototype>? TraitorForcedObjectiveGroup;
 
     [DataField("storyObjectiveGroup")]
-    public ProtoId<WeightedRandomPrototype>? SLStoryObjectiveGroup;
+    public ProtoId<WeightedRandomPrototype>? StoryObjectiveGroup;
 
     [DataField("excludedObjectives")]
-    public HashSet<EntProtoId> SLExcludedObjectives = new();
+    public HashSet<EntProtoId> ExcludedObjectives = new();
 }

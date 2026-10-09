@@ -31,7 +31,7 @@ public sealed partial class TraitorRuleTest
 {
     private static readonly ProtoId<TagPrototype> _sLBackgroundTag = "CivilianTraitBackground";
 
-    private async Task SLTestObjectivePicker(EntityUid mind, EntityUid player)
+    private async Task TestObjectivePicker(EntityUid mind, EntityUid player)
     {
         Dictionary<NetEntity, EntityUid> candidates = null;
         HashSet<NetEntity> selected = null;
@@ -100,7 +100,7 @@ public sealed partial class TraitorRuleTest
 
         await Client.WaitAssertion(() =>
         {
-            var window = SLFindControls<SLCharacterWindow>(ui.RootControl).Single();
+            var window = FindControls<SLCharacterWindow>(ui.RootControl).Single();
             Assert.That(window.CharacterInfoTabs.Children.Count, Is.EqualTo(2));
             Assert.That(window.CharacterInfoTabs.CurrentTab, Is.Zero);
             Assert.That(window.InfoIC.CharacterDesc.GetMessage(), Does.Contain("Physical description"));
@@ -108,7 +108,7 @@ public sealed partial class TraitorRuleTest
             Assert.That(window.InfoOOC.OOCNotes.GetMessage(), Does.Contain("OOC notes"));
             Assert.That(window.InfoOOC.PersonalNotes.GetMessage(), Does.Contain("Personal notes"));
             Assert.That(window.InfoBackground.Background.GetMessage(), Does.Contain(Loc.GetString("trait-background-civilian-name")));
-            Assert.That(SLFindControls<Button>(window.ObjectivesWrapper).Select(button => button.Text),
+            Assert.That(FindControls<Button>(window.ObjectivesWrapper).Select(button => button.Text),
                 Does.Contain(Loc.GetString("objective-picker-button")),
                 "The empty Cards group must not hide the objective picker.");
             Assert.That(window.CardsButton.Text, Is.EqualTo(Loc.GetString("character-info-cards-button")));
@@ -123,9 +123,9 @@ public sealed partial class TraitorRuleTest
             Assert.That(window.InfoOOC.OOCNotes.GetMessage(), Does.Contain("OOC notes"));
 
             ui.GetUIController<ObjectivePickerUIController>().EnsureWindow();
-            var picker = SLFindControls<ObjectivePickerWindow>(ui.RootControl).Single();
-            var submit = SLFindControls<Button>(picker).Single(button => button.Name == "SubmitButton");
-            var mulligan = SLFindControls<Button>(picker).Single(button => button.Name == "MulliganButton");
+            var picker = FindControls<ObjectivePickerWindow>(ui.RootControl).Single();
+            var submit = FindControls<Button>(picker).Single(button => button.Name == "SubmitButton");
+            var mulligan = FindControls<Button>(picker).Single(button => button.Name == "MulliganButton");
             Assert.That(submit.Disabled, Is.True);
             Assert.That(mulligan.Disabled, Is.True);
             picker.SelectedObjectives.Add(retained);
@@ -223,8 +223,8 @@ public sealed partial class TraitorRuleTest
         await Pair.RunTicksSync(70);
         await Client.WaitAssertion(() =>
         {
-            var window = SLFindControls<SLCharacterWindow>(ui.RootControl).Single();
-            Assert.That(SLFindControls<Button>(window.ObjectivesWrapper).Select(button => button.Text),
+            var window = FindControls<SLCharacterWindow>(ui.RootControl).Single();
+            Assert.That(FindControls<Button>(window.ObjectivesWrapper).Select(button => button.Text),
                 Does.Contain(Loc.GetString("objective-picker-additional-button")));
             Assert.That(window.ObjectivesWrapper.Children.ElementAt(1), Is.SameAs(window.CardsButton));
             window.Close();
@@ -276,14 +276,14 @@ public sealed partial class TraitorRuleTest
         });
     }
 
-    private static IEnumerable<T> SLFindControls<T>(Control control) where T : Control
+    private static IEnumerable<T> FindControls<T>(Control control) where T : Control
     {
         if (control is T found)
             yield return found;
 
         foreach (var child in control.Children)
         {
-            foreach (var descendant in SLFindControls<T>(child))
+            foreach (var descendant in FindControls<T>(child))
             {
                 yield return descendant;
             }

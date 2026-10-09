@@ -1,11 +1,27 @@
 using Content.Shared._Starlight.Objectives.Targeting;
 using Content.Shared.Mind.Filters;
+using Content.Shared.Mobs.Components;
 using Robust.Shared.Random;
 
 namespace Content.Shared.Mind;
 
 public abstract partial class SharedMindSystem
 {
+    /// <summary>
+    /// Adds living non-humanoid minds explicitly eligible for antagonist objectives.
+    /// </summary>
+    public void AddObjectiveTargetNonHumanoids(HashSet<Entity<MindComponent>> minds, EntityUid? exclude = null)
+    {
+        var query = EntityQueryEnumerator<AntagTargetComponent, MobStateComponent>();
+        while (query.MoveNext(out var uid, out _, out var mobState))
+        {
+            if (!TryGetMind(uid, out var mind, out var mindComp) || mind == exclude || !_mobState.IsAlive(uid, mobState))
+                continue;
+
+            minds.Add((mind, mindComp));
+        }
+    }
+
     private Entity<MindComponent> SLPickObjectiveTarget(IMindPool pool, HashSet<Entity<MindComponent>> candidates)
     {
         if (pool is not (HighValueTargetsPool or WeightedAlivePool))

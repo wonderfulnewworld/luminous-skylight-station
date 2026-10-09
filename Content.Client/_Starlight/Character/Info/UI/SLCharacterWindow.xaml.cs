@@ -23,7 +23,7 @@ public sealed partial class SLCharacterWindow : DefaultWindow
     public SLCharacterWindow()
     {
         RobustXamlLoader.Load(this);
-        SLInitializeCharacterInfo();
+        InitializeCharacterInfo();
         CardsButton.OnPressed += _ => UserInterfaceManager.GetUIController<CardsUIController>().OpenCards();
     }
 
@@ -87,7 +87,7 @@ public sealed partial class SLCharacterWindow : DefaultWindow
 
     private void ObjectivePickerButtonPressed(BaseButton.ButtonEventArgs args) => UserInterfaceManager.GetUIController<ObjectivePickerUIController>().OpenPicker();
 
-    private void SLInitializeCharacterInfo()
+    private void InitializeCharacterInfo()
     {
         CharacterInfoTabs.SetTabTitle(0, Loc.GetString("character-info-objectives"));
         CharacterInfoTabs.SetTabTitle(1, Loc.GetString("character-info-ic-ooc"));

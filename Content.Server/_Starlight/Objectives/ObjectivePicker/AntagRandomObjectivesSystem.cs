@@ -22,12 +22,10 @@ public sealed partial class AntagRandomObjectivesSystem : EntitySystem
         SubscribeLocalEvent<AntagRandomObjectivesComponent, AfterAntagEntitySelectedEvent>(OnAntagSelected,
             after: [typeof(AntagObjectivesSystem), typeof(Content.Server._Starlight.GameTicking.ChangelingRuleSystem)]);
         SubscribeNetworkEvent<ObjectivePickerSelected>(OnObjectivesSelected);
-        SLInitializePicker();
+        InitializePicker();
     }
 
-    private void OnAntagSelected(Entity<AntagRandomObjectivesComponent> ent, ref AfterAntagEntitySelectedEvent args) => SLCreatePicker(ent, ref args);
+    private void OnAntagSelected(Entity<AntagRandomObjectivesComponent> ent, ref AfterAntagEntitySelectedEvent args) => CreatePicker(ent, ref args);
 
-    private void OnObjectivesSelected(ObjectivePickerSelected ev, EntitySessionEventArgs args) => SLSubmitObjectives(ev, args);
-
-    public void ApplySelectedObjectives(EntityUid mindId, IEnumerable<NetEntity> selectedObjectives) => SLApplySelectedObjectives(mindId, selectedObjectives.ToHashSet());
+    public void ApplySelectedObjectives(EntityUid mindId, IEnumerable<NetEntity> selectedObjectives) => TryApplySelectedObjectives(mindId, selectedObjectives.ToHashSet());
 }

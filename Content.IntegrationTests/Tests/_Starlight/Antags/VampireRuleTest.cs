@@ -138,7 +138,7 @@ public sealed class VampireRuleTest : GameTest
         Assert.That(assigned.Count(id => id is "VampireSurviveObjective" or "VampireEscapeObjective"), Is.EqualTo(1));
         Assert.That(protoMan.Index<EntityPrototype>(VampireGameRuleProtoId)
             .TryComp<AntagRandomObjectivesComponent>(out var pickerConfig, compFact), Is.True);
-        var forcedGroup = pickerConfig.SLForcedObjectiveGroup;
+        var forcedGroup = pickerConfig.ForcedObjectiveGroup;
         Assert.That(forcedGroup, Is.Not.Null);
         var forcedWeights = protoMan.Index(forcedGroup!.Value).Weights;
         Assert.That(forcedWeights["VampireSurviveObjective"], Is.EqualTo(forcedWeights["VampireEscapeObjective"]));

@@ -5,7 +5,7 @@ namespace Content.Shared._Starlight.Objectives.ObjectivePicker;
 /// Multiple objectives' modifiers multiply together; their own difficulty stays unchanged.
 /// </summary>
 [RegisterComponent]
-public sealed partial class ObjectivePickerDifficultyModifierComponent : Component
+public sealed partial class DifficultyModifierComponent : Component
 {
     [DataField]
     public float Multiplier = 1;

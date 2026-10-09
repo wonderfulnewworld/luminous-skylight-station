@@ -12,6 +12,7 @@
     - DogFeral
     - Canilunzt
     - GalacticCommon
+  - type: AntagTarget
 
 - type: entity
   parent: MobCorgiSmartNoGalcom

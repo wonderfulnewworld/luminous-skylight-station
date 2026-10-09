@@ -16,6 +16,7 @@ public sealed partial class HighValueTargetsPool : IMindPool
         IEntityManager entMan, SharedMindSystem mindSys)
     {
         mindSys.AddAliveHumans(minds, exclude);
+        mindSys.AddObjectiveTargetNonHumanoids(minds, exclude);
         minds.RemoveWhere(mind => mind.Comp.OwnedEntity is not { } body ||
             (!(IncludeCommand && IsCommand(body, entMan)) && !entMan.HasComponent<MarkedForDeathComponent>(body)));
     }

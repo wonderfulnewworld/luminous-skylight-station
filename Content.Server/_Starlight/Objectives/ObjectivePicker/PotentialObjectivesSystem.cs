@@ -17,7 +17,7 @@ public sealed partial class PotentialObjectivesSystem : EntitySystem
                 continue;
 
             // Timeout must obey the same difficulty and compatibility rules as a player.
-            _antagObjectives.SLAutoSelect(uid, comp);
+            _antagObjectives.AutoSelectObjectives(uid, comp);
         }
     }
 }

@@ -77,14 +77,8 @@ public sealed partial class ObjectivePickerUIController : UIController, IOnState
         _window.OnSubmitted += OnSubmitted;
         _window.OnRandomize += OnRandomize;
         _window.OnClear += OnClear;
-        _window.OnMulligan += SLMulligan;
+        _window.OnMulligan += OnMulligan;
     }
-
-    private void OnSelectedChange(NetEntity netEntity) => SLToggleSelection(netEntity);
-
-    private void OnSubmitted(HashSet<NetEntity> selectedObjectives, NetEntity mindId) => SLSubmit(selectedObjectives, mindId);
-
-    private void OnRandomize() => SLRandomize();
 
     private void OnClear()
     {
@@ -98,12 +92,12 @@ public sealed partial class ObjectivePickerUIController : UIController, IOnState
     public override void Initialize()
     {
         base.Initialize();
-        SubscribeNetworkEvent<ObjectivePickerReply>(SLOnReply);
+        SubscribeNetworkEvent<ObjectivePickerReply>(OnReply);
     }
 
-    private void SLToggleSelection(NetEntity id)
+    private void OnSelectedChange(NetEntity id)
     {
-        if (_window == null || _window.SLPending || _window.SLOffers is not { } offers)
+        if (_window == null || _window.Pending || _window.Offers is not { } offers)
             return;
         if (!_window.SelectedObjectives.Remove(id) && ObjectivePickerSelection.Available(offers, id) &&
             ObjectivePickerSelection.Compatible(offers, id, _window.SelectedObjectives))
@@ -111,13 +105,13 @@ public sealed partial class ObjectivePickerUIController : UIController, IOnState
         _window.UpdateState();
     }
 
-    private void SLSubmit(HashSet<NetEntity> selected, NetEntity mind)
+    private void OnSubmitted(HashSet<NetEntity> selected, NetEntity mind)
     {
-        if (_window == null || _window.SLPending || _window.SLOffers is not { } offers ||
+        if (_window == null || _window.Pending || _window.Offers is not { } offers ||
             !ObjectivePickerSelection.Valid(offers, selected))
             return;
 
-        _window.SLSetPending(true);
+        _window.SetPending(true);
         _net.SendSystemNetworkMessage(new ObjectivePickerSelected
         {
             MindId = mind,
@@ -125,9 +119,9 @@ public sealed partial class ObjectivePickerUIController : UIController, IOnState
         });
     }
 
-    private void SLRandomize()
+    private void OnRandomize()
     {
-        if (_window == null || _window.SLPending || _window.SLOffers is not { } offers)
+        if (_window == null || _window.Pending || _window.Offers is not { } offers)
             return;
         var order = offers.ObjectiveOptions.Keys.OrderBy(_ => _random.Next()).ToArray();
         if (!ObjectivePickerSelection.TrySelect(offers, order, Array.Empty<NetEntity>(), out var selected))
@@ -137,15 +131,15 @@ public sealed partial class ObjectivePickerUIController : UIController, IOnState
         _window.UpdateState();
     }
 
-    private void SLMulligan(NetEntity mind)
+    private void OnMulligan(NetEntity mind)
     {
-        if (_window == null || _window.SLPending || _window.SLOffers is not { MulliganUsed: false } offers ||
+        if (_window == null || _window.Pending || _window.Offers is not { MulliganUsed: false } offers ||
             _window.SelectedObjectives.Count != 1)
             return;
         var retained = _window.SelectedObjectives.Single();
         if (!ObjectivePickerSelection.Available(offers, retained))
             return;
-        _window.SLSetPending(true);
+        _window.SetPending(true);
         _net.SendSystemNetworkMessage(new ObjectivePickerMulligan
         {
             MindId = mind,
@@ -153,7 +147,7 @@ public sealed partial class ObjectivePickerUIController : UIController, IOnState
         });
     }
 
-    private void SLOnReply(ObjectivePickerReply ev, EntitySessionEventArgs args)
+    private void OnReply(ObjectivePickerReply ev, EntitySessionEventArgs args)
     {
         _additionalPending = false;
         if (ev.Accepted && ev.OpenPicker)
@@ -167,6 +161,6 @@ public sealed partial class ObjectivePickerUIController : UIController, IOnState
             _characterInfo.RequestCharacterInfo();
             return;
         }
-        _window?.SLSetPending(false, ev.Message);
+        _window?.SetPending(false, ev.Message);
     }
 }

@@ -135,7 +135,7 @@ public sealed partial class TraitorRuleTest : GameTest
         Assert.That(potentialObjectivesComp!.ObjectiveOptions, Is.Not.Empty, "No potential objective options found!");
         // Moffstation - End
 
-        await SLTestObjectivePicker(mind, player); // Starlight
+        await TestObjectivePicker(mind, player); // Starlight
     }
 
     private static string FormatObjective(Entity<ObjectiveComponent> entity, IEntityManager entMan)
