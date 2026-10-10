@@ -677,3 +677,17 @@
         sprite: Objects/Specific/Medical/syndi_implanter.rsi
         state: implanter0
     - type: FreeObjective
+
+# Achieve your Objectives
+- type: entity
+  parent: BaseTraitorObjective
+  id: TraitorAchieveObjectivesObjective
+  name: Achieve your objectives.
+  description: Fulfill the objectives assigned to you. How you finish the shift is up to you.
+  components:
+  - type: Objective
+    difficulty: 0
+    icon:
+      sprite: _Starlight/Interface/Misc/objective_icons.rsi
+      state: rp
+  - type: AchieveObjectivesCondition

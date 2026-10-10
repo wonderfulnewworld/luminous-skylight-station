@@ -127,6 +127,19 @@
     difficulty: 1
 
 - type: entity
+  parent: [BaseThiefObjective, BaseLivingObjective]
+  id: DepartmentIdStealObjective
+  components:
+  - type: Objective
+    difficulty: 1
+    icon:
+      sprite: Objects/Misc/id_cards.rsi
+      state: default
+  - type: DepartmentIdStealCondition
+    minCount: 3
+    maxCount: 5
+
+- type: entity
   parent: BaseThiefStealObjective
   id: PTechCircuitboardStealObjective
   components:
