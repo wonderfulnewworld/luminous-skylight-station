@@ -1,6 +1,8 @@
 - type: entity
   abstract: true
-  parent: [SolutionWelder, BaseItem]
+  parent:
+  - SolutionWelder
+  - BaseItem
   id: BaseWelder
   components:
   - type: Sprite
@@ -9,7 +11,8 @@
     - state: welder_flame
       visible: false
       shader: unshaded
-      map: [ "enum.ToggleableVisuals.Layer" ]
+      map:
+      - enum.ToggleableVisuals.Layer
   - type: EmitSoundOnLand
     sound:
       path: /Audio/Items/welder_drop.ogg
@@ -17,8 +20,10 @@
     visuals:
       enum.ToggleableVisuals.Enabled:
         enum.ToggleableVisuals.Layer:
-          True: { visible: true }
-          False: { visible: false }
+          true:
+            visible: true
+          false:
+            visible: false
   - type: Item
     size: Small
     sprite: Objects/Tools/welder.rsi
@@ -38,12 +43,12 @@
     activatedSoundOnHit:
       path: /Audio/Weapons/Guns/Hits/energy_meat1.ogg
       params:
-        variation: 0.250
+        variation: 0.25
         volume: -10
     activatedSoundOnHitNoDamage:
       path: /Audio/Weapons/Guns/Hits/energy_meat1.ogg
       params:
-        variation: 0.250
+        variation: 0.25
         volume: -12
     deactivatedSoundOnHitNoDamage:
       collection: MetalThud
@@ -55,9 +60,9 @@
   - type: ItemToggleHot
   - type: ComponentToggler
     components:
-    - type: IgniteOnMeleeHit
     - type: DisarmMalus
       malus: 0.6
+    - type: IgniteOnMeleeHit
   - type: ToggleableVisuals
     spriteLayer: flame
     inhandVisuals:
@@ -72,7 +77,7 @@
     wideAnimationRotation: -90
     damage:
       types:
-        Blunt: 5 #i mean... i GUESS you could use it like that
+        Blunt: 5
     soundHit:
       collection: MetalThud
   - type: RefillableSolution
@@ -80,8 +85,7 @@
   - type: Tool
     useSound:
       collection: Welder
-    qualities: [ Welding ]
-  - type: ToolTileCompatible # Starlight - allow using welders on tiles (e.g. to repair damaged hull plate)
+    qualities: Welding
   - type: Welder
   - type: PointLight
     enabled: false
@@ -98,26 +102,6 @@
     price: 40
   - type: IgnitionSource
     temperature: 700
-  # Moffstation - Start - More Sparks
-  - type: ESSparkOnItemToggle
-    count: 1
-    sparkPrototype: MoffEffectSparksSilent
-  # Moffstation - End
-  # 🌟Starlight-start🌟
-  - type: Tag
-    tags:
-    - ThermiteIgnitor
-  - type: SurgeryTool
-  - type: Cautery
-    successRate: 0.75
-    startSound:
-      path: /Audio/_Starlight/Medical/Surgery/cautery1.ogg
-    endSound:
-      path: /Audio/_Starlight/Medical/Surgery/cautery2.ogg
-  - type: WelderSurgery
-    startSound:
-      /Audio/Items/welder.ogg
-  # 🌟Starlight-end🌟
 
 - type: entity
   parent: [SolutionToolWelder, BaseWelder]

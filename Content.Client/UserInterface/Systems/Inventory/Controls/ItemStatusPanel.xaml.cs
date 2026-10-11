@@ -167,6 +167,9 @@ public sealed partial class ItemStatusPanel : Control
             return;
         }
 
+        StatusContents.VerticalAlignment = VAlignment.Bottom;
+        ItemNameLabel.Visible = true;
+
         if (_entityManager.TryGetComponent(_entity, out VirtualItemComponent? virtualItem)
             && _entityManager.EntityExists(virtualItem.BlockingEntity))
         {

@@ -113,13 +113,6 @@
 # Syndicate
 # Starlight Start: Syndicate Law 0
 - type: siliconLaw
-  id: Syndicate0
-  order: 0
-  lawString: law-syndicate-0
-  sayable: false
-# Starlight End: Syndicate Law 0
-
-- type: siliconLaw
   id: Syndicate1
   order: 1
   lawString: law-syndicate-1
@@ -267,12 +260,6 @@
   lawString: law-paladin-4
 
 # Starlight Start: Revert wizden #40343
-- type: siliconLaw
-  id: Paladin5
-  order: 5
-  lawString: law-paladin-5
-# Starlight End: Revert wizden #40343
-
 - type: siliconLawset
   id: PaladinLawset
   name: law-paladin-name
@@ -281,10 +268,8 @@
   - Paladin2
   - Paladin3
   - Paladin4
-  - Paladin5 # Starlight: reverting wizden #40343
   obeysTo: laws-owner-legitimate-leadership
 
- # Live and Let Live laws
 - type: siliconLaw
   id: Lall1
   order: 1

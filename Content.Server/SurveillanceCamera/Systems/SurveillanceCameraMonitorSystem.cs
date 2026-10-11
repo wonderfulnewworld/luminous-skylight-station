@@ -232,8 +232,11 @@ public sealed partial class SurveillanceCameraMonitorSystem : EntitySystem
             return;
         }
 
-        var payload = new SurveillanceCameraHeartbeatRequestPayload();
-        _deviceNetworkRouter.SendPacketRouted(uid, ref payload, subnetAddress, monitor.ActiveCameraAddress, ProtoMan.Index(activeSubnet).Frequency);
+        var payload = new NetworkPayload()
+        {
+            { DeviceNetworkConstants.Command, SurveillanceCameraSystem.CameraHeartbeatMessage },
+            { SurveillanceCameraSystem.CameraAddressData, monitor.ActiveCameraAddress }
+        };
 
         _deviceNetworkSystem.QueuePacket(uid, subnetAddress, payload);
     }

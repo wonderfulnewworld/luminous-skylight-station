@@ -1,15 +1,17 @@
 - type: entity
-  parent: [BaseMob, StripableInventoryBase, BaseSiliconLanguages] #Starlight Languages #starlight Nubody will not pass.
+  parent:
+  - BaseMob
+  - StripableInventoryBase
   id: BaseBorgChassisNotIonStormable
   name: cyborg
   description: A man-machine hybrid that assists in station activity. They love being asked to state their laws over and over.
   save: false
   abstract: true
   components:
-  - type: TextToSpeech
   - type: Reactive
     groups:
-      Acidic: [Touch]
+      Acidic:
+      - Touch
   - type: DamageOnHighSpeedImpact
     damage:
       types:
@@ -23,8 +25,7 @@
   - type: Fixtures
     fixtures:
       fix1:
-        shape:
-          !type:PhysShapeCircle
+        shape: !type:PhysShapeCircle
           radius: 0.35
         density: 300
         mask:
@@ -32,10 +33,10 @@
         layer:
         - MobLayer
   - type: MovementSpeedModifier
-    baseWalkSpeed : 2.5
-    baseSprintSpeed : 4.5
+    baseWalkSpeed: 2.5
+    baseSprintSpeed: 4.5
   - type: Sprite
-    sprite: Mobs/Silicon/Chassis/generic.rsi
+    sprite: Mobs/Silicon/chassis.rsi
   - type: RotationVisuals
     horizontalRotation: 90
   - type: MobState
@@ -46,25 +47,21 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-#region Starlight
-      75: Critical
-      225: Dead # Same as destruction threshold. Borgs act exactly like crit when dead, except for ghosting on move
+      100: Critical
+      300: Dead
     stateAlertDict:
       Alive: BorgHealth
       Critical: BorgCrit
       Dead: BorgDead
     showOverlays: false
     allowRevives: true
-  - type: ArmorSparkEffect
-    alwaysSparks: true
-#endregion
   - type: HealthExaminable
     examinableTypes:
-      - Blunt
-      - Slash
-      - Piercing
-      - Heat
-      - Shock
+    - Blunt
+    - Slash
+    - Piercing
+    - Heat
+    - Shock
     locPrefix: silicon
   - type: UserInterface
     interfaces:
@@ -75,7 +72,6 @@
         type: BorgBoundUserInterface
       enum.StrippingUiKey.Key:
         type: StrippableBoundUserInterface
-      # Only used for NT borgs that can switch type, defined here to avoid copy-pasting the rest of this component.
       enum.BorgSwitchableTypeUiKey.SelectBorgType:
         type: BorgSelectTypeUserInterface
   - type: ActivatableUI
@@ -94,9 +90,6 @@
     showInHands: false
     disableExplosionRecursion: true
     canBeStripped: false
-  - type: HandlessDoAfter # Starlight
-  - type: CanCrawlWithoutHands # Starlight: Allow crawling without hands
-  - type: BorgModuleCrawlModifier # Starlight: Half crawl speed when module active
   - type: ComplexInteraction
   - type: IntrinsicRadioReceiver
   - type: IntrinsicRadioTransmitter
@@ -111,7 +104,7 @@
     - Science
   - type: ZombieImmune
   - type: Repairable
-    damageValue: -10 # 10 seconds to repair from crit
+    damageValue: -10
     doAfterDelay: 1
     fuelCost: 0.5
     allowSelfRepair: false
@@ -127,30 +120,23 @@
     group: Silicon
   - type: ContainerContainer
     containers:
-      borg_brain: !type:ContainerSlot { }
-      cell_slot: !type:ContainerSlot { }
-      borg_module: !type:Container { }
-      part-container: !type:Container
+      borg_brain: !type:ContainerSlot {}
+      cell_slot: !type:ContainerSlot {}
+      borg_module: !type:Container {}
+      part-container: !type:Container ''
   - type: PowerCellSlot
     cellSlotId: cell_slot
     fitsInCharger: true
   - type: Access
-    enabled: false # needs a player so that scientists can't drag around an empty borg for free AA
+    enabled: false
   - type: PowerCellDraw
     drawRate: 0.6
-    enabled: false # the borg is only activated when a player takes over, otherwise the battery is likely empty
+    enabled: false
   - type: ItemSlots
     slots:
       cell_slot:
         name: power-cell-slot-component-slot-name-default
-        #Starlight Start
-        blacklist:
-          tags:
-          - MechReactor
-        #Starlight End
-  # Starlight - start
   - type: Body
-  # Starlight - end
   - type: StatusEffects
     allowed:
     - Flashed
@@ -159,7 +145,6 @@
   - type: Speech
     speechVerb: Robotic
     speechSounds: Borg
-    allowedEmotes: ['Beep', 'Ping', 'Buzz', 'Buzz-Two', 'Chime', 'Honk']
   - type: Vocal
     sounds:
       Unsexed: UnisexSilicon
@@ -185,23 +170,18 @@
   - type: LockedWiresPanel
   - type: Damageable
     damageContainer: Silicon
-#region Starlight
-    damageModifierSet: CivilianSilicon
   - type: Destructible
     thresholds:
-    - trigger:
-        !type:DamageTrigger
-        damage: 50
+    - trigger: !type:DamageTrigger
+        damage: 75
       behaviors:
       - !type:PlaySoundBehavior
         sound:
           path: /Audio/Machines/warning_buzzer.ogg
           params:
             volume: 5
-    - trigger:
-        !type:DamageTrigger
-        damage: 225
-#endregion
+    - trigger: !type:DamageTrigger
+        damage: 300
       behaviors:
       - !type:PlaySoundBehavior
         sound:
@@ -212,14 +192,13 @@
         - borg_module
         - cell_slot
       - !type:DoActsBehavior
-        acts: [ "Destruction" ]
+        acts:
+        - Destruction
   - type: HandheldLight
     toggleOnInteract: false
     wattage: 0.2
     blinkingBehaviourId: blinking
     radiatingBehaviourId: radiating
-  # These two components are required to make HandheldLight work, even though we don't even have ItemToggle.
-  # The code is a total mess and needs a complete rewrite.
   - type: ItemTogglePointLight
   - type: ToggleableVisuals
     spriteLayer: light
@@ -241,7 +220,7 @@
       isLooped: true
   - type: PointLight
     enabled: false
-    lightMask: ConeSingle
+    mask: /Textures/Effects/LightMasks/cone.png
     autoRot: true
     radius: 4
     netsync: false
@@ -256,7 +235,6 @@
     - CanPilot
     - SiliconEmotes
     - Unimplantable
-    - SiliconEmotesFH #FH, yes it's intentional that there's two of them.
   - type: Emoting
   - type: GuideHelp
     guides:
@@ -266,29 +244,13 @@
   - type: DamageOnInteractProtection
     damageProtection:
       flatReductions:
-        Heat: 10 # capable of touching light bulbs and stoves without feeling pain!
+        Heat: 10
   - type: BypassLock
     openWiresPanel: true
   - type: BypassLockRequiresMobState
     requiredMobState:
     - Critical
     - Dead
-  #region Starlight
-  - type: CyborgSparkEffect
-  - type: StationAIShunt #Starlight allow shunting into all borgs
-  - type: BorgSwitchableSubtype # Afterlight change
-  - type: Crawler
-  - type: BatteryAlert
-  - type: Blindable
-  - type: EyeProtection
-  - type: Stripping
-  - type: InteractionPopup # All Borgs should now be pettable again
-    interactSuccessString: petting-success-generic-cyborg
-    interactFailureString: petting-failure-generic-cyborg
-    interactSuccessSound:
-      path: /Audio/Ambience/Objects/periodic_beep.ogg
-  #endregion
-  - type: GlitchOnEMP #Far Horizons
 
 - type: entity
   abstract: true
@@ -483,10 +445,11 @@
 # end region starlight
 
 - type: entity
-  parent: [BaseXenoSiliconLanguages, BaseBorgChassisNotIonStormable] # Starlight, they can understand xeno
+  parent: BaseBorgChassisNotIonStormable
   id: BaseXenoborgChassis
   name: xenoborg
-  description: A man-machine hybrid that aims to replicate itself. They love extracting brains to insert into fresh Xenoborg chassis to grow their army.
+  description: A man-machine hybrid that aims to replicate itself. They love extracting brains to insert into fresh Xenoborg
+    chassis to grow their army.
   save: false
   abstract: true
   components:
@@ -496,32 +459,26 @@
   - type: NameIdentifier
     group: Xenoborg
   - type: Sprite
-    sprite: Mobs/Silicon/Chassis/generic.rsi
-#region Starlight
-  - type: Damageable
-    damageModifierSet: ArmoredSilicon
+    sprite: Mobs/Silicon/chassis.rsi
   - type: MobThresholds
-    thresholds: # slightly tankier than a normal borg
+    thresholds:
       0: Alive
-      100: Critical
-      300: Dead # Same as destruction threshold. Borgs act exactly like crit when dead, except for ghosting on move
-#endregion
-  - type: EmagSiliconLaw # should xenoborgs be emagable?
+      125: Critical
+      375: Dead
+  - type: EmagSiliconLaw
     stunTime: 5
   - type: SiliconLawProvider
-    laws: XenoborgLawset # custom laws here
-  - type: IntrinsicRadioTransmitter # can only use binary and xenoborg channel
+    laws: XenoborgLawset
+  - type: IntrinsicRadioTransmitter
     channels:
     - Xenoborg
-    # - Binary # Starlight edit: We can't have nice things
-  - type: ActiveRadio # but can hear the mothership channel
+    - Binary
+  - type: ActiveRadio
     channels:
     - Mothership
     - Xenoborg
     - Binary
   - type: BorgChassis
-    jobIconOverride: JobIconXenoborg # Starlight
-    jobTitleOverride: chat-radio-xenoborg # Starlight
     maxModules: 0
     hasMindState: robot_e
     noMindState: robot_e_r
@@ -544,41 +501,28 @@
   - type: FootstepModifier
     footstepSoundCollection:
       collection: FootstepXenoborg
-  # - type: SpamEmitSound # makes a creppy noise randomly
-  #   minInterval: 30
-  #   maxInterval: 45
-  #   sound:
-  #     path: /Audio/Machines/genetics.ogg
-  #     params:
-  #       volume: -8
-  #       maxDistance: 5
-  #       variation: 0.05
   - type: NpcFactionMember
     factions:
     - Xenoborg
   - type: Destructible
     thresholds:
-#region Starlight
-    - trigger:
-        !type:DamageTrigger
-        damage: 65
+    - trigger: !type:DamageTrigger
+        damage: 90
       behaviors:
       - !type:PlaySoundBehavior
         sound:
           path: /Audio/Machines/warning_buzzer_xenoborg.ogg
           params:
             volume: 5
-    - trigger:
-        !type:DamageTrigger
-        damage: 300
-#endregion
+    - trigger: !type:DamageTrigger
+        damage: 375
       behaviors:
       - !type:PlaySoundBehavior
         sound:
           collection: MetalBreak
       - !type:SpawnEntitiesBehavior
         spawn:
-          PinpointerMothershipPiece: # drop a piece of core pinpointer upon being destructed (4 pieces to make a core pinpointer)
+          PinpointerMothershipPiece:
             min: 1
             max: 1
       - !type:EmptyContainersBehaviour
@@ -587,9 +531,10 @@
         - borg_module
         - cell_slot
       - !type:DoActsBehavior
-        acts: [ "Destruction" ]
+        acts:
+        - Destruction
   - type: PointLight
-    color: "#3010ff"
+    color: '#3010ff'
     energy: 7
   - type: GuideHelp
     guides:
@@ -600,14 +545,15 @@
     tags:
     - Xenoborg
   - type: AccessReader
-    access: [["Xenoborg"]]
-  - type: ShowJobIcons # not sure if it is needed
+    access:
+    - - Xenoborg
+  - type: ShowJobIcons
   - type: ShowCrewIcons
   - type: InteractionPopup
     interactSuccessSound:
       path: /Audio/Ambience/Objects/periodic_beep.ogg
   - type: Xenoborg
   - type: BypassLock
-    bypassDelay: 15 # We don't want people to easily be able to remove xenoborg brains.
+    bypassDelay: 15
   - type: EmpResistance
     strengthMultiplier: 0

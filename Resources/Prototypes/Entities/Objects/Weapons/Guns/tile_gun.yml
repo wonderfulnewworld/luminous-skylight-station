@@ -1,5 +1,7 @@
 - type: entity
-  parent: [BaseItem, BaseXenoborgContraband]
+  parent:
+  - BaseItem
+  - BaseXenoborgContraband
   id: WeaponTileGun
   name: tile gun
   description: A strange gun that shoots tiles. Shoot them with the floor!
@@ -10,7 +12,8 @@
     layers:
     - state: icon
     - state: mag-1
-      map: ["enum.GunVisualLayers.Mag"]
+      map:
+      - enum.GunVisualLayers.Mag
   - type: MagazineVisuals
     magState: mag
     steps: 7
@@ -21,15 +24,9 @@
   - type: Tool
     qualities:
     - Prying
-  - type: BlockItemNameInHand
-  - type: CustomSpriteAmmoCounter
-    loadedAmmoSprite: Interface/ItemStatus/Tiles/tile.png
-    spentAmmoSprite: Interface/ItemStatus/Tiles/tile_empty.png
-    numberOfRows: 3
   - type: AmmoCounter
   - type: Gun
     fireRate: 4
-    projectileSpeed: 30 # Starlight
     maxAngle: 15
     minAngle: 1
     selectedMode: FullAuto
@@ -45,15 +42,20 @@
       components:
       - FloorTile
     capacity: 27
-    proto: FloorTileItemXenoborg
+    proto: FloorTileItemSteel
     soundInsert:
-      path: /Audio/_Starlight/Weapons/Guns/MagIn/tile_load.ogg # Starlight, can't use NC sounds
+      path: /Audio/Weapons/Guns/MagIn/tile_load.ogg
   - type: ContainerContainer
     containers:
       ballistic-ammo: !type:Container
         ents: []
   - type: StaticPrice
     price: 5000
+  - type: BlockItemNameInHand
+  - type: CustomSpriteAmmoCounter
+    loadedAmmoSprite: Interface/ItemStatus/Tiles/tile.png
+    spentAmmoSprite: Interface/ItemStatus/Tiles/tile_empty.png
+    numberOfRows: 3
 
 - type: entity
   parent: WeaponTileGun

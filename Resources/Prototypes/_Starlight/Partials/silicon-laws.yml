@@ -1,0 +1,4 @@
+- type: !PartialOnly 'siliconLawset'
+  id: PaladinLawset
+  laws:
+  - !Index:4 'Paladin5'

@@ -1,8 +1,231 @@
-- type: !PartialOnly entity
+- type: !PartialOnly 'entity'
   id: XenoborgEngi
+  suffix: No Brain
   components:
+  - type: BorgTransponder
+    sprite:
+      sprite: Mobs/Silicon/Chassis/xeno_engi.rsi
+      state: borg
+  - type: Sprite
+    sprite: Mobs/Silicon/Chassis/xeno_engi.rsi
+    layers:
+    - !Index:2
+      state: borg_l
+      shader: unshaded
+      map:
+      - light
+      visible: false
+    - !Index:1
+      state: borg_e
+      map:
+      - enum.BorgVisualLayers.Light
+      shader: unshaded
+      visible: false
+    - !Index:0
+      state: borg
+    - !Remove
+      state: xenoborg_engi_l
+      shader: unshaded
+      map:
+      - light
+      visible: false
+    - !Remove
+      state: xenoborg_engi_e
+      map:
+      - enum.BorgVisualLayers.Light
+      shader: unshaded
+      visible: false
+    - !Remove
+      state: xenoborg_engi
+  - type: BorgChassis
+    maxModules: 8
+    hasMindState: borg_e
+    noMindState: borg_e_r
+  - type: ContainerFill
+    containers:
+      borg_brain: !Remove ''
+      borg_module:
+      - !Index:3 'XenoborgModuleRCD'
+      - !Remove 'BorgModuleRCD'
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        blacklist:
+          tags:
+          - MechReactor
   - type: ShowHealthBars
     damageContainers:
     - IPC
     - Hybrid
     - MoffDemonInorganic
+
+- type: !PartialOnly 'entity'
+  id: XenoborgHeavy
+  suffix: No Brain
+  components:
+  - type: BorgTransponder
+    sprite:
+      sprite: Mobs/Silicon/Chassis/xeno_heavy.rsi
+      state: borg
+  - type: Sprite
+    sprite: Mobs/Silicon/Chassis/xeno_heavy.rsi
+    layers:
+    - !Index:2
+      state: borg_l
+      shader: unshaded
+      map:
+      - light
+      visible: false
+    - !Index:1
+      state: borg_e
+      map:
+      - enum.BorgVisualLayers.Light
+      shader: unshaded
+      visible: false
+    - !Index:0
+      state: borg
+    - !Remove
+      state: xenoborg_heavy_l
+      shader: unshaded
+      map:
+      - light
+      visible: false
+    - !Remove
+      state: xenoborg_heavy_e
+      map:
+      - enum.BorgVisualLayers.Light
+      shader: unshaded
+      visible: false
+    - !Remove
+      state: xenoborg_heavy
+  - type: BorgChassis
+    hasMindState: borg_e
+    noMindState: borg_e_r
+  - type: MobThresholds
+    thresholds:
+      250: !Remove ''
+      750: !Remove ''
+      150: Critical
+      400: Dead
+  - type: Destructible
+    thresholds:
+    - !Index:1
+      trigger: !type:DamageTrigger
+        damage: 400
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          PinpointerMothershipPiece:
+            min: 1
+            max: 1
+      - !type:EmptyContainersBehaviour
+        containers:
+        - borg_brain
+        - borg_module
+        - cell_slot
+      - !type:DoActsBehavior
+        acts:
+        - Destruction
+    - !Index:0
+      trigger: !type:DamageTrigger
+        damage: 112
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          path: /Audio/Machines/warning_buzzer_xenoborg.ogg
+          params:
+            volume: 5
+    - !Remove
+      trigger: !type:DamageTrigger
+        damage: 750
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          PinpointerMothershipPiece:
+            min: 1
+            max: 1
+      - !type:EmptyContainersBehaviour
+        containers:
+        - borg_brain
+        - borg_module
+        - cell_slot
+      - !type:DoActsBehavior
+        acts:
+        - Destruction
+    - !Remove
+      trigger: !type:DamageTrigger
+        damage: 190
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          path: /Audio/Machines/warning_buzzer_xenoborg.ogg
+          params:
+            volume: 5
+  - type: ContainerFill
+    containers:
+      borg_brain: !Remove ''
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        blacklist:
+          tags:
+          - MechReactor
+
+- type: !PartialOnly 'entity'
+  id: XenoborgScout
+  suffix: No Brain
+  components:
+  - type: BorgTransponder
+    sprite:
+      sprite: Mobs/Silicon/Chassis/xeno_scout.rsi
+      state: borg
+  - type: Sprite
+    sprite: Mobs/Silicon/Chassis/xeno_scout.rsi
+    layers:
+    - !Index:2
+      state: borg_l
+      shader: unshaded
+      map:
+      - light
+      visible: false
+    - !Index:1
+      state: borg_e
+      map:
+      - enum.BorgVisualLayers.Light
+      shader: unshaded
+      visible: false
+    - !Index:0
+      state: borg
+    - !Remove
+      state: xenoborg_scout_l
+      shader: unshaded
+      map:
+      - light
+      visible: false
+    - !Remove
+      state: xenoborg_scout_e
+      map:
+      - enum.BorgVisualLayers.Light
+      shader: unshaded
+      visible: false
+    - !Remove
+      state: xenoborg_scout
+  - type: BorgChassis
+    maxModules: 5
+    hasMindState: borg_e
+    noMindState: borg_e_r
+  - type: ContainerFill
+    containers:
+      borg_brain: !Remove ''
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        blacklist:
+          tags:
+          - MechReactor

@@ -64,18 +64,6 @@
 # Starlight start
 - type: latheRecipe
   parent: BaseXenoborgModulesRecipe
-  id: XenoborgModuleTileGunRecipe
-  result: XenoborgModuleTileGun
-  materials:
-    Steel: 1000 # Starlight, since they use crystals for these, but we don't have that pr yet.
-    Glass: 1000 # Starlight, support module, so cheaper.
-# Counted as Starlight because there's a chance wizden puts it above the door module instead, so I'm putting this here so future person merging this doesn't have to jump to another file to find it.
-# Starlight end
-
-## heavy xenoborg modules
-
-- type: latheRecipe
-  parent: BaseXenoborgModulesRecipe
   id: XenoborgModuleHeavyLaserRecipe
   result: XenoborgModuleHeavyLaser
   materials:

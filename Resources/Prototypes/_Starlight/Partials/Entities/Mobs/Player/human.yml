@@ -1,0 +1,5 @@
+- type: !PartialOnly 'entity'
+  id: MobHumanSyndicateAgentBase
+  components:
+  - type: RandomHumanoidAppearance
+    hair: HairBald

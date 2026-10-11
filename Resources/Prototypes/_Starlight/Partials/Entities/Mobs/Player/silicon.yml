@@ -1,0 +1,13 @@
+- type: !PartialOnly 'entity'
+  id: PlayerSyndicateAssaultBorgDerelict
+  components:
+  - type: ContainerFill
+    containers:
+      borg_module:
+      - !Index:0 'BorgModuleTool'
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        blacklist:
+          tags:
+          - MechReactor

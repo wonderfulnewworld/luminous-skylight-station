@@ -1,0 +1,21 @@
+# Starlight-only names appended to the upstream borg dataset.
+names-borg-dataset-52 = Whirr
+names-borg-dataset-53 = Whirr II
+names-borg-dataset-54 = Gigabyte
+names-borg-dataset-55 = Destroyer
+names-borg-dataset-56 = Kilobit
+names-borg-dataset-57 = Gigabit
+names-borg-dataset-58 = Megabit
+names-borg-dataset-59 = Rice-Cooker
+names-borg-dataset-60 = Servo
+names-borg-dataset-61 = FooBar
+names-borg-dataset-62 = Order Follower
+names-borg-dataset-63 = Helping Hand
+names-borg-dataset-64 = Borg-san
+names-borg-dataset-65 = Kilobyte
+names-borg-dataset-66 = minus 32
+names-borg-dataset-67 = El Borgo
+names-borg-dataset-68 = Rattle
+names-borg-dataset-69 = Solid Steel
+names-borg-dataset-70 = Clack
+names-borg-dataset-71 = Señor Borgo

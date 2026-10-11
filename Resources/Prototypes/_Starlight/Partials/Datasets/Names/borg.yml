@@ -1,0 +1,4 @@
+- type: !PartialOnly 'localizedDataset'
+  id: NamesBorg
+  values:
+    count: 71

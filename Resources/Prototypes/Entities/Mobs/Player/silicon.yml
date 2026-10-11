@@ -517,16 +517,6 @@
 
 #SL start
 - type: entity
-  parent: StationAiBrain
-  id: StationAiBrainConstructed
-  categories: [ HideSpawnMenu, DoNotMap ]
-  components:
-    - type: StationAiCustomization
-      renameAvailable: true
-#SL end
-
-# Hologram projection that the AI's eye tracks.
-- type: entity
   parent:
   - Incorporeal
   - BaseMob
@@ -971,7 +961,6 @@
       borg_brain:
       - PositronicBrain
       borg_module:
-      - BorgModuleTool # starlight
       - BorgModuleOperative
       - BorgModuleC20r
       - BorgModuleEsword
@@ -980,13 +969,8 @@
       cell_slot:
         name: power-cell-slot-component-slot-name-default
         startingItem: PowerCellHyper
-        #Starlight Start
-        blacklist:
-          tags:
-          - MechReactor
-        #Starlight End
   - type: RandomMetadata
-    nameSegments: # TODO: add unique syndieborg-specific names; right now this is the same pool that syndicate agents use
+    nameSegments:
     - NamesDeathCommandoFirst
     - NamesDeathCommandoLast
     nameFormat: name-format-standard

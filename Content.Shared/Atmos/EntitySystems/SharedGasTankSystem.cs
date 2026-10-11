@@ -75,7 +75,7 @@ public abstract partial class SharedGasTankSystem : EntitySystem
 
     private void OnGetActions(EntityUid uid, GasTankComponent component, GetItemActionsEvent args)
     {
-        if (!HasComp<InternalsComponent>(args.User))
+        if (!TryGetInternalsComp((uid, component), out _, out _, args.User))
             return;
 
         args.AddAction(ref component.ToggleActionEntity, component.ToggleAction);

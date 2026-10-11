@@ -645,3 +645,16 @@
   - RogueDrone2
   - RogueDrone3
   obeysTo: laws-owner-beings
+
+- type: siliconLaw
+  id: Syndicate0
+  order: 0
+  lawString: law-syndicate-0
+  sayable: false
+# Starlight End: Syndicate Law 0
+
+- type: siliconLaw
+  id: Paladin5
+  order: 5
+  lawString: law-paladin-5
+# Starlight End: Revert wizden #40343

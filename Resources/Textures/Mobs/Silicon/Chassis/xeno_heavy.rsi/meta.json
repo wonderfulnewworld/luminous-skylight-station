@@ -5,7 +5,7 @@
         "y": 32
     },
     "license": "CC-BY-SA-3.0",
-    "copyright": "xenoborg sprites, created and modified by Samuka-C (github)",
+    "copyright": "xenoborg sprites, created and modified by Samuka-C (github), xenoborg_heavy_rad by august-sun (Github)",
     "states": [
         {
             "name": "borg",
@@ -63,6 +63,10 @@
         },
         {
             "name": "borg_l",
+            "directions": 4
+        },
+        {
+            "name": "xenoborg_heavy_rad",
             "directions": 4
         }
     ]

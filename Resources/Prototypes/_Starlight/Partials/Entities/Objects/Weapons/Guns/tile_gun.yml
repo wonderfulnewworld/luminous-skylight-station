@@ -1,0 +1,9 @@
+- type: !PartialOnly 'entity'
+  id: WeaponTileGun
+  components:
+  - type: Gun
+    projectileSpeed: 30
+  - type: BallisticAmmoProvider
+    proto: FloorTileItemXenoborg
+    soundInsert:
+      path: /Audio/_Starlight/Weapons/Guns/MagIn/tile_load.ogg

@@ -118,6 +118,7 @@ public sealed partial class ElectrifiedComponent : Component
     [DataField(customTypeSerializer:typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
     public TimeSpan? NextShock;
 
+    /// <summary>
     /// Base conductivity, is combined coefficient of electrocution targets to check if electrocution attempts works.
     /// </summary>
     [DataField, AutoNetworkedField]
