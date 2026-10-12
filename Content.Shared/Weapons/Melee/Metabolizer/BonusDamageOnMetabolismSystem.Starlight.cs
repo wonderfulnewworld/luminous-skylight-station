@@ -10,8 +10,14 @@ namespace Content.Shared.Weapons.Melee.Metabolizer;
 
 public sealed partial class BonusDamageOnMetabolismSystem : EntitySystem
 {
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        SubscribeLocalEvent<DamageableComponent, AttackedEvent>(OnAttacked);
+    }
+
     // Evaluate each target separately so a matching metabolism does not poison every target of a wide swing.
-    [SubscribeLocalEvent]
     private void OnAttacked(Entity<DamageableComponent> target, ref AttackedEvent args)
     {
         if (!TryComp<BonusDamageOnMetabolismComponent>(args.Used, out var bonus) ||
