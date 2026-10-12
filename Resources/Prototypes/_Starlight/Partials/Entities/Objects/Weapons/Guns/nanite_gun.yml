@@ -1,0 +1,12 @@
+- type: !PartialOnly entity
+  id: WeaponNaniteGun
+  components:
+  - type: MeleeWeapon
+    wideAnimationRotation: 90
+    damage:
+      types:
+        Blunt: 8
+    soundHit:
+      collection: MetalThud
+  - type: AltFireMelee
+    attackType: Heavy

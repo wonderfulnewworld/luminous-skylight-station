@@ -64,9 +64,9 @@
     visuals:
       enum.ElectrifiedVisuals.ShowSparks:
         enum.ElectrifiedLayers.Sparks:
-          true:
+          True:
             visible: true
-          false:
+          False:
             visible: false
 
 - type: entity
