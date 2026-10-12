@@ -107,10 +107,14 @@ public sealed partial class GasTankComponent : Component, IGasMixtureHolder
     [DataField, AutoNetworkedField]
     public EntityUid? ToggleActionEntity;
 
+    // Starlight, expose pressure without networking the entire gas mixture.
+    [DataField, AutoNetworkedField]
+    public float TankPressure;
+
     /// <summary>
-    ///     Tracks elapsed time between client state updates for <see cref="GasMaxPressureHolderComponent"/>.
+    ///     Tracks elapsed time between client pressure updates for this tank.
     /// </summary>
-    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField] // Starlight, server-only update timer.
     public TimeSpan NextDirtyTime;
 
     /// <summary>

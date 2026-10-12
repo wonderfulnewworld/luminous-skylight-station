@@ -9,7 +9,7 @@ namespace Content.Client.Atmos.UI;
 /// <summary>
 /// Displays gas tank pressure information for <see cref="GasTankComponent"/>.
 /// </summary>
-/// <seealso cref="GasTankSystem"/>
+/// <seealso cref="Content.Client.Atmos.EntitySystems.GasTankSystem"/>
 public sealed partial class TankPressureStatusControl : PollingItemStatusControl<TankPressureStatusControl.Data>
 {
     private readonly Entity<GasTankComponent> _parent;
@@ -32,8 +32,8 @@ public sealed partial class TankPressureStatusControl : PollingItemStatusControl
     protected override Data PollData()
     {
         var tank = _parent.Comp;
-        var pressureKpa = tank.Air.Pressure;
-        var isValveOpen = tank.ReleaseValveOpen;
+        var pressureKpa = tank.TankPressure; // Starlight, missing a PR, change to tank.Air.Pressure when we get it.
+        var isValveOpen = tank.IsValveOpen; // Starlight, same but tank.ReleaseValveOpen.
 
         return new Data(pressureKpa, isValveOpen);
     }
