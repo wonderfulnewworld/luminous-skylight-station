@@ -1,6 +1,6 @@
 - type: !PartialOnly 'entity'
   id: XenoborgEngi
-  suffix: No Brain
+  suffix: Empty Chassis
   components:
   - type: BorgTransponder
     sprite:
@@ -36,7 +36,7 @@
 
 - type: !PartialOnly 'entity'
   id: XenoborgHeavy
-  suffix: No Brain
+  suffix: Empty Chassis
   components:
   - type: BorgTransponder
     sprite:
@@ -75,7 +75,7 @@
 
 - type: !PartialOnly 'entity'
   id: XenoborgScout
-  suffix: No Brain
+  suffix: Empty Chassis
   components:
   - type: BorgTransponder
     sprite:
@@ -100,3 +100,23 @@
         blacklist:
           tags:
           - MechReactor
+
+- type: !PartialOnly entity
+  id: XenoborgStealth
+  suffix: Empty Chassis
+
+- type: !PartialOnly entity
+  id: XenoborgEngiPrinted
+  suffix: Empty MMI
+
+- type: !PartialOnly entity
+  id: XenoborgHeavyPrinted
+  suffix: Empty MMI
+
+- type: !PartialOnly entity
+  id: XenoborgScoutPrinted
+  suffix: Empty MMI
+
+- type: !PartialOnly entity
+  id: XenoborgStealthPrinted
+  suffix: Empty MMI

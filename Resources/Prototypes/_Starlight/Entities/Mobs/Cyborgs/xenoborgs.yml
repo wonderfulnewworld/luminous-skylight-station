@@ -1,7 +1,7 @@
 - type: entity
   parent: XenoborgEngi
   id: XenoborgEngiFilled
-  suffix: Filled
+  suffix: With Brain
   components:
   - type: ContainerFill
     containers:
@@ -11,7 +11,7 @@
 - type: entity
   parent: XenoborgHeavy
   id: XenoborgHeavyFilled
-  suffix: Filled
+  suffix: With Brain
   components:
   - type: ContainerFill
     containers:
@@ -21,7 +21,7 @@
 - type: entity
   parent: XenoborgScout
   id: XenoborgScoutFilled
-  suffix: Filled
+  suffix: With Brain
   components:
   - type: ContainerFill
     containers:
@@ -31,7 +31,7 @@
 - type: entity
   parent: XenoborgStealth
   id: XenoborgStealthFilled
-  suffix: Filled
+  suffix: With Brain
   components:
   - type: ContainerFill
     containers:
