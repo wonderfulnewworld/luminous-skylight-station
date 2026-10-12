@@ -1123,34 +1123,6 @@
     minAngle: 1
     maxAngle: 2
 
-
-- type: entity
-  parent: [WeaponLaserCannon, BaseXenoborgContraband]
-  id: WeaponLaserCannonXenoborgShockfire
-  name: xenoborg shockfire cannon
-  components:
-  - type: Sprite
-    sprite: Objects/Weapons/Guns/Battery/xenoborg_burstfire.rsi
-    layers:
-    - state: base
-      map: [ "enum.GunVisualLayers.Base" ]
-    - state: mag-unshaded-4
-      map: [ "enum.GunVisualLayers.MagUnshaded" ]
-      shader: unshaded
-  - type: BatteryAmmoProvider
-    proto: ShockfireRay
-    fireCost: 100
-  - type: BatterySelfRecharger
-    autoRechargeRate: 30
-  # "remove" wield bonus and penalty so borgs can use it
-  - type: GunWieldBonus
-    minAngle: 0
-    maxAngle: 0
-  - type: Gun
-    fireRate: 2
-    minAngle: 1
-    maxAngle: 2
-
 #Green Shield Officer
 - type: entity
   name: MT-7G Magnum

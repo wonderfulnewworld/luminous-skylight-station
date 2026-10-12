@@ -13,13 +13,6 @@
   materials:
     XenoborgCrystal: 300
 
-- type: latheRecipe
-  parent: BaseXenoborgModulesRecipe
-  id: XenoborgModuleShockfireLaserRecipe
-  result: XenoborgModuleShockfireLaser
-  materials:
-    XenoborgCrystal: 200
-
 ## Scout Xenoborg Modules
 - type: latheRecipe
   parent: BaseXenoborgModulesRecipe

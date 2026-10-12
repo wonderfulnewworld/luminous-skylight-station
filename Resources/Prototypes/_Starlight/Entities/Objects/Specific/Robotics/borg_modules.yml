@@ -1443,33 +1443,6 @@
     icon: { sprite: _Starlight/Interface/Actions/actions_borg.rsi, state: xenoborg-laser3-module }
 
 - type: entity
-  parent: [ BaseXenoborgModuleHeavyWeapon, BaseProviderBorgModule, BaseXenoborgContraband ]
-  id: XenoborgModuleShockfireLaser
-  name: shockfire cannon xenoborg module
-  description: Module with a shockfire cannon.
-  components:
-  - type: Sprite
-    sprite: Objects/Specific/Robotics/borgmodule.rsi
-    layers:
-    - state: xenoborg_heavy
-    - state: icon-xenoborg-laser3
-  - type: BorgModuleWhitelist
-    moduleBlacklist:
-      tags:
-      - XenoborgModulePrimaryWeapon
-  - type: ItemBorgModule
-    hands:
-    - item: WeaponLaserCannonXenoborgShockfire
-    - item: XenoKnife
-  - type: BorgModuleIcon
-    icon: { sprite: Interface/Actions/actions_borg.rsi, state: xenoborg-laser3-module }
-  - type: Tag
-    tags:
-    - XenoborgModuleHeavy
-    - ModuleBlacklistXenoborgHeavyWeapon
-    - XenoborgModulePrimaryWeapon
-
-- type: entity
   parent: [ BaseXenoborgModuleStealthWeapon, BaseProviderBorgModule, BaseXenoborgContraband ]
   id: XenoborgModuleHypoPlus
   name: advanced hypo xenoborg module
