@@ -1,7 +1,5 @@
 - type: !PartialOnly 'entity'
   id: BaseBorgChassisNotIonStormable
-  parent:
-  - !Index:2 'BaseSiliconLanguages'
   components:
   - type: TextToSpeech
   - type: Sprite
@@ -35,54 +33,10 @@
     damageModifierSet: CivilianSilicon
   - type: Destructible
     thresholds:
-    - !Index:1
-      trigger: !type:DamageTrigger
-        damage: 225
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          collection: MetalBreak
-      - !type:EmptyContainersBehaviour
-        containers:
-        - borg_brain
-        - borg_module
-        - cell_slot
-      - !type:DoActsBehavior
-        acts:
-        - Destruction
-    - !Index:0
-      trigger: !type:DamageTrigger
+    - !CombineIndex:0 trigger:
         damage: 50
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          path: /Audio/Machines/warning_buzzer.ogg
-          params:
-            volume: 5
-    - !Remove
-      trigger: !type:DamageTrigger
-        damage: 300
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          collection: MetalBreak
-      - !type:EmptyContainersBehaviour
-        containers:
-        - borg_brain
-        - borg_module
-        - cell_slot
-      - !type:DoActsBehavior
-        acts:
-        - Destruction
-    - !Remove
-      trigger: !type:DamageTrigger
-        damage: 75
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          path: /Audio/Machines/warning_buzzer.ogg
-          params:
-            volume: 5
+    - !CombineIndex:1 trigger:
+        damage: 225
   - type: PointLight
     mask: !Remove ''
     lightMask: ConeSingle
@@ -106,9 +60,6 @@
 
 - type: !PartialOnly 'entity'
   id: BaseXenoborgChassis
-  parent:
-  - BaseXenoSiliconLanguages
-  - BaseBorgChassisNotIonStormable
   components:
   - type: Sprite
     sprite: Mobs/Silicon/Chassis/generic.rsi
@@ -128,61 +79,7 @@
     jobTitleOverride: chat-radio-xenoborg
   - type: Destructible
     thresholds:
-    - !Index:1
-      trigger: !type:DamageTrigger
-        damage: 300
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          collection: MetalBreak
-      - !type:SpawnEntitiesBehavior
-        spawn:
-          PinpointerMothershipPiece:
-            min: 1
-            max: 1
-      - !type:EmptyContainersBehaviour
-        containers:
-        - borg_brain
-        - borg_module
-        - cell_slot
-      - !type:DoActsBehavior
-        acts:
-        - Destruction
-    - !Index:0
-      trigger: !type:DamageTrigger
+    - !CombineIndex:0 trigger:
         damage: 65
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          path: /Audio/Machines/warning_buzzer_xenoborg.ogg
-          params:
-            volume: 5
-    - !Remove
-      trigger: !type:DamageTrigger
-        damage: 375
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          collection: MetalBreak
-      - !type:SpawnEntitiesBehavior
-        spawn:
-          PinpointerMothershipPiece:
-            min: 1
-            max: 1
-      - !type:EmptyContainersBehaviour
-        containers:
-        - borg_brain
-        - borg_module
-        - cell_slot
-      - !type:DoActsBehavior
-        acts:
-        - Destruction
-    - !Remove
-      trigger: !type:DamageTrigger
-        damage: 90
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          path: /Audio/Machines/warning_buzzer_xenoborg.ogg
-          params:
-            volume: 5
+    - !CombineIndex:1 trigger:
+        damage: 300

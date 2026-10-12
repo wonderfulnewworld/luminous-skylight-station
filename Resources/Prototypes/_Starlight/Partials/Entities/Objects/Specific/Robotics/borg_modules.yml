@@ -190,15 +190,5 @@
   components:
   - type: ComponentBorgModule
     components:
-    - !Index:0
-      type: SimpleSpriteOverlay
-      overlaySprite:
+    - !CombineIndex:0 overlaySprite:
         sprite: Mobs/Silicon/Chassis/xeno_heavy.rsi
-        state: xenoborg_heavy_rad
-      shader: unshaded
-    - !Remove
-      type: SimpleSpriteOverlay
-      overlaySprite:
-        sprite: Mobs/Silicon/chassis.rsi
-        state: xenoborg_heavy_rad
-      shader: unshaded

@@ -2,6 +2,7 @@
   parent:
   - BaseControllable
   - BaseStructure
+  - BaseXenoSiliconLanguages # Starlight - xenoborg languages
   id: MothershipCore
   name: mothership core
   description: A sentient machine that can produce Xenoborgs. Without this the Xenoborgs are doomed.
