@@ -192,3 +192,11 @@
     components:
     - !CombineIndex:0 overlaySprite:
         sprite: Mobs/Silicon/Chassis/xeno_heavy.rsi
+
+- type: !PartialOnly entity
+  id: XenoborgModuleGuidedMissileLauncher
+  components:
+  - type: ComponentBorgModule
+    components:
+    - !CombineIndex:0 overlaySprite:
+        sprite: Mobs/Silicon/Chassis/xeno_heavy.rsi

@@ -31,7 +31,8 @@ public sealed partial class EyeCursorOffsetSystem : EntitySystem
     [SubscribeLocalEvent]
     private void OnHeldRelayedOffset(Entity<CursorOffsetInHandComponent> entity, ref HeldRelayedEvent<GetEyeOffsetRelayedEvent> args)
     {
-        if (entity.Comp.UseActiveHand && (!_handsSystem.IsHeld(entity.Owner, out var holder) || _handsSystem.GetActiveItem(holder.Value) != entity))
+        if (entity.Comp.UseActiveHand &&
+            _handsSystem.GetActiveItem(Transform(entity).ParentUid) != entity.Owner)
             return;
 
         var offset = OffsetAfterMouse(entity.Owner, null);

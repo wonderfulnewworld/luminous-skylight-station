@@ -902,34 +902,6 @@
     rotateWithImpulse: true
 
 - type: entity
-  id: Bullet60mmRocket
-  name: 60mm rocket
-  parent: BaseBulletTrigger
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: Sprite
-    sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
-    layers:
-      - state: frag
-  - type: ExplodeOnTrigger
-  - type: Explosive
-    explosionType: Default
-    maxIntensity: 20
-    intensitySlope: 3
-    totalIntensity: 100
-    maxTileBreak: 1
-  - type: PointLight
-    radius: 3.5
-    color: orange
-    energy: 0.5
-  - type: RadarBlip # Starlight
-    color: "#44FFAA"
-    scale: 1
-    shape: Circle
-    requireInSpace: true
-  - type: PDTarget # Starlight
-
-- type: entity
   id: BulletGrenadeBaton
   name: baton grenade
   parent: BaseBullet
@@ -1429,41 +1401,6 @@
     damage:
       types:
         Heat: 20
-
-- type: entity
-  name: destroying bolt
-  id: BulletLaserDestroy
-  parent: BaseBullet
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: FlyBySound
-    sound:
-      collection: EnergyMiss
-      params:
-        volume: 5
-  - type: Sprite
-    sprite: Objects/Weapons/Guns/Projectiles/projectiles_tg.rsi
-    layers:
-    - state: heavylaser
-      shader: unshaded
-  - type: Physics
-  - type: Fixtures
-    fixtures:
-      projectile:
-        shape:
-          !type:PhysShapeAabb
-          bounds: "-0.15,-0.3,0.15,0.3"
-        hard: false
-        mask:
-        - Impassable
-        - BulletImpassable
-      fly-by: *flybyfixture
-  - type: Ammo
-  - type: Projectile
-    impactEffect: BulletImpactEffectOrangeDisabler
-    damage:
-      types:
-        Heat: 50
 
 - type: entity
   name: wide laser barrage

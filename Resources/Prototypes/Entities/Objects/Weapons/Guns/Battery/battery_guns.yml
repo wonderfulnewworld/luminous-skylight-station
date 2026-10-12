@@ -3,14 +3,9 @@
   parent: BaseItem
   id: BaseWeaponBatteryNoAmmoCounter
   components:
-  - type: RestrictByUserTag
-    doestContain:
-    - Abductor
-    messages:
-    - abductor-gun-restricted-1
   - type: Sprite
   - type: Item
-    size: Large # Starlight
+    size: Huge
   - type: Clothing
     sprite: Objects/Weapons/Guns/Battery/laser_retro.rsi
     quickEquip: false
@@ -1165,7 +1160,7 @@
   id: WeaponRangeFinderXenoborg
   name: xenoborg range finder
   components:
-  - type: Sprite 
+  - type: Sprite
     sprite: Objects/Weapons/Guns/Battery/xenoborg_range_finder.rsi
     layers:
     - state: icon

@@ -17,6 +17,7 @@ using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Serialization;
 using Robust.Shared.Timing;
+
 namespace Content.Shared.Projectiles;
 
 public abstract partial class SharedProjectileSystem : EntitySystem
@@ -31,7 +32,6 @@ public abstract partial class SharedProjectileSystem : EntitySystem
     [Dependency] private IGameTiming _timing = default!;
     [Dependency] private EntityWhitelistSystem _whitelist = null!;
     [Dependency] private SharedContainerSystem _containerSystem = default!;
-    [Dependency] private IGameTiming _timing = default!; //Starlight -- arming time
     [Dependency] private TagSystem _tag = default!; //Starlight -- arming time
 
     public override void Initialize()

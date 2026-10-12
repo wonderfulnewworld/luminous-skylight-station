@@ -15,3 +15,9 @@
   components:
   - type: PointLight
     castShadows: false
+
+- type: !PartialOnly entity
+  id: BaseHoloSign
+  components:
+  - type: Damageable
+    damageContainer: Inorganic

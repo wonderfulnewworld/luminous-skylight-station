@@ -78,3 +78,14 @@
     angleIncreaseDivider: 2
   - type: GunHeat
     heatPerShot: 1000
+
+- type: !PartialOnly 'entity'
+  id: BaseWeaponBatteryNoAmmoCounter
+  components:
+  - type: RestrictByUserTag
+    doestContain:
+    - Abductor
+    messages:
+    - abductor-gun-restricted-1
+  - type: Item
+    size: Large

@@ -5,7 +5,7 @@ using Robust.Shared.Prototypes;
 namespace Content.Shared.Weapons.Ranged.Components;
 
 /// <summary>
-/// If a gun with this component shots a projectile with <see cref="ChasingWalkComponent"/>,
+/// If a gun with this component shoots a projectile with <c>ChasingWalk</c>,
 /// it assigns the target as the target selected to the projectile.
 /// </summary>
 [RegisterComponent, NetworkedComponent]
