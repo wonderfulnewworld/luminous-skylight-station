@@ -42,14 +42,16 @@
     layer: Eyes
     prototypes:
       Default: MobIPCEyes
-  - type: HumanoidEMPCompositeElement
-    effect:
-      glitchDuration: 10.0
-      additionalEffects:
-        StatusEffectTemporaryBlindness: 2.0
-      damageAmount:
-        types:
-          Shock: 1
+  - type: OrganEmpTarget
+    baseDamage:
+      types:
+        Shock: 1
+    thresholds:
+      1:
+        glitchDuration: 10.0
+      6:
+        additionalEffects:
+          StatusEffectTemporaryBlindness: 2.0
 
 - type: entity
   id: OrganIPCTongue

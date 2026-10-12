@@ -66,23 +66,12 @@
     - type: GlitchOnIonStorm
       duration: 25
       ramp: 3
-    - type: HumanoidEMPComposite # HumanoidEMPComposite is used to gather EMP effects from HumanoidEMPCompositeElement components on all limbs and organs. These effects added in addition to effects in HumanoidEMP and won't work without it
-    - type: HumanoidEMP # HumanoidEMP is needed to receive EMP effects, it may carry its own innate effects, but doesn't have to
+    - type: HumanoidEMP
       effectCooldown: 2
-      effect:
-        knockdownAmount: 1.0
-        slowdownAmount: 15.0
-        walkSpeedModifier: 0.5
-        sprintSpeedModifier: 0.5
-        dropItemsFrom:
-          - body_part_slot_right hand
-          - body_part_slot_left hand
-        additionalEffects:
-          StatusEffectTemporaryBlindness: 2.0
-        damageAmount:
-          types:
-            Shock: 10
-            Heat: 10
+      baseDamage:
+        types:
+          Shock: 1
+          Heat: 1
     - type: TypingIndicator
       proto: robot
     - type: Speech

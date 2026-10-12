@@ -175,7 +175,7 @@
 - type: entity
   id: ActionShriekDissonant
   name: Dissonant Shriek
-  description: Emit an EMP blast, with just your voice. Costs 30 chemicals.
+  description: Emit an EMP blast (strength 6), with just your voice. Costs 30 chemicals. # Far Horizons
   categories: [ HideSpawnMenu ]
   components:
   - type: Action

@@ -26,30 +26,30 @@
         cavity: null
         brain_implant: null
     right arm:
-      part: RightArmSlime
+      part: RightArmNeoSlime
       connections:
       - right hand
     left arm:
-      part: LeftArmSlime
+      part: LeftArmNeoSlime
       connections:
       - left hand
     right hand:
-      part: RightHandSlime
+      part: RightHandNeoSlime
       organs:
         hand_implant: null
     left hand:
-      part: LeftHandSlime
+      part: LeftHandNeoSlime
       organs:
         hand_implant: null
     right leg:
-      part: RightLegSlime
+      part: RightLegNeoSlime
       connections:
       - right foot
     left leg:
-      part: LeftLegSlime
+      part: LeftLegNeoSlime
       connections:
       - left foot
     right foot:
-      part: RightFootSlime
+      part: RightFootNeoSlime
     left foot:
-      part: LeftFootSlime
+      part: LeftFootNeoSlime

@@ -45,14 +45,14 @@
       organs:
         hand_implant: null
     right leg:
-      part: RightLegVulpkanin
+      part: RightLegNeoVulpkanin
       connections:
       - right foot
     left leg:
-      part: LeftLegVulpkanin
+      part: LeftLegNeoVulpkanin
       connections:
       - left foot
     right foot:
-      part: RightFootVulpkanin
+      part: RightFootNeoVulpkanin
     left foot:
-      part: LeftFootVulpkanin
+      part: LeftFootNeoVulpkanin

@@ -29,30 +29,30 @@
         kidneys: OrganNeocyteKidneys
         cavity: null
     right arm:
-      part: RightArmShadekin
+      part: RightArmNeoShadekin
       connections:
       - right hand
     left arm:
-      part: LeftArmShadekin
+      part: LeftArmNeoShadekin
       connections:
       - left hand
     right hand:
-      part: RightHandShadekin
+      part: RightHandNeoShadekin
       organs:
         hand_implant: null
     left hand:
-      part: LeftHandShadekin
+      part: LeftHandNeoShadekin
       organs:
         hand_implant: null
     right leg:
-      part: RightLegShadekin
+      part: RightLegNeoShadekin
       connections:
       - right foot
     left leg:
-      part: LeftLegShadekin
+      part: LeftLegNeoShadekin
       connections:
       - left foot
     right foot:
-      part: RightFootShadekin
+      part: RightFootNeoShadekin
     left foot:
-      part: LeftFootShadekin
+      part: LeftFootNeoShadekin

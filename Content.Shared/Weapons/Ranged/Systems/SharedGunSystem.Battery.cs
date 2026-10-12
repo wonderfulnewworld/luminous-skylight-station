@@ -29,6 +29,7 @@ public abstract partial class SharedGunSystem
     private void OnBatteryExamine(Entity<BatteryAmmoProviderComponent> ent, ref ExaminedEvent args)
     {
         args.PushMarkup(Loc.GetString("gun-battery-examine", ("color", AmmoExamineColor), ("count", ent.Comp.Shots)));
+        ExamineEmpAmmo(ent.Comp.Prototype, ref args); // Starlight
     }
 
     private void OnBatteryDamageExamine(Entity<BatteryAmmoProviderComponent> ent, ref DamageExamineEvent args)

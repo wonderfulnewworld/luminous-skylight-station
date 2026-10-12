@@ -26,30 +26,30 @@
         lungs: OrganNeoDionaLungsNymph
         cavity: null
     right arm:
-      part: RightArmDiona
+      part: RightArmNeoDiona
       connections:
       - right hand
     left arm:
-      part: LeftArmDiona
+      part: LeftArmNeoDiona
       connections:
       - left hand
     right hand:
-      part: RightHandDiona
+      part: RightHandNeoDiona
       organs:
         hand_implant: null
     left hand:
-      part: LeftHandDiona
+      part: LeftHandNeoDiona
       organs:
         hand_implant: null
     right leg:
-      part: RightLegDiona
+      part: RightLegNeoDiona
       connections:
       - right foot
     left leg:
-      part: LeftLegDiona
+      part: LeftLegNeoDiona
       connections:
       - left foot
     right foot:
-      part: RightFootDiona
+      part: RightFootNeoDiona
     left foot:
-      part: LeftFootDiona
+      part: LeftFootNeoDiona

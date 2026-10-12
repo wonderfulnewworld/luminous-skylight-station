@@ -12,11 +12,10 @@
       reagents:
       - ReagentId: Iron
         Quantity: 30
-  - type: HumanoidEMPCompositeElement
-    effect:
-      damageAmount:
-        types:
-          Shock: 5
+  - type: OrganEmpTarget
+    baseDamage:
+      types:
+        Shock: 5
 
 - type: entity
   id: CyberEyeNightVision
@@ -36,14 +35,17 @@
       Default: CyberEyesNightVision
       Resomi: ResomiCyberEyesNightVision
       Experiment: ExperimentCyberEyesNightVision
-  - type: HumanoidEMPCompositeElement
-    effect:
-      glitchDuration: 10.0
-      additionalEffects:
-        StatusEffectTemporaryBlindness: 2.0
-      damageAmount:
-        types:
-          Shock: 5
+  - type: OrganEmpTarget
+    baseDamage:
+      types:
+        Shock: 5
+    thresholds:
+      1:
+        glitchDuration: 5.0
+      6:
+        glitchDuration: 5.0
+        additionalEffects:
+          StatusEffectTemporaryBlindness: 2.0
 
 - type: entity
   id: CyberEyeThermal
@@ -63,14 +65,17 @@
       Default: CyberEyesThermalVision
       Resomi: ResomiCyberEyesThermalVision
       Experiment: ExperimentCyberEyesThermalVision
-  - type: HumanoidEMPCompositeElement
-    effect:
-      glitchDuration: 10.0
-      additionalEffects:
-        StatusEffectTemporaryBlindness: 2.0
-      damageAmount:
-        types:
-          Shock: 5
+  - type: OrganEmpTarget
+    baseDamage:
+      types:
+        Shock: 5
+    thresholds:
+      1:
+        glitchDuration: 5.0
+      6:
+        glitchDuration: 5.0
+        additionalEffects:
+          StatusEffectTemporaryBlindness: 2.0
 
 - type: entity
   id: BudgetCyberEyes
@@ -102,14 +107,17 @@
       Cyclorite: MobCycloriteEyes
       Abductor: MobAbductorEyes
       Experiment: MobExperimentEyes
-  - type: HumanoidEMPCompositeElement
-    effect:
-      glitchDuration: 10.0
-      additionalEffects:
-        StatusEffectTemporaryBlindness: 2.0
-      damageAmount:
-        types:
-          Shock: 5
+  - type: OrganEmpTarget
+    baseDamage:
+      types:
+        Shock: 5
+    thresholds:
+      1:
+        glitchDuration: 5.0
+      6:
+        glitchDuration: 5.0
+        additionalEffects:
+          StatusEffectTemporaryBlindness: 2.0
 
 - type: entity
   id: BudgetCyberTongue

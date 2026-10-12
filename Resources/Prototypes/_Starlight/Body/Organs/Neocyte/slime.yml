@@ -80,6 +80,17 @@
         Bloodloss: 10
         Radiation: 10
         Caustic: 10
+  - type: OrganEmpTarget
+    baseDamage:
+      types:
+        Shock: 1
+    thresholds:
+      1:
+        glitchDuration: 5.0
+      6:
+        glitchDuration: 5.0
+        additionalEffects:
+          StatusEffectTemporaryBlindness: 2.0
 
 - type: entity
   id: OrganNeoSlimeSlurpoid

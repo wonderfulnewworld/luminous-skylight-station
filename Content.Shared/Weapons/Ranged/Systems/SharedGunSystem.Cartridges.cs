@@ -26,6 +26,7 @@ public abstract partial class SharedGunSystem
         args.PushMarkup(ent.Comp.Spent
             ? Loc.GetString("gun-cartridge-spent")
             : Loc.GetString("gun-cartridge-unspent"));
+        ExamineEmpAmmo(ent.Comp.Prototype, ref args); // Starlight
     }
 
     #region Starlight

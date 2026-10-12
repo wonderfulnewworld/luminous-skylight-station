@@ -35,3 +35,7 @@
   components:
   - type: RattleOnTrigger
     radioChannel: [CentCom] # List
+
+- type: !PartialOnly entity
+  id: EmpImplant
+  description: This implant creates an electromagnetic pulse (strength 5) when activated. # Far Horizons

@@ -1514,7 +1514,7 @@
       range: 2
       energyConsumption: 30000
       disableDuration: 10
-      strength: 4 # Far Horizons
+      strength: 8 # Far Horizons
   - type: HitscanBasicVisuals
     bullet:
       sprite:

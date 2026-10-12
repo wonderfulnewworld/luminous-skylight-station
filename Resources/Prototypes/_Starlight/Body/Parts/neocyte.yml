@@ -53,7 +53,7 @@
 - type: entity
   id: LeftArmNeocyte
   name: left neocyte arm
-  parent: [PartNeocyte, BaseLeftArm]
+  parent: [BaseNeocyteArmLeft, PartNeocyte, BaseLeftArm]
   components:
   - type: Sprite
     sprite: _FarHorizons/Mobs/Species/Protogen/parts.rsi
@@ -62,7 +62,7 @@
 - type: entity
   id: RightArmNeocyte
   name: right neocyte arm
-  parent: [PartNeocyte, BaseRightArm]
+  parent: [BaseNeocyteArmRight, PartNeocyte, BaseRightArm]
   components:
   - type: Sprite
     sprite: _FarHorizons/Mobs/Species/Protogen/parts.rsi
@@ -71,7 +71,7 @@
 - type: entity
   id: LeftHandNeocyte
   name: left neocyte hand
-  parent: [PartNeocyte, BaseLeftHand]
+  parent: [BaseNeocyteHandLeft, PartNeocyte, BaseLeftHand]
   components:
   - type: Sprite
     sprite: _FarHorizons/Mobs/Species/Protogen/parts.rsi
@@ -80,7 +80,7 @@
 - type: entity
   id: RightHandNeocyte
   name: right neocyte hand
-  parent: [PartNeocyte, BaseRightHand]
+  parent: [BaseNeocyteHandRight, PartNeocyte, BaseRightHand]
   components:
   - type: Sprite
     sprite: _FarHorizons/Mobs/Species/Protogen/parts.rsi
@@ -89,7 +89,7 @@
 - type: entity
   id: LeftLegNeocyte
   name: left neocyte leg
-  parent: [PartNeocyte, BaseLeftLeg]
+  parent: [BaseNeocyteLegLeft, PartNeocyte, BaseLeftLeg]
   components:
   - type: Sprite
     sprite: _FarHorizons/Mobs/Species/Protogen/parts.rsi
@@ -98,7 +98,7 @@
 - type: entity
   id: RightLegNeocyte
   name: right neocyte leg
-  parent: [PartNeocyte, BaseRightLeg]
+  parent: [BaseNeocyteLegRight, PartNeocyte, BaseRightLeg]
   components:
   - type: Sprite
     sprite: _FarHorizons/Mobs/Species/Protogen/parts.rsi
@@ -107,7 +107,7 @@
 - type: entity
   id: LeftFootNeocyte
   name: left neocyte foot
-  parent: [PartNeocyte, BaseLeftFoot]
+  parent: [BaseNeocyteFootLeft, PartNeocyte, BaseLeftFoot]
   components:
   - type: Sprite
     sprite: _FarHorizons/Mobs/Species/Protogen/parts.rsi
@@ -116,7 +116,7 @@
 - type: entity
   id: RightFootNeocyte
   name: right neocyte foot
-  parent: [PartNeocyte, BaseRightFoot]
+  parent: [BaseNeocyteFootRight, PartNeocyte, BaseRightFoot]
   components:
   - type: Sprite
     sprite: _FarHorizons/Mobs/Species/Protogen/parts.rsi
@@ -215,3 +215,692 @@
   - type: Sprite
     sprite: _FarHorizons/Mobs/Species/Proto-Vox/parts.rsi
     state: "r_foot"
+
+- type: entity
+  id: BaseNeocyteArmLeft
+  abstract: true
+  components:
+  - type: OrganEmpTarget
+    bodyDamageFactor: 0.4
+    baseDamage:
+      types:
+        Shock: 2
+        Heat: 1
+    thresholds:
+      5:
+        dropItemsFrom:
+        - body_part_slot_left hand
+
+- type: entity
+  id: BaseNeocyteArmRight
+  abstract: true
+  components:
+  - type: OrganEmpTarget
+    bodyDamageFactor: 0.4
+    baseDamage:
+      types:
+        Shock: 2
+        Heat: 1
+    thresholds:
+      5:
+        dropItemsFrom:
+        - body_part_slot_right hand
+
+- type: entity
+  id: BaseNeocyteHandLeft
+  abstract: true
+  components:
+  - type: OrganEmpTarget
+    bodyDamageFactor: 0.2
+    baseDamage:
+      types:
+        Shock: 1
+    thresholds:
+      5:
+        dropItemsFrom:
+        - body_part_slot_left hand
+
+- type: entity
+  id: BaseNeocyteHandRight
+  abstract: true
+  components:
+  - type: OrganEmpTarget
+    bodyDamageFactor: 0.2
+    baseDamage:
+      types:
+        Shock: 1
+    thresholds:
+      5:
+        dropItemsFrom:
+        - body_part_slot_right hand
+
+- type: entity
+  id: BaseNeocyteLegLeft
+  abstract: true
+  components:
+  - type: OrganEmpTarget
+    bodyDamageFactor: 0.4
+    baseDamage:
+      types:
+        Shock: 2
+        Heat: 1
+    thresholds:
+      3:
+        slowdownAmount: 2.5
+        walkSpeedModifier: 0.5
+        sprintSpeedModifier: 0.5
+      7:
+        knockdownAmount: 0.25
+
+- type: entity
+  id: BaseNeocyteLegRight
+  abstract: true
+  components:
+  - type: OrganEmpTarget
+    bodyDamageFactor: 0.4
+    baseDamage:
+      types:
+        Shock: 2
+        Heat: 1
+    thresholds:
+      3:
+        slowdownAmount: 2.5
+        walkSpeedModifier: 0.5
+        sprintSpeedModifier: 0.5
+      7:
+        knockdownAmount: 0.25
+
+- type: entity
+  id: BaseNeocyteFootLeft
+  abstract: true
+  components:
+  - type: OrganEmpTarget
+    bodyDamageFactor: 0.2
+    baseDamage:
+      types:
+        Shock: 1
+    thresholds:
+      3:
+        slowdownAmount: 2.5
+        walkSpeedModifier: 0.5
+        sprintSpeedModifier: 0.5
+      7:
+        knockdownAmount: 0.25
+
+- type: entity
+  id: BaseNeocyteFootRight
+  abstract: true
+  components:
+  - type: OrganEmpTarget
+    bodyDamageFactor: 0.2
+    baseDamage:
+      types:
+        Shock: 1
+    thresholds:
+      3:
+        slowdownAmount: 2.5
+        walkSpeedModifier: 0.5
+        sprintSpeedModifier: 0.5
+      7:
+        knockdownAmount: 0.25
+
+- type: entity
+  id: RightArmNeoArachnid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmRight, RightArmArachnid]
+
+- type: entity
+  id: LeftArmNeoArachnid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmLeft, LeftArmArachnid]
+
+- type: entity
+  id: RightHandNeoArachnid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandRight, RightHandArachnid]
+
+- type: entity
+  id: LeftHandNeoArachnid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandLeft, LeftHandArachnid]
+
+- type: entity
+  id: RightLegNeoArachnid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegRight, RightLegArachnid]
+
+- type: entity
+  id: LeftLegNeoArachnid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegLeft, LeftLegArachnid]
+
+- type: entity
+  id: RightFootNeoArachnid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootRight, RightFootArachnid]
+
+- type: entity
+  id: LeftFootNeoArachnid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootLeft, LeftFootArachnid]
+
+- type: entity
+  id: RightArmNeoAvali
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmRight, RightArmAvali]
+
+- type: entity
+  id: LeftArmNeoAvali
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmLeft, LeftArmAvali]
+
+- type: entity
+  id: RightHandNeoAvali
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandRight, RightHandAvali]
+
+- type: entity
+  id: LeftHandNeoAvali
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandLeft, LeftHandAvali]
+
+- type: entity
+  id: RightLegNeoAvali
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegRight, RightLegAvali]
+
+- type: entity
+  id: LeftLegNeoAvali
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegLeft, LeftLegAvali]
+
+- type: entity
+  id: RightFootNeoAvali
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootRight, RightFootAvali]
+
+- type: entity
+  id: LeftFootNeoAvali
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootLeft, LeftFootAvali]
+
+- type: entity
+  id: RightArmNeoCyclorite
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmRight, RightArmCyclorite]
+
+- type: entity
+  id: LeftArmNeoCyclorite
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmLeft, LeftArmCyclorite]
+
+- type: entity
+  id: RightHandNeoCyclorite
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandRight, RightHandCyclorite]
+
+- type: entity
+  id: LeftHandNeoCyclorite
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandLeft, LeftHandCyclorite]
+
+- type: entity
+  id: RightLegNeoCyclorite
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegRight, RightLegCyclorite]
+
+- type: entity
+  id: LeftLegNeoCyclorite
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegLeft, LeftLegCyclorite]
+
+- type: entity
+  id: RightFootNeoCyclorite
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootRight, RightFootCyclorite]
+
+- type: entity
+  id: LeftFootNeoCyclorite
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootLeft, LeftFootCyclorite]
+
+- type: entity
+  id: RightArmNeoDiona
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmRight, RightArmDiona]
+
+- type: entity
+  id: LeftArmNeoDiona
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmLeft, LeftArmDiona]
+
+- type: entity
+  id: RightHandNeoDiona
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandRight, RightHandDiona]
+
+- type: entity
+  id: LeftHandNeoDiona
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandLeft, LeftHandDiona]
+
+- type: entity
+  id: RightLegNeoDiona
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegRight, RightLegDiona]
+
+- type: entity
+  id: LeftLegNeoDiona
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegLeft, LeftLegDiona]
+
+- type: entity
+  id: RightFootNeoDiona
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootRight, RightFootDiona]
+
+- type: entity
+  id: LeftFootNeoDiona
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootLeft, LeftFootDiona]
+
+- type: entity
+  id: RightArmNeoHuman
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmRight, RightArmHuman]
+
+- type: entity
+  id: LeftArmNeoHuman
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmLeft, LeftArmHuman]
+
+- type: entity
+  id: RightHandNeoHuman
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandRight, RightHandHuman]
+
+- type: entity
+  id: LeftHandNeoHuman
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandLeft, LeftHandHuman]
+
+- type: entity
+  id: RightLegNeoHuman
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegRight, RightLegHuman]
+
+- type: entity
+  id: LeftLegNeoHuman
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegLeft, LeftLegHuman]
+
+- type: entity
+  id: RightFootNeoHuman
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootRight, RightFootHuman]
+
+- type: entity
+  id: LeftFootNeoHuman
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootLeft, LeftFootHuman]
+
+- type: entity
+  id: RightArmNeoFelionoid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmRight, RightArmFelionoid]
+
+- type: entity
+  id: LeftArmNeoFelionoid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmLeft, LeftArmFelionoid]
+
+- type: entity
+  id: RightHandNeoFelionoid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandRight, RightHandFelionoid]
+
+- type: entity
+  id: LeftHandNeoFelionoid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandLeft, LeftHandFelionoid]
+
+- type: entity
+  id: RightLegNeoFelionoid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegRight, RightLegFelionoid]
+
+- type: entity
+  id: LeftLegNeoFelionoid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegLeft, LeftLegFelionoid]
+
+- type: entity
+  id: RightFootNeoFelionoid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootRight, RightFootFelionoid]
+
+- type: entity
+  id: LeftFootNeoFelionoid
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootLeft, LeftFootFelionoid]
+
+- type: entity
+  id: RightArmNeoLagomorph
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmRight, RightArmLagomorph]
+
+- type: entity
+  id: LeftArmNeoLagomorph
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmLeft, LeftArmLagomorph]
+
+- type: entity
+  id: RightHandNeoLagomorph
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandRight, RightHandLagomorph]
+
+- type: entity
+  id: LeftHandNeoLagomorph
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandLeft, LeftHandLagomorph]
+
+- type: entity
+  id: RightLegNeoLagomorph
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegRight, RightLegLagomorph]
+
+- type: entity
+  id: LeftLegNeoLagomorph
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegLeft, LeftLegLagomorph]
+
+- type: entity
+  id: RightFootNeoLagomorph
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootRight, RightFootLagomorph]
+
+- type: entity
+  id: LeftFootNeoLagomorph
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootLeft, LeftFootLagomorph]
+
+- type: entity
+  id: RightArmNeoMoth
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmRight, RightArmMoth]
+
+- type: entity
+  id: LeftArmNeoMoth
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmLeft, LeftArmMoth]
+
+- type: entity
+  id: RightHandNeoMoth
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandRight, RightHandMoth]
+
+- type: entity
+  id: LeftHandNeoMoth
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandLeft, LeftHandMoth]
+
+- type: entity
+  id: RightLegNeoMoth
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegRight, RightLegMoth]
+
+- type: entity
+  id: LeftLegNeoMoth
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegLeft, LeftLegMoth]
+
+- type: entity
+  id: RightFootNeoMoth
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootRight, RightFootMoth]
+
+- type: entity
+  id: LeftFootNeoMoth
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootLeft, LeftFootMoth]
+
+- type: entity
+  id: RightArmNeoReptilian
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmRight, RightArmReptilian]
+
+- type: entity
+  id: LeftArmNeoReptilian
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmLeft, LeftArmReptilian]
+
+- type: entity
+  id: RightHandNeoReptilian
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandRight, RightHandReptilian]
+
+- type: entity
+  id: LeftHandNeoReptilian
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandLeft, LeftHandReptilian]
+
+- type: entity
+  id: RightLegNeoReptilian
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegRight, RightLegReptilian]
+
+- type: entity
+  id: LeftLegNeoReptilian
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegLeft, LeftLegReptilian]
+
+- type: entity
+  id: RightFootNeoReptilian
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootRight, RightFootReptilian]
+
+- type: entity
+  id: LeftFootNeoReptilian
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootLeft, LeftFootReptilian]
+
+- type: entity
+  id: RightArmNeoResomi
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmRight, RightArmResomi]
+
+- type: entity
+  id: LeftArmNeoResomi
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmLeft, LeftArmResomi]
+
+- type: entity
+  id: RightHandNeoResomi
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandRight, RightHandResomi]
+
+- type: entity
+  id: LeftHandNeoResomi
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandLeft, LeftHandResomi]
+
+- type: entity
+  id: RightLegNeoResomi
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegRight, RightLegResomi]
+
+- type: entity
+  id: LeftLegNeoResomi
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegLeft, LeftLegResomi]
+
+- type: entity
+  id: RightFootNeoResomi
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootRight, RightFootResomi]
+
+- type: entity
+  id: LeftFootNeoResomi
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootLeft, LeftFootResomi]
+
+- type: entity
+  id: RightArmNeoShadekin
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmRight, RightArmShadekin]
+
+- type: entity
+  id: LeftArmNeoShadekin
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmLeft, LeftArmShadekin]
+
+- type: entity
+  id: RightHandNeoShadekin
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandRight, RightHandShadekin]
+
+- type: entity
+  id: LeftHandNeoShadekin
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandLeft, LeftHandShadekin]
+
+- type: entity
+  id: RightLegNeoShadekin
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegRight, RightLegShadekin]
+
+- type: entity
+  id: LeftLegNeoShadekin
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegLeft, LeftLegShadekin]
+
+- type: entity
+  id: RightFootNeoShadekin
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootRight, RightFootShadekin]
+
+- type: entity
+  id: LeftFootNeoShadekin
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootLeft, LeftFootShadekin]
+
+- type: entity
+  id: RightArmNeoSlime
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmRight, RightArmSlime]
+
+- type: entity
+  id: LeftArmNeoSlime
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmLeft, LeftArmSlime]
+
+- type: entity
+  id: RightHandNeoSlime
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandRight, RightHandSlime]
+
+- type: entity
+  id: LeftHandNeoSlime
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandLeft, LeftHandSlime]
+
+- type: entity
+  id: RightLegNeoSlime
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegRight, RightLegSlime]
+
+- type: entity
+  id: LeftLegNeoSlime
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegLeft, LeftLegSlime]
+
+- type: entity
+  id: RightFootNeoSlime
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootRight, RightFootSlime]
+
+- type: entity
+  id: LeftFootNeoSlime
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootLeft, LeftFootSlime]
+
+- type: entity
+  id: RightArmNeoThaven
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmRight, RightArmThaven]
+
+- type: entity
+  id: LeftArmNeoThaven
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmLeft, LeftArmThaven]
+
+- type: entity
+  id: RightHandNeoThaven
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandRight, RightHandThaven]
+
+- type: entity
+  id: LeftHandNeoThaven
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteHandLeft, LeftHandThaven]
+
+- type: entity
+  id: RightLegNeoThaven
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegRight, RightLegThaven]
+
+- type: entity
+  id: LeftLegNeoThaven
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegLeft, LeftLegThaven]
+
+- type: entity
+  id: RightFootNeoThaven
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootRight, RightFootThaven]
+
+- type: entity
+  id: LeftFootNeoThaven
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootLeft, LeftFootThaven]
+
+- type: entity
+  id: RightArmNeoVox
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmRight, RightArmVox]
+
+- type: entity
+  id: LeftArmNeoVox
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteArmLeft, LeftArmVox]
+
+- type: entity
+  id: RightLegNeoVox
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegRight, RightLegVox]
+
+- type: entity
+  id: LeftLegNeoVox
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegLeft, LeftLegVox]
+
+- type: entity
+  id: RightLegNeoVulpkanin
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegRight, RightLegVulpkanin]
+
+- type: entity
+  id: LeftLegNeoVulpkanin
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteLegLeft, LeftLegVulpkanin]
+
+- type: entity
+  id: RightFootNeoVulpkanin
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootRight, RightFootVulpkanin]
+
+- type: entity
+  id: LeftFootNeoVulpkanin
+  categories: [ HideSpawnMenu ]
+  parent: [BaseNeocyteFootLeft, LeftFootVulpkanin]
+
