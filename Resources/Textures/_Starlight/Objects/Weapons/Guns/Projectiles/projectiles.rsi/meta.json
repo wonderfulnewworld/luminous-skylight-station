@@ -81,6 +81,54 @@
           0.006250002
         ]
       ]
+    },
+    {
+     "name": "impact_shock",
+     "delays": [
+        [
+          0.060000002,
+          0.060000002,
+          0.060000002,
+          0.060000002,
+          0.060000002,
+          0.060000002,
+          0.060000002,
+          0.060000002
+        ]
+      ],
+	 "copyright": "_xeno_fire sprites by august-sun, modified into shock by wonderfulnewworld (GitHub)"
+    },
+    {
+     "name": "beam_shock",
+     "delays": [
+        [
+          0.060000002,
+          0.060000002,
+          0.060000002,
+          0.060000002,
+          0.060000002,
+          0.060000002,
+          0.060000002,
+          0.060000002
+        ]
+      ],
+	 "copyright": "august-sun, wonderfulnewworld"
+    },
+    {
+     "name": "muzzle_shock",
+     "delays": [
+        [
+          0.060000002,
+          0.060000002,
+          0.060000002,
+          0.060000002,
+          0.060000002,
+          0.060000002,
+          0.060000002,
+          0.060000002
+        ]
+      ],
+	 "copyright": "august-sun, wonderfulnewworld"
     }
   ]
 }
