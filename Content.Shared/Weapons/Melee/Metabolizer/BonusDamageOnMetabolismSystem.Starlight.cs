@@ -1,7 +1,7 @@
 using System.Linq;
 using Content.Shared._Starlight.Medical.Body.Prototypes;
 using Content.Shared._Starlight.Medical.Body.Systems;
-using Content.Shared.Damage;
+using Content.Shared.Damage.Components;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Verbs;
 using Content.Shared.Weapons.Melee.Events;
