@@ -202,6 +202,10 @@
         sprite: Mobs/Silicon/Chassis/xeno_heavy.rsi
 
 - type: !PartialOnly entity
+  id: XenoborgModuleRocket
+  name: xenoborg rocket module
+
+- type: !PartialOnly entity
   id: XenoborgModuleGuidedMissileLauncher
   components:
   - type: ComponentBorgModule

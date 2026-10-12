@@ -107,7 +107,7 @@
 
 - type: !PartialOnly entity
   id: XenoborgEngiPrinted
-  suffix: Empty MMI
+  suffix: Modules, MMI
   components:
   - type: ItemSlots
     slots:
@@ -122,7 +122,7 @@
 
 - type: !PartialOnly entity
   id: XenoborgHeavyPrinted
-  suffix: Empty MMI
+  suffix: Modules, MMI
   components:
   - type: ItemSlots
     slots:
@@ -133,7 +133,7 @@
 
 - type: !PartialOnly entity
   id: XenoborgScoutPrinted
-  suffix: Empty MMI
+  suffix: Modules, MMI
   components:
   - type: ItemSlots
     slots:
@@ -144,7 +144,7 @@
 
 - type: !PartialOnly entity
   id: XenoborgStealthPrinted
-  suffix: Empty MMI
+  suffix: Modules, MMI
   components:
   - type: ItemSlots
     slots:
