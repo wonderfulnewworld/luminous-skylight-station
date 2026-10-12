@@ -13,8 +13,7 @@
     blockUse: false
   - type: Appearance
   - type: WiresVisuals
-  - type: Damageable
-    damageContainer: Inorganic
+  - type: Damageable # Starlight, one day we'll get injurable...
   - type: Fixtures
     fixtures:
       fix1:
@@ -124,7 +123,7 @@
   - type: StaticPrice
     price: 800
   - type: WarpPoint
-    location: Mothership Core
+    location: location-mothership-core
     follow: true
   - type: VoiceOverride
     nameOverride: MOTHERSHIP CORE
@@ -136,8 +135,6 @@
     allowedEmotes:
     - Laugh
   - type: Vocal
-    sounds:
-      Unsexed: UnisexSiliconXenoborg
     wilhelmProbability: 0
   - type: IntrinsicRadioReceiver
   - type: IntrinsicRadioTransmitter

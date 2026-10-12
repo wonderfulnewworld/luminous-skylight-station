@@ -1,7 +1,8 @@
 using System.Linq;
-using Content.Shared.Metabolism;
+using Content.Shared._Starlight.Medical.Body.Prototypes;
+using Content.Shared._Starlight.Medical.Body.Systems;
+using Content.Shared.Damage;
 using Content.Shared.Mobs.Components;
-using Content.Shared.Mobs.Systems;
 using Content.Shared.Verbs;
 using Content.Shared.Weapons.Melee.Events;
 
@@ -17,7 +18,8 @@ public sealed partial class BonusDamageOnMetabolismSystem : EntitySystem
         if (!args.CanAccess || !args.CanInteract)
             return;
 
-        var allMetabolizers = ProtoMan.EnumeratePrototypes<MetabolizerTypePrototype>().ToList().OrderBy(x => Loc.GetString(x.LocalizedName));
+        //var allMetabolizers = ProtoMan.EnumeratePrototypes<MetabolizerTypePrototype>().ToList().OrderBy(x => Loc.GetString(x.LocalizedName)); // Starlight
+        var allMetabolizers = ProtoMan.EnumeratePrototypes<MetabolizerTypePrototype>().OrderBy(x => x.LocalizedName); // Starlight
 
         byte index = 0;
         foreach (var metabolizer in allMetabolizers)
@@ -36,13 +38,14 @@ public sealed partial class BonusDamageOnMetabolismSystem : EntitySystem
                     ent.Comp.SelectedMetabolizer = metabolizer;
                     Dirty(ent);
                 },
-                Text = Loc.GetString(metabolizer.LocalizedName),
+                Text = metabolizer.LocalizedName, // Starlight
             };
             args.Verbs.Add(verb);
             index++;
         }
     }
 
+    /* Starlight, no nubody
     [SubscribeLocalEvent]
     private void OnSwingTrigger(Entity<BonusDamageOnMetabolismComponent> ent, ref MeleeHitEvent args)
     {
@@ -62,4 +65,5 @@ public sealed partial class BonusDamageOnMetabolismSystem : EntitySystem
             return;
         }
     }
+    }*/
 }

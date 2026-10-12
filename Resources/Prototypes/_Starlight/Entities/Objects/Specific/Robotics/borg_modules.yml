@@ -1401,6 +1401,11 @@
   name: energy sword xenoborg module
   description: Module with an energy sword and a shield.
   components:
+  - type: Tag
+    tags:
+    - XenoborgModuleScout
+    - ModuleBlacklistXenoborgScoutWeapon
+    - XenoborgModulePrimaryWeapon
   - type: Sprite
     sprite: _Starlight/Objects/Specific/Robotics/borgmodule.rsi
     layers:
@@ -1420,6 +1425,11 @@
   name: bitterfrost cannon xenoborg module
   description: Module with a bitterfrost cannon.
   components:
+  - type: Tag
+    tags:
+    - XenoborgModuleHeavy
+    - ModuleBlacklistXenoborgHeavyWeapon
+    - XenoborgModulePrimaryWeapon
   - type: Sprite
     sprite: _Starlight/Objects/Specific/Robotics/borgmodule.rsi
     layers:
@@ -1438,6 +1448,11 @@
   name: advanced hypo xenoborg module
   description: Module with a better set of self-refilling hypos.
   components:
+  - type: Tag
+    tags:
+    - XenoborgModuleStealth
+    - ModuleBlacklistXenoborgStealthWeapon
+    - XenoborgModulePrimaryWeapon
   - type: Sprite
     sprite: _Starlight/Objects/Specific/Robotics/borgmodule.rsi
     layers:
@@ -1450,4 +1465,3 @@
     - item: MuteToxinHypo
   - type: BorgModuleIcon
     icon: { sprite: _Starlight/Interface/Actions/actions_borg.rsi, state: xenoborg-hypo2-module }
-

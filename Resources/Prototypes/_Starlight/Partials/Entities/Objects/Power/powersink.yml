@@ -1,0 +1,18 @@
+- type: !PartialOnly entity
+  id: PowerSink
+  components:
+  - type: Destructible
+    thresholds: !Clear
+    - trigger: !type:DamageTrigger
+        damage: 25
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ Destruction ]
+  - type: Tag
+    tags:
+    - GhostOnlyWarp
+  - type: WarpPoint
+    location: powersink
+    blacklist:
+      tags:
+      - GhostOnlyWarp

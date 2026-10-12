@@ -1,0 +1,14 @@
+- type: !PartialOnly latheRecipePack
+  id: EmptyXenoborgs
+  recipes:
+  - XenoroachRecipe
+
+- type: !PartialOnly latheRecipePack
+  id: XenoborgUpgradeModules
+  recipes:
+  # I swear these make sense if you combine the two lists
+  - !Index:5 XenoborgModuleTileGunRecipe
+  - !Index:10 XenoborgModuleSuperHeavyLaserRecipe
+  - !Index:13 XenoborgModuleEnergyBladeRecipe
+  - !Index:14 XenoborgModuleHypoRecipe
+  - !Index:14 XenoborgModuleHypoPlusRecipe

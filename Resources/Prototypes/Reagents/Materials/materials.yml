@@ -243,12 +243,3 @@
   icon: { sprite: Objects/Materials/xenoborg_crystal.rsi, state: crystal-1 }
   color: "#3d94ff"
   price: 2 # $200 for 1 unit # crystal pretty!
-
-- type: material
-  id: CrushedPhosphorus
-  stackEntity: CrushedPhosphorus1
-  name: materials-crushed-phosphorus
-  unit: materials-unit-piece
-  icon: { sprite: _Starlight/Objects/Materials/phosphorus.rsi, state: phosphorus }
-  color: "#f5f58c"
-  price: 0

@@ -49,8 +49,7 @@
   abstract: true
   id: BaseMachineDestructible
   components:
-  - type: Damageable
-    damageContainer: StructuralInorganic
+  - type: Damageable # Starlight, no injurable
   - type: Destructible
     thresholds:
     - trigger: !type:DamageTrigger

@@ -69,7 +69,7 @@
           - !type:PlayerCountCondition
             min: 25
         - id: Nukeops
-          weight: 10
+          weight: 9
           prob: 0.95 # Every main gamemode will have a very small chance to fail
           conditions:
           - !type:HasBudgetCondition
@@ -77,7 +77,7 @@
           - !type:PlayerCountCondition
             min: 20
         - id: Revolutionary
-          weight: 10
+          weight: 9
           prob: 0.95
           conditions:
           - !type:HasBudgetCondition
@@ -85,7 +85,7 @@
           - !type:PlayerCountCondition
             min: 15
         - id: CosmicCult
-          weight: 10
+          weight: 9
           prob: 0.95
           conditions:
           - !type:HasBudgetCondition
@@ -93,7 +93,7 @@
           - !type:PlayerCountCondition
             min: 20
         - id: Zombie
-          weight: 10
+          weight: 9
           prob: 0.95
           conditions:
           - !type:HasBudgetCondition
@@ -101,7 +101,7 @@
           - !type:PlayerCountCondition
             min: 20
         - id: WizardDuel
-          weight: 5
+          weight: 1
           prob: 0.95
           conditions:
           - !type:HasBudgetCondition
@@ -111,6 +111,17 @@
             - Zombie # Wizards don't lose their abilities in Zombie games, so they can't be allowed together
           - !type:PlayerCountCondition
             min: 35
+        - id: Xenoborgs
+          weight: 9
+          prob: 0.95
+          conditions:
+          - !type:HasBudgetCondition
+          - !type:MaxRuleOccurenceCondition
+          - !type:MutuallyExclusiveRuleCondition
+            rules:
+            - SubXenoborgs  # Two motherships would be funny, but no.
+          - !type:PlayerCountCondition
+            min: 30
       # Minor Rules
       - !type:GroupSelector
         conditions:
@@ -221,6 +232,17 @@
             - Zombie # Wizards don't lose their abilities in Zombie games, so they can't be allowed together
           - !type:PlayerCountCondition
             min: 35
+        - id: SubXenoborgs
+          weight: 4
+          prob: 0.40
+          conditions:
+          - !type:HasBudgetCondition
+          - !type:MaxRuleOccurenceCondition
+          - !type:MutuallyExclusiveRuleCondition
+            rules:
+            - Xenoborgs  # Two motherships would be funny, but no.
+          - !type:PlayerCountCondition
+            min: 20
         - id: ThiefLess
           weight: 8
           prob: 0.50
@@ -433,7 +455,7 @@
           max: 5 # 5 seconds, really just here to ensure it rolls roundstart and then doesn't roll again
         children:
         - id: TraitorLess
-          weight: 45
+          weight: 43
           prob: 0.75 # Beta has an innate chance at Extended, so we give TraitorLes and Vampire a higher chance to fail to roll here. It roughly equals their Secret chance at Extended.
           conditions:
           - !type:HasBudgetCondition
@@ -441,7 +463,7 @@
           - !type:PlayerCountCondition
             min: 5
         - id: Vampire # We can count Vampires as being a major on Beta.
-          weight: 24
+          weight: 22
           prob: 0.75
           conditions:
           - !type:HasBudgetCondition
@@ -457,6 +479,9 @@
           conditions:
           - !type:HasBudgetCondition
           - !type:MaxRuleOccurenceCondition
+          - !type:MutuallyExclusiveRuleCondition
+            rules:
+            - NukeopsLate # Just... don't roll double Nukies.
           - !type:PlayerCountCondition
             min: 20
         - id: Revolutionary
@@ -484,7 +509,7 @@
           - !type:PlayerCountCondition
             min: 20
         - id: WizardDuel
-          weight: 3
+          weight: 1
           prob: 0.95
           conditions:
           - !type:HasBudgetCondition
@@ -492,6 +517,17 @@
           - !type:MutuallyExclusiveRuleCondition
             rules:
             - Zombie # Wizards don't lose their abilities in Zombie games, so they can't be allowed together
+          - !type:PlayerCountCondition
+            min: 35
+        - id: SubXenoborgs
+          weight: 7
+          prob: 0.95
+          conditions:
+          - !type:HasBudgetCondition
+          - !type:MaxRuleOccurenceCondition
+          - !type:MutuallyExclusiveRuleCondition
+            rules:
+            - Xenoborgs # Don't double Xenoborgs
           - !type:PlayerCountCondition
             min: 35
       # Minor Rules, Beta can keep the same as Alpha since these aren't split normally anyways
@@ -604,6 +640,17 @@
             - Zombie # Wizards don't lose their abilities in Zombie games, so they can't be allowed together
           - !type:PlayerCountCondition
             min: 35
+        - id: SubXenoborgs
+          weight: 6
+          prob: 0.40
+          conditions:
+          - !type:HasBudgetCondition
+          - !type:MaxRuleOccurenceCondition
+          - !type:MutuallyExclusiveRuleCondition
+            rules:
+            - Xenoborgs # Two motherships would be funny, but no.
+          - !type:PlayerCountCondition
+            min: 20
         - id: ThiefLess
           weight: 8
           prob: 0.50

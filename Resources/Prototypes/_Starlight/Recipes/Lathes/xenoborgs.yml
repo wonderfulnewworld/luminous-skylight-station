@@ -3,8 +3,7 @@
   id: XenoroachRecipe
   result: MobXenoroach
   materials:
-    Steel: 750
-    Glass: 250
+    XenoborgCrystal: 100
 
 ## Heavy Xenoborg Modules
 - type: latheRecipe
@@ -12,12 +11,7 @@
   id: XenoborgModuleSuperHeavyLaserRecipe
   result: XenoborgModuleSuperHeavyLaser
   materials:
-    Steel: 2500
-    Glass: 2500
-    Plastic: 1500
-    Plasma: 500
-
-# TODO: When we get xenoborg crystals, make this and all other tier 3s cost 1.5 - 2 crystals. Plastic and Plasma are moderately hard for them to get, they'll have to salvage or steal cargo shipments.
+    XenoborgCrystal: 300
 
 ## Scout Xenoborg Modules
 - type: latheRecipe
@@ -25,30 +19,26 @@
   id: XenoborgModuleEnergyBladeRecipe
   result: XenoborgModuleEnergyBlade
   materials:
-    Steel: 2500
-    Glass: 2500
-    Plastic: 1500
-    Plasma: 500
+    XenoborgCrystal: 400
 
 ## Stealth Xenoborg Modules
+- type: latheRecipe
+  parent: BaseXenoborgModulesRecipe
+  id: XenoborgModuleHypoRecipe
+  result: XenoborgModuleHypo
+  materials:
+    XenoborgCrystal: 100
+
 - type: latheRecipe
   parent: BaseXenoborgModulesRecipe
   id: XenoborgModuleHypoPlusRecipe
   result: XenoborgModuleHypoPlus
   materials:
-    Steel: 2500
-    Glass: 2500
-    Plastic: 1250
-    Plasma: 250
+    XenoborgCrystal: 200
 
 - type: latheRecipe
   parent: BaseXenoborgModulesRecipe
   id: XenoborgModuleTileGunRecipe
   result: XenoborgModuleTileGun
   materials:
-    Steel: 1000 # Starlight, since they use crystals for these, but we don't have that pr yet.
-    Glass: 1000 # Starlight, support module, so cheaper.
-# Counted as Starlight because there's a chance wizden puts it above the door module instead, so I'm putting this here so future person merging this doesn't have to jump to another file to find it.
-# Starlight end
-
-## heavy xenoborg modules
+    XenoborgCrystal: 100

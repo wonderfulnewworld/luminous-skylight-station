@@ -250,7 +250,7 @@ public sealed partial class AnchorableSystem : EntitySystem
         if (!Valid(uid, userUid, usingUid, true, out var failMessage, anchorable, usingTool))
         {
             if (failMessage != null)
-                _popup.PopupClient(Loc.GetString(failMessage), uid, userUid);
+                _popup.PopupClient(failMessage, uid, userUid); // Starlight
             return;
         }
 

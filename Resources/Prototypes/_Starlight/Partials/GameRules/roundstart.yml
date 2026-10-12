@@ -45,3 +45,32 @@
     - SubXenoborgs
     presets:
     - Xenoborgs
+
+- type: !PartialOnly entity
+  id: BaseXenoborgsRule
+  components:
+  - type: LoadMapRule
+    gridPath: /Maps/_Starlight/Shuttles/mothership.yml
+  - type: AntagMultipleRoleSpawner
+    antagRoleToPrototypes:
+      # We need 2 of each cause that's just how it works if you want multiple, looks dumb but it works...
+      Xenoborg: !Clear
+      - XenoborgStealth
+      - XenoborgScout
+      - XenoborgHeavy
+      - XenoborgEngi
+      - XenoborgStealth
+      - XenoborgScout
+      - XenoborgHeavy
+      - XenoborgEngi
+  - type: AntagSelection
+    antags: !Clear
+    - !type:LinearAntagCount
+      proto: Xenoborg
+      playerRatio: 20
+      useTotalPlayerCount: true
+      range:
+        min: 4
+        max: 8
+    - !type:FixedAntagCount
+      proto: MothershipCore

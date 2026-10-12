@@ -384,24 +384,20 @@
   - type: XenoborgsRule
   - type: RuleGrids
   - type: LoadMapRule
-    gridPath: /Maps/_Starlight/Shuttles/mothership.yml # Starlight
+    gridPath: /Maps/Shuttles/mothership.yml
   - type: AntagMultipleRoleSpawner
     antagRoleToPrototypes:
       MothershipCore: [ MothershipCore ]
-      Xenoborg: [ XenoborgEngi, XenoborgHeavy, XenoborgScout, XenoborgStealth, XenoborgEngi, XenoborgHeavy, XenoborgScout, XenoborgStealth ] # Starlight
+      Xenoborg: [ XenoborgEngi, XenoborgHeavy, XenoborgScout, XenoborgStealth ]
     pickAndTake: true
   - type: AntagSelection
     selectionTime: PrePlayerSpawn
     antags:
     - !type:FixedAntagCount
       proto: MothershipCore
-    - !type:LinearAntagCount # Starlight
+    - !type:FixedAntagCount
       proto: Xenoborg
-      playerRatio: 20 # Starlight start
-      useTotalPlayerCount: true # Don't count the Core for scaling
-      range:
-        min: 4
-        max: 8 # Starlight end
+      count: 4
   - type: DynamicRuleCost
     cost: 100
 

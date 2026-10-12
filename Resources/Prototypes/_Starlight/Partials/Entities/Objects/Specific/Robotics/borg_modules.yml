@@ -157,10 +157,18 @@
   components:
   - type: ItemBorgModule
     hands:
-    - !CombineIndex:4 hand: # PowerCellHigh slot
+    - !CombineIndex:5 hand: # PowerCellHigh slot
         blacklist:
           tags:
           - MechReactor
+
+- type: !PartialOnly entity
+  id: XenoborgModuleConstruction
+  components:
+  - type: ItemBorgModule
+    hands:
+    - !CombineIndex:2 hand:
+        emptyRepresentative: FloorTileItemXenoborg
 
 - type: !PartialOnly entity
   id: XenoborgModuleLaser

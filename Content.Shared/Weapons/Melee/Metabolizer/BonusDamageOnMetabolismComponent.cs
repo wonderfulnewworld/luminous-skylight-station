@@ -1,5 +1,5 @@
 using Content.Shared.Damage;
-using Content.Shared.Metabolism;
+using Content.Shared._Starlight.Medical.Body.Prototypes;
 using Content.Shared.Mobs;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
@@ -34,5 +34,5 @@ public sealed partial class BonusDamageOnMetabolismComponent : Component
     /// Will only do damage to mobs in one of these states. If null, doesn't care about the state of the mob.
     /// </summary>
     [DataField]
-    public HashSet<MobState> ValidMobStates = [ MobState.Alive, MobState.Critical ];
+    public HashSet<MobState>? ValidMobStates = [ MobState.Alive, MobState.Critical ]; // Starlight
 }

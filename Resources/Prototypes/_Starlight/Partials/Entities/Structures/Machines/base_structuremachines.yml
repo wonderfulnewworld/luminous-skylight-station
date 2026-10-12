@@ -1,0 +1,5 @@
+- type: !PartialOnly entity
+  id: BaseMachineDestructible
+  components:
+  - type: Damageable
+    damageContainer: StructuralInorganic

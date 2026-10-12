@@ -573,12 +573,11 @@
           - MMIFilled
         borg_module:
           - DerelictXenoborgModuleBasic
-          - BorgModuleAdvancedTool
-          - BorgModuleConstruction
-          - XenoborgModuleRCD # Starlight
-          - BorgModuleCable
+          - XenoborgModuleAdvancedTool
+          - XenoborgModuleConstruction
+          - XenoborgModuleRCD
           - XenoborgModuleAccessBreaker
-          - XenoborgModuleFireExtinguisher
+          - XenoborgModuleTileGun
     - type: ItemSlots
       slots:
         cell_slot:
@@ -650,10 +649,8 @@
   components:
     - type: ContainerFill
       containers:
-        # Starlight edit Start
         borg_brain:
           - MMIFilled
-        # Starlight edit End
         borg_module:
           - DerelictXenoborgModuleBasic
           - XenoborgModuleTool

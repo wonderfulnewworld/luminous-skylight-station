@@ -11,6 +11,7 @@
   - type: DeviceNetwork
     transmitFrequencyId: Xenoborg
   - type: WarpPoint
+    location: Mothership Core
     blacklist:
       tags:
       - GhostOnlyWarp
@@ -26,3 +27,8 @@
         blacklist:
           tags:
           - MechReactor
+  - type: Damageable
+    damageContainer: Inorganic
+  - type: Vocal
+    sounds:
+      Unsexed: UnisexSiliconXenoborg

@@ -101,7 +101,6 @@
 
 ## heavy xenoborg modules
 
-# Starlight start
 - type: latheRecipe
   parent: BaseXenoborgModulesRecipe
   id: XenoborgModuleHeavyLaserRecipe

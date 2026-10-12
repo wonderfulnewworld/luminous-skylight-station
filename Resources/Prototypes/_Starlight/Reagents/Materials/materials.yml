@@ -29,3 +29,12 @@
   icon: { sprite: Objects/Materials/Sheets/metal.rsi, state: brass }
   color: "#407985"
   price: 2
+
+- type: material
+  id: CrushedPhosphorus
+  stackEntity: CrushedPhosphorus1
+  name: materials-crushed-phosphorus
+  unit: materials-unit-piece
+  icon: { sprite: _Starlight/Objects/Materials/phosphorus.rsi, state: phosphorus }
+  color: "#f5f58c"
+  price: 0

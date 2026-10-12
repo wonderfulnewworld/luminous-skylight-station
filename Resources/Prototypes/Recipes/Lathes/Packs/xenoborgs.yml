@@ -12,7 +12,6 @@
   - XenoborgHeavyRecipe
   - XenoborgScoutRecipe
   - XenoborgStealthRecipe
-  - XenoroachRecipe #Starlight
 
 - type: latheRecipePack
   id: XenoborgUpgradeModules
@@ -23,19 +22,14 @@
   - XenoborgModuleZapRecipe
   - XenoborgModuleOilGunRecipe
   - XenoborgModuleNaniteGunRecipe
-  - XenoborgModuleTileGunRecipe
-  # heavy xenoborg
   - XenoborgModuleHeavyLaserRecipe
   - XenoborgModuleGuidedMissileLauncherRecipe
   - XenoborgModuleRocketRecipe
   - XenoborgModuleBurstFireLaserRecipe
   - XenoborgModuleHeavyRadioactiveRecipe
-  - XenoborgModuleSuperHeavyLaserRecipe # Starlight
   # scout xenoborg
   - XenoborgModuleEnergySwordRecipe
   - XenoborgModuleJumpRecipe
   - XenoborgModuleBioKinfeRecipe
-  - XenoborgModuleEnergyBladeRecipe # Starlight
   # stealth xenoborg
   - XenoborgModuleSuperCloakDeviceRecipe
-  - XenoborgModuleHypoPlusRecipe # Starlight

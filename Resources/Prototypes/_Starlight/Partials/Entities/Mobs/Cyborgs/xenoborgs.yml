@@ -108,15 +108,47 @@
 - type: !PartialOnly entity
   id: XenoborgEngiPrinted
   suffix: Empty MMI
+  components:
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        blacklist:
+          tags:
+          - MechReactor
+  - type: ContainerFill
+    containers:
+      borg_module:
+      - !Index:3 XenoborgModuleRCD
 
 - type: !PartialOnly entity
   id: XenoborgHeavyPrinted
   suffix: Empty MMI
+  components:
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        blacklist:
+          tags:
+          - MechReactor
 
 - type: !PartialOnly entity
   id: XenoborgScoutPrinted
   suffix: Empty MMI
+  components:
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        blacklist:
+          tags:
+          - MechReactor
 
 - type: !PartialOnly entity
   id: XenoborgStealthPrinted
   suffix: Empty MMI
+  components:
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        blacklist:
+          tags:
+          - MechReactor
