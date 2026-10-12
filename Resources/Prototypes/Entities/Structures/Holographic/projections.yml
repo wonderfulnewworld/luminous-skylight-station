@@ -1,4 +1,21 @@
 - type: entity
+  abstract: true
+  id: BaseHoloSign
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Transform
+    anchored: true
+  - type: Physics
+    bodyType: Static
+    canCollide: false
+  - type: TimedDespawn
+    lifetime: 90
+  - type: Clickable
+  - type: Damageable # Starlight, no injurable
+    damageContainer: Inorganic
+
+- type: entity
   id: HolosignWetFloor
   name: wet floor sign
   description: The words flicker as if they mean nothing.
