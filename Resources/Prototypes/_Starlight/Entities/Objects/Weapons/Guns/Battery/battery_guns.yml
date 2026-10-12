@@ -1103,7 +1103,7 @@
   name: xenoborg bitterfrost cannon
   components:
   - type: Sprite
-    sprite: Objects/Weapons/Guns/Battery/xenoborg_laser_gun.rsi
+    sprite: Objects/Weapons/Guns/Battery/xenoborg_laser_cannon.rsi
     layers:
     - state: base
       map: [ "enum.GunVisualLayers.Base" ]
