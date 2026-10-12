@@ -185,6 +185,13 @@
     - item: XenoKnife
 
 - type: !PartialOnly entity
+  id: XenoborgModuleBurstFireLaser
+  components:
+  - type: ItemBorgModule
+    hands:
+    - item: XenoKnife
+
+- type: !PartialOnly entity
   id: XenoborgModuleHypo
   name: hypo xenoborg module
   description: Module with self-refilling hypos.
