@@ -346,561 +346,673 @@
 
 - type: entity
   id: RightArmNeoArachnid
+  name: right neo-arachnid arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmRight, RightArmArachnid]
 
 - type: entity
   id: LeftArmNeoArachnid
+  name: left neo-arachnid arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmLeft, LeftArmArachnid]
 
 - type: entity
   id: RightHandNeoArachnid
+  name: right neo-arachnid hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandRight, RightHandArachnid]
 
 - type: entity
   id: LeftHandNeoArachnid
+  name: left neo-arachnid hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandLeft, LeftHandArachnid]
 
 - type: entity
   id: RightLegNeoArachnid
+  name: right neo-arachnid leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegRight, RightLegArachnid]
 
 - type: entity
   id: LeftLegNeoArachnid
+  name: left neo-arachnid leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegLeft, LeftLegArachnid]
 
 - type: entity
   id: RightFootNeoArachnid
+  name: right neo-arachnid foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootRight, RightFootArachnid]
 
 - type: entity
   id: LeftFootNeoArachnid
+  name: left neo-arachnid foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootLeft, LeftFootArachnid]
 
 - type: entity
   id: RightArmNeoAvali
+  name: right neo-avali arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmRight, RightArmAvali]
 
 - type: entity
   id: LeftArmNeoAvali
+  name: left neo-avali arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmLeft, LeftArmAvali]
 
 - type: entity
   id: RightHandNeoAvali
+  name: right neo-avali hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandRight, RightHandAvali]
 
 - type: entity
   id: LeftHandNeoAvali
+  name: left neo-avali hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandLeft, LeftHandAvali]
 
 - type: entity
   id: RightLegNeoAvali
+  name: right neo-avali leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegRight, RightLegAvali]
 
 - type: entity
   id: LeftLegNeoAvali
+  name: left neo-avali leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegLeft, LeftLegAvali]
 
 - type: entity
   id: RightFootNeoAvali
+  name: right neo-avali foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootRight, RightFootAvali]
 
 - type: entity
   id: LeftFootNeoAvali
+  name: left neo-avali foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootLeft, LeftFootAvali]
 
 - type: entity
   id: RightArmNeoCyclorite
+  name: right neo-cyclorite arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmRight, RightArmCyclorite]
 
 - type: entity
   id: LeftArmNeoCyclorite
+  name: left neo-cyclorite arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmLeft, LeftArmCyclorite]
 
 - type: entity
   id: RightHandNeoCyclorite
+  name: right neo-cyclorite hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandRight, RightHandCyclorite]
 
 - type: entity
   id: LeftHandNeoCyclorite
+  name: left neo-cyclorite hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandLeft, LeftHandCyclorite]
 
 - type: entity
   id: RightLegNeoCyclorite
+  name: right neo-cyclorite leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegRight, RightLegCyclorite]
 
 - type: entity
   id: LeftLegNeoCyclorite
+  name: left neo-cyclorite leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegLeft, LeftLegCyclorite]
 
 - type: entity
   id: RightFootNeoCyclorite
+  name: right neo-cyclorite foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootRight, RightFootCyclorite]
 
 - type: entity
   id: LeftFootNeoCyclorite
+  name: left neo-cyclorite foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootLeft, LeftFootCyclorite]
 
 - type: entity
   id: RightArmNeoDiona
+  name: right neo-diona arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmRight, RightArmDiona]
 
 - type: entity
   id: LeftArmNeoDiona
+  name: left neo-diona arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmLeft, LeftArmDiona]
 
 - type: entity
   id: RightHandNeoDiona
+  name: right neo-diona hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandRight, RightHandDiona]
 
 - type: entity
   id: LeftHandNeoDiona
+  name: left neo-diona hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandLeft, LeftHandDiona]
 
 - type: entity
   id: RightLegNeoDiona
+  name: right neo-diona leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegRight, RightLegDiona]
 
 - type: entity
   id: LeftLegNeoDiona
+  name: left neo-diona leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegLeft, LeftLegDiona]
 
 - type: entity
   id: RightFootNeoDiona
+  name: right neo-diona foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootRight, RightFootDiona]
 
 - type: entity
   id: LeftFootNeoDiona
+  name: left neo-diona foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootLeft, LeftFootDiona]
 
 - type: entity
   id: RightArmNeoHuman
+  name: right neo-human arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmRight, RightArmHuman]
 
 - type: entity
   id: LeftArmNeoHuman
+  name: left neo-human arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmLeft, LeftArmHuman]
 
 - type: entity
   id: RightHandNeoHuman
+  name: right neo-human hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandRight, RightHandHuman]
 
 - type: entity
   id: LeftHandNeoHuman
+  name: left neo-human hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandLeft, LeftHandHuman]
 
 - type: entity
   id: RightLegNeoHuman
+  name: right neo-human leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegRight, RightLegHuman]
 
 - type: entity
   id: LeftLegNeoHuman
+  name: left neo-human leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegLeft, LeftLegHuman]
 
 - type: entity
   id: RightFootNeoHuman
+  name: right neo-human foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootRight, RightFootHuman]
 
 - type: entity
   id: LeftFootNeoHuman
+  name: left neo-human foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootLeft, LeftFootHuman]
 
 - type: entity
   id: RightArmNeoFelionoid
+  name: right neo-felionoid arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmRight, RightArmFelionoid]
 
 - type: entity
   id: LeftArmNeoFelionoid
+  name: left neo-felionoid arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmLeft, LeftArmFelionoid]
 
 - type: entity
   id: RightHandNeoFelionoid
+  name: right neo-felionoid hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandRight, RightHandFelionoid]
 
 - type: entity
   id: LeftHandNeoFelionoid
+  name: left neo-felionoid hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandLeft, LeftHandFelionoid]
 
 - type: entity
   id: RightLegNeoFelionoid
+  name: right neo-felionoid leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegRight, RightLegFelionoid]
 
 - type: entity
   id: LeftLegNeoFelionoid
+  name: left neo-felionoid leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegLeft, LeftLegFelionoid]
 
 - type: entity
   id: RightFootNeoFelionoid
+  name: right neo-felionoid foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootRight, RightFootFelionoid]
 
 - type: entity
   id: LeftFootNeoFelionoid
+  name: left neo-felionoid foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootLeft, LeftFootFelionoid]
 
 - type: entity
   id: RightArmNeoLagomorph
+  name: right neo-lagomorph arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmRight, RightArmLagomorph]
 
 - type: entity
   id: LeftArmNeoLagomorph
+  name: left neo-lagomorph arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmLeft, LeftArmLagomorph]
 
 - type: entity
   id: RightHandNeoLagomorph
+  name: right neo-lagomorph hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandRight, RightHandLagomorph]
 
 - type: entity
   id: LeftHandNeoLagomorph
+  name: left neo-lagomorph hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandLeft, LeftHandLagomorph]
 
 - type: entity
   id: RightLegNeoLagomorph
+  name: right neo-lagomorph leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegRight, RightLegLagomorph]
 
 - type: entity
   id: LeftLegNeoLagomorph
+  name: left neo-lagomorph leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegLeft, LeftLegLagomorph]
 
 - type: entity
   id: RightFootNeoLagomorph
+  name: right neo-lagomorph foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootRight, RightFootLagomorph]
 
 - type: entity
   id: LeftFootNeoLagomorph
+  name: left neo-lagomorph foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootLeft, LeftFootLagomorph]
 
 - type: entity
   id: RightArmNeoMoth
+  name: right neo-moth arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmRight, RightArmMoth]
 
 - type: entity
   id: LeftArmNeoMoth
+  name: left neo-moth arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmLeft, LeftArmMoth]
 
 - type: entity
   id: RightHandNeoMoth
+  name: right neo-moth hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandRight, RightHandMoth]
 
 - type: entity
   id: LeftHandNeoMoth
+  name: left neo-moth hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandLeft, LeftHandMoth]
 
 - type: entity
   id: RightLegNeoMoth
+  name: right neo-moth leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegRight, RightLegMoth]
 
 - type: entity
   id: LeftLegNeoMoth
+  name: left neo-moth leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegLeft, LeftLegMoth]
 
 - type: entity
   id: RightFootNeoMoth
+  name: right neo-moth foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootRight, RightFootMoth]
 
 - type: entity
   id: LeftFootNeoMoth
+  name: left neo-moth foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootLeft, LeftFootMoth]
 
 - type: entity
   id: RightArmNeoReptilian
+  name: right neo-reptilian arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmRight, RightArmReptilian]
 
 - type: entity
   id: LeftArmNeoReptilian
+  name: left neo-reptilian arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmLeft, LeftArmReptilian]
 
 - type: entity
   id: RightHandNeoReptilian
+  name: right neo-reptilian hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandRight, RightHandReptilian]
 
 - type: entity
   id: LeftHandNeoReptilian
+  name: left neo-reptilian hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandLeft, LeftHandReptilian]
 
 - type: entity
   id: RightLegNeoReptilian
+  name: right neo-reptilian leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegRight, RightLegReptilian]
 
 - type: entity
   id: LeftLegNeoReptilian
+  name: left neo-reptilian leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegLeft, LeftLegReptilian]
 
 - type: entity
   id: RightFootNeoReptilian
+  name: right neo-reptilian foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootRight, RightFootReptilian]
 
 - type: entity
   id: LeftFootNeoReptilian
+  name: left neo-reptilian foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootLeft, LeftFootReptilian]
 
 - type: entity
   id: RightArmNeoResomi
+  name: right neo-resomi arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmRight, RightArmResomi]
 
 - type: entity
   id: LeftArmNeoResomi
+  name: left neo-resomi arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmLeft, LeftArmResomi]
 
 - type: entity
   id: RightHandNeoResomi
+  name: right neo-resomi hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandRight, RightHandResomi]
 
 - type: entity
   id: LeftHandNeoResomi
+  name: left neo-resomi hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandLeft, LeftHandResomi]
 
 - type: entity
   id: RightLegNeoResomi
+  name: right neo-resomi leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegRight, RightLegResomi]
 
 - type: entity
   id: LeftLegNeoResomi
+  name: left neo-resomi leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegLeft, LeftLegResomi]
 
 - type: entity
   id: RightFootNeoResomi
+  name: right neo-resomi foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootRight, RightFootResomi]
 
 - type: entity
   id: LeftFootNeoResomi
+  name: left neo-resomi foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootLeft, LeftFootResomi]
 
 - type: entity
   id: RightArmNeoShadekin
+  name: right neo-shadekin arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmRight, RightArmShadekin]
 
 - type: entity
   id: LeftArmNeoShadekin
+  name: left neo-shadekin arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmLeft, LeftArmShadekin]
 
 - type: entity
   id: RightHandNeoShadekin
+  name: right neo-shadekin hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandRight, RightHandShadekin]
 
 - type: entity
   id: LeftHandNeoShadekin
+  name: left neo-shadekin hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandLeft, LeftHandShadekin]
 
 - type: entity
   id: RightLegNeoShadekin
+  name: right neo-shadekin leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegRight, RightLegShadekin]
 
 - type: entity
   id: LeftLegNeoShadekin
+  name: left neo-shadekin leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegLeft, LeftLegShadekin]
 
 - type: entity
   id: RightFootNeoShadekin
+  name: right neo-shadekin foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootRight, RightFootShadekin]
 
 - type: entity
   id: LeftFootNeoShadekin
+  name: left neo-shadekin foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootLeft, LeftFootShadekin]
 
 - type: entity
   id: RightArmNeoSlime
+  name: right neo-slime arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmRight, RightArmSlime]
 
 - type: entity
   id: LeftArmNeoSlime
+  name: left neo-slime arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmLeft, LeftArmSlime]
 
 - type: entity
   id: RightHandNeoSlime
+  name: right neo-slime hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandRight, RightHandSlime]
 
 - type: entity
   id: LeftHandNeoSlime
+  name: left neo-slime hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandLeft, LeftHandSlime]
 
 - type: entity
   id: RightLegNeoSlime
+  name: right neo-slime leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegRight, RightLegSlime]
 
 - type: entity
   id: LeftLegNeoSlime
+  name: left neo-slime leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegLeft, LeftLegSlime]
 
 - type: entity
   id: RightFootNeoSlime
+  name: right neo-slime foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootRight, RightFootSlime]
 
 - type: entity
   id: LeftFootNeoSlime
+  name: left neo-slime foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootLeft, LeftFootSlime]
 
 - type: entity
   id: RightArmNeoThaven
+  name: right neo-thaven arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmRight, RightArmThaven]
 
 - type: entity
   id: LeftArmNeoThaven
+  name: left neo-thaven arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmLeft, LeftArmThaven]
 
 - type: entity
   id: RightHandNeoThaven
+  name: right neo-thaven hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandRight, RightHandThaven]
 
 - type: entity
   id: LeftHandNeoThaven
+  name: left neo-thaven hand
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteHandLeft, LeftHandThaven]
 
 - type: entity
   id: RightLegNeoThaven
+  name: right neo-thaven leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegRight, RightLegThaven]
 
 - type: entity
   id: LeftLegNeoThaven
+  name: left neo-thaven leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegLeft, LeftLegThaven]
 
 - type: entity
   id: RightFootNeoThaven
+  name: right neo-thaven foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootRight, RightFootThaven]
 
 - type: entity
   id: LeftFootNeoThaven
+  name: left neo-thaven foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootLeft, LeftFootThaven]
 
 - type: entity
   id: RightArmNeoVox
+  name: right neo-vox arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmRight, RightArmVox]
 
 - type: entity
   id: LeftArmNeoVox
+  name: left neo-vox arm
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteArmLeft, LeftArmVox]
 
 - type: entity
   id: RightLegNeoVox
+  name: right neo-vox leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegRight, RightLegVox]
 
 - type: entity
   id: LeftLegNeoVox
+  name: left neo-vox leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegLeft, LeftLegVox]
 
 - type: entity
   id: RightLegNeoVulpkanin
+  name: right neo-vulpkanin leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegRight, RightLegVulpkanin]
 
 - type: entity
   id: LeftLegNeoVulpkanin
+  name: left neo-vulpkanin leg
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteLegLeft, LeftLegVulpkanin]
 
 - type: entity
   id: RightFootNeoVulpkanin
+  name: right neo-vulpkanin foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootRight, RightFootVulpkanin]
 
 - type: entity
   id: LeftFootNeoVulpkanin
+  name: left neo-vulpkanin foot
   categories: [ HideSpawnMenu ]
   parent: [BaseNeocyteFootLeft, LeftFootVulpkanin]
 
