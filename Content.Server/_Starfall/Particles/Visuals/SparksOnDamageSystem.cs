@@ -25,7 +25,7 @@ public sealed partial class SparksOnDamageSystem : EntitySystem
     public override void Initialize()
     {
         base.Initialize();
-        SubscribeLocalEvent<SparksOnDamageComponent, DamageDealtEvent>(OnDamageDealt);
+        SubscribeLocalEvent<SparksOnDamageComponent, DamageChangedEvent>(OnDamageChanged); // Starlight, change back to DamageDealt when we get that wizden pr
     }
 
     public override void Update(float frameTime)
@@ -51,9 +51,9 @@ public sealed partial class SparksOnDamageSystem : EntitySystem
         }
     }
 
-    private void OnDamageDealt(Entity<SparksOnDamageComponent> ent, ref DamageDealtEvent args)
+    private void OnDamageChanged(Entity<SparksOnDamageComponent> ent, ref DamageChangedEvent args) // Starlight, change back to DamageDealt when we get that wizden pr
     {
-        if (!args.Damage.AnyPositive() || !_random.Prob(Math.Clamp(ent.Comp.Chance, 0f, 1f)))
+        if (!args.DamageIncreased || !_random.Prob(Math.Clamp(ent.Comp.Chance, 0f, 1f))) // Starlight, change back to args.Damage.AnyPositive() when we get that wizden pr
             return;
 
         _audio.PlayPvs(ent.Comp.Sound, ent.Owner);
